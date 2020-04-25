@@ -11,14 +11,23 @@ SECRET_KEY = 'But you, Lord , are a shield around me, my glory, the One who lift
 TOKEN_EXPIRATION = 30 * 24 * 3600  # 有效期: 30天
 
 # MySQL 数据库配置
-SQLALCHEMY_DATABASE_URI = 'mysql+cymysql://root:159951@localhost:3306/zerd?charset=utf8'
+SQLALCHEMY_DATABASE_URI = 'mysql+cymysql://root:root@localhost:3306/zerd?charset=utf8'
 SQLALCHEMY_ENCODING = 'utf-8'
 SQLALCHEMY_TRACK_MODIFICATIONS = False  # 屏蔽 sql alchemy 的 FSADeprecationWarning
 
 # 微信·小程序
-APP_ID = 'wx551ff8259cd7339b'
-APP_SECRET = '7773e41929841faf6aa9e68807f6e2cb'
+APP_ID = 'wxafc8a1a131f0eb7d'
+APP_SECRET = '0b163686815e14682e43228ec19ce557'
 LOGIN_URL = 'https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code'
+
+# 企业微信
+CORP_ID = 'ww43b2b04892bbeaed'
+CORP_SECRET = 'T_-UpwhdUHc7qr6qTndWyjji5AGmdkd19_pTt6ZlV3s'
+TOKEN_URL = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={0}&corpsecret={1}'
+CORP_API_URL = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/{0}?access_token={1}'
+
+# 操作URL
+ADD_GROUP_CHAT_URL = 'http://31026h77o4.wicp.vip/v1/user/addgroupchat'
 
 # 微信·开放平台(OPEN)登录[第三方(Third-Party)]
 OPEN_APP_ID = 'wx87186e0123456789'

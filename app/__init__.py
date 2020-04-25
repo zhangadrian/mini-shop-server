@@ -72,6 +72,7 @@ def connect_db(app):
     db.init_app(app)
     #  初始化使用
     with app.app_context():  # 手动将app推入栈
+        print("connect database")
         db.create_all()  # 首次模型映射(ORM ==> SQL),若无则建表
 
 
@@ -100,12 +101,16 @@ def apply_orm_admin(app):
     for model_name, module_name in object_origins.items():
         model_module = __import__('models.{}'.format(module_name), globals(), fromlist=('***'), level=1)
         model = getattr(model_module, model_name)
+        print(model_name)
+        model_view_module = __import__('model_views.{}'.format("new_user"), globals(), fromlist=('***'),level=1)
+        model_view = getattr(model_view_module, '{}View'.format("NewUser"), ModelView)
         try:
             # model_view_module 可能不存在
-            model_view_module = __import__('model_views.{}'.format(module_name), globals(), fromlist=('***'),
-                                           level=1)
+            model_view_module = __import__('model_views.{}'.format(module_name), globals(), fromlist=('***'), level=1)
             model_view = getattr(model_view_module, '{}View'.format(model_name), ModelView)
         except ModuleNotFoundError as e:
+            print("error")
+            print(module_name)
             model_view = ModelView
         # admin添加model_view
         admin.add_view(model_view(model, db.session))
@@ -169,4 +174,5 @@ def handle_error(app):
             if not app.config['DEBUG']:
                 return ServerError()  # 未知错误(统一为服务端异常)
             else:
+                print(e)
                 raise e

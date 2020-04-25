@@ -9,7 +9,7 @@ from flask import g
 
 from app.libs.enums import OrderStatusEnum
 from app.libs.error_code import OrderException, TokenException
-from app.models.user import User
+from app.models.test_user import TestUser as User
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
 from app.service.token import Token

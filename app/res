@@ -1,0 +1,104 @@
+./models/user.py:from app.libs.error_code import AuthFailed, UserException
+./models/user.py:from app.models.user_address import UserAddress
+./models/user.py:class User(Base):
+./models/user.py:    _user_address = db.relationship('UserAddress', backref='author', lazy='dynamic')
+./models/user.py:        return '<User(id={0}, nickname={1})>'.format(self.id, self.nickname)
+./models/user.py:            address = UserAddress(author=self)
+./models/user.py:        return User.create(**form)
+./models/user.py:        return User.create(**form)
+./models/user.py:        return User.create(**form)
+./models/user.py:        return User.create(**form)
+./models/user.py:        user = User.query.filter_by(email=email) \
+./models/user.py:            .first_or_404(e=UserException(msg='该账号未注册'))
+./models/user.py:        user = User.query.filter_by(mobile=mobile) \
+./models/user.py:            .first_or_404(e=UserException(msg='该账号未注册'))
+./models/user.py:        user = User.query.filter_by(openid=openid).first()
+./models/user.py:            user = User.register_by_wx_mina(openid)
+./models/user.py:        user = User.query.filter_by(openid=openid).first()
+./models/user.py:            user = User.register_by_wx_open(form=user_info)
+./models/user.py:        user = User.query.filter_by(unionid=unionid).first()
+./models/user.py:            user = User.register_by_wx_open(user_info)
+Binary file ./models/__pycache__/user_address.cpython-37.pyc matches
+Binary file ./models/__pycache__/user.cpython-37.pyc matches
+Binary file ./models/__pycache__/new_user.cpython-37.pyc matches
+./models/new_user.py:from app.libs.error_code import AuthFailed, UserException
+./models/new_user.py:from app.models.user_address import UserAddress
+./models/new_user.py:class NewUser(Base):
+./models/new_user.py:        return '<User(id={0}, nickname={1})>'.format(self.id, self.nickname)
+./models/new_user.py:            address = UserAddress(author=self)
+./models/new_user.py:        return User.create(**form)
+./models/new_user.py:        return User.create(**form)
+./models/new_user.py:        return User.create(**form)
+./models/new_user.py:        return User.create(**form)
+./models/new_user.py:        user = User.query.filter_by(email=email) \
+./models/new_user.py:            .first_or_404(e=UserException(msg='该账号未注册'))
+./models/new_user.py:        user = User.query.filter_by(mobile=mobile) \
+./models/new_user.py:            .first_or_404(e=UserException(msg='该账号未注册'))
+./models/new_user.py:        user = User.query.filter_by(openid=openid).first()
+./models/new_user.py:            user = User.register_by_wx_mina(openid)
+./models/new_user.py:        user = User.query.filter_by(openid=openid).first()
+./models/new_user.py:            user = User.register_by_wx_open(form=user_info)
+./models/new_user.py:        user = User.query.filter_by(unionid=unionid).first()
+./models/new_user.py:            user = User.register_by_wx_open(user_info)
+./models/user_address.py:class UserAddress(Base):
+Binary file ./validators/__pycache__/forms.cpython-37.pyc matches
+./validators/forms.py:from app.models.user import User
+./validators/forms.py:class UserEmailValidator(ClientValidator):
+./validators/forms.py:        if User.query.filter_by(email=value.data).first():
+Binary file ./config/__pycache__/setting.cpython-37.pyc matches
+./config/setting.py:    'new_user': ['NewUser'],
+./config/setting.py:    'user': ['User'],
+./config/setting.py:    'user_address': ['UserAddress'],
+./libs/token_auth.py:UserTuple = namedtuple('User', ['uid', 'ac_type', 'scope'])
+./libs/token_auth.py:    return UserTuple(uid, ac_type, scope)
+./libs/scope.py:            ScopeEnum.USER: 'UserScope',
+./libs/scope.py:            return auth_scope_en.get(ScopeEnum(auth), 'UserScope')
+./libs/scope.py:class UserScope(Scope):
+./libs/scope.py:        self + UserScope()
+Binary file ./libs/__pycache__/token_auth.cpython-37.pyc matches
+Binary file ./libs/__pycache__/error_code.cpython-37.pyc matches
+Binary file ./libs/__pycache__/scope.cpython-37.pyc matches
+./libs/error_code.py:class UserException(NotFound):
+./api/v1/user.py:from app.models.user import User
+./api/v1/user.py:from app.models.new_user import NewUser
+./api/v1/user.py:    user = NewUser.create(**validator)
+./api/v1/user.py:    #user = User.query.get_or_404(ident=g.user.uid)
+./api/v1/user.py:    user = User.query.get_or_404(ident="1")
+./api/v1/user.py:    user = User.create(**validator)
+./api/v1/user.py:    user = User.get_current_user()
+./api/v1/user.py:    # 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
+./api/v1/user.py:    user = User.get_current_user()
+./api/v1/user.py:    user = User.get_current_user()
+./api/v1/token.py:from app.models.user import User
+./api/v1/token.py:		ClientTypeEnum.EMAIL: User.verify_by_email,  # 邮箱&密码登录
+./api/v1/token.py:		ClientTypeEnum.MOBILE: User.verify_by_mobile,  # 手机号&密码登录
+./api/v1/token.py:		ClientTypeEnum.WX_MINA: User.verify_by_wx_mina,  # 微信·小程序登录
+./api/v1/token.py:		ClientTypeEnum.WX_OPEN: User.verify_by_wx_open,  # 微信·开发平台登录(web端扫码登录)
+./api/v1/token.py:		ClientTypeEnum.WX_ACCOUNT: User.verify_by_wx_account # 微信第三方登录(公众号H5端)
+Binary file ./api/v1/__pycache__/token.cpython-37.pyc matches
+Binary file ./api/v1/__pycache__/user.cpython-37.pyc matches
+Binary file ./api/v1/__pycache__/address.cpython-37.pyc matches
+./api/v1/address.py:from app.libs.error_code import Success, UserException
+./api/v1/address.py:from app.models.user import User
+./api/v1/address.py:from app.models.user_address import UserAddress
+./api/v1/address.py:    user_address_list = UserAddress.query.filter_by(user_id=uid).all_or_404(
+./api/v1/address.py:    user_address = UserAddress.get_or_404(user_id=uid, error_code=6001, msg='配送地址不存在')
+./api/v1/address.py:    user = User.get_or_404(id=g.user.uid, e=UserException)
+./api/v1/address.py:    user = User.query.filter_by(id=uid).first_or_404(e=UserException)
+./api/v1/address.py:    user_address = UserAddress.get_or_404(user_id=uid, id=validator.address_id)
+./api/cms/user.py:from app.models.user import User
+./api/cms/user.py:    paginator = User.query.filter_by().paginate(page=page, per_page=size, error_out=False)
+./api/cms/user.py:    user = User.query.filter_by(id=uid).first_or_404()
+./api/cms/user.py:    user = User.query.filter_by(id=uid).first_or_404()
+./api/cms/user.py:    user = User.query.filter_by(id=uid).first_or_404()
+Binary file ./api/cms/__pycache__/user.cpython-37.pyc matches
+./service/pay.py:from app.models.user import User
+./service/pay.py:		user = User.query.filter_by(id=g.user.uid).first_or_404()
+Binary file ./service/__pycache__/order.cpython-37.pyc matches
+Binary file ./service/__pycache__/pay.cpython-37.pyc matches
+./service/order.py:from app.libs.error_code import OrderException, UserException
+./service/order.py:from app.models.user_address import UserAddress
+./service/order.py:		user_address = UserAddress.query \
+./service/order.py:			.first_or_404(e=UserException(error_code=6001, msg='用户地址不存在, 下单失败'))
+./model_views/user.py:class UserView(ModelView):
+Binary file ./model_views/__pycache__/user.cpython-37.pyc matches

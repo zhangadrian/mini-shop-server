@@ -1,0 +1,13 @@
+flask 
+flask-sqlalchemy 
+flask-wtf
+cymysql
+flask-httpauth
+requests
+flask-cors
+flask-script
+flasgger
+gunicorn
+wechatpy
+flask-admin
+flask-login

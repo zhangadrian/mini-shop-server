@@ -42,10 +42,13 @@ class Query(BaseQuery):
     def filter_by(self, **kwargs):
         if 'status' not in kwargs.keys():
             kwargs['status'] = 1
+        print("kwargs")
+        print(kwargs)
         return super(Query, self).filter_by(**kwargs)
 
     def get_or_404(self, ident, e=None, error_code=None, msg=None):
         rv = self.get(ident)  # 查询主键
+        print(dir(self))
         if not rv:
             self.__abort_by_error(e)
             raise NotFound(error_code=error_code, msg=msg)
@@ -59,7 +62,9 @@ class Query(BaseQuery):
         :return:
         '''
         rv = self.first()
+        print(rv)
         if not rv:
+            print("not rv")
             self.__abort_by_error(e)
             raise NotFound(error_code=error_code, msg=msg)
         return rv
@@ -112,6 +117,8 @@ class CRUDMixin(object):
     def create(cls, commit=True, **kwargs):
         """增"""
         instance = cls()
+        print("kwargs")
+        print(kwargs)
         for attr, value in kwargs.items():
             if hasattr(instance, attr):
                 setattr(instance, attr, value)
@@ -129,6 +136,7 @@ class CRUDMixin(object):
         db.session.add(self)
         if commit:
             db.session.commit()
+        print(self)
         return self
 
     def delete(self):
@@ -149,15 +157,19 @@ class Base(CRUDMixin, db.Model):
     delete_time = Column(Integer, comment='删除时间')
     update_time = Column(Integer, comment='更新时间')
     status = Column(SmallInteger, default=1, comment='状态，是否软删除')  # 软删除
+    state = 1
 
     @orm.reconstructor
     def init_on_load(self):
         # 被隐藏的属性则无法用append方法添加
+        self.state = 2
+        print(2)
         self.exclude = ['create_time', 'update_time', 'delete_time', 'status']
         all_columns = inspect(self.__class__).columns.keys()
         self.fields = list(set(all_columns) - set(self.exclude))
 
     def __init__(self):
+        print("init")
         self.create_time = int(datetime.now().timestamp())
 
     def __getitem__(self, item):

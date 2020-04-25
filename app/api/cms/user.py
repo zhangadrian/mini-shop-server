@@ -7,7 +7,7 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.base import db
-from app.models.user import User
+from app.models.test_user import TestUser as User
 from app.api_docs.cms import user as api_doc
 from app.validators.base import BaseValidator
 from app.validators.forms import PaginateValidator, ResetPasswordValidator
@@ -16,10 +16,16 @@ __author__ = 'Allen7D'
 
 api = RedPrint(name='user', description='用户管理', api_doc=api_doc, alias='cms_user')
 
+@api.route("/test", methods=["GET"])
+def test_cms():
+    res={
+        "res": "Hello, world."
+    }
+    return Success(data=res)
 
 @api.route('/list', methods=['GET'])
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
-@auth.login_required
+#@auth.login_required
 def get_list():
     '''获取用户列表(分页)'''
     validator = PaginateValidator().validate_for_api()

@@ -20,6 +20,25 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for banner
 -- ----------------------------
+DROP TABLE IF EXISTS `shop`;
+CREATE TABLE `shop` (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `name` varchar(250) DEFAULT NULL COMMENT 'shop名称，通常作为标识',
+	  `poi_id` varchar(50) DEFAULT NULL COMMENT 'shop地图ID',
+	  `address` varchar(250) DEFAULT NULL COMMENT 'shop地图ID',
+	  `mobile` varchar(50) DEFAULT NULL COMMENT 'shop描述',
+	  `latitude` int(11) DEFAULT NULL,
+	  `longitude` int(11) DEFAULT NULL,
+	  `update_time` int(11) DEFAULT NULL,
+	  `delete_time` int(11) DEFAULT NULL,
+	  `create_time` int(11) DEFAULT NULL,
+	  `status` smallint(6) DEFAULT NULL,
+	  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='shop管理表';
+
+-- ----------------------------
+-- Table structure for banner
+-- ----------------------------
 DROP TABLE IF EXISTS `banner`;
 CREATE TABLE `banner` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

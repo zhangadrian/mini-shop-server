@@ -18,7 +18,7 @@ __author__ = 'Allen7D'
 
 # 直接将api文档的内容放入RedPrint中
 
-api = RedPrint(name='user', description='用户', api_doc=api_doc)
+api = RedPrint(name='test_user', description='用户', api_doc=api_doc)
 
 @api.route('/test', methods=["Get"])
 @api.doc(auth=True)
@@ -34,7 +34,7 @@ def get_one():
     '''用户获取自身信息'''
     # g变量是「线程隔离」的，是全局变量(方便在各处调用)；「g.user」是当前用户
     #user = User.query.get_or_404(ident=g.user.uid)
-    user = User.query.get_or_404(ident="1")
+    user = User.query.filter_by(openid="12").first_or_404()
     #test_user = User()
     return Success(data=user)
 

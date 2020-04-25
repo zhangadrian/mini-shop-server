@@ -13,7 +13,7 @@ __author__ = 'Allen7D'
 local_setting.py中
     SERVER_URL = '0.0.0.0:8010' 
 '''
-SERVER_URL = 'server.mini-shop.ivinetrue.com'  # 外部（云服务器）地址
+SERVER_URL = 'www.godaangel.com'  # 外部（云服务器）地址
 
 IMG_PREFIX = SERVER_URL + '/static/images'
 UPLOAD_FOLDER = 'app/static/files'
@@ -46,9 +46,9 @@ SWAGGER = {
             "responsibleOrganization": "Shema(聆听)",
             "responsibleDeveloper": "Allen7D",
             "email": "bodanli159951@163.com",
-            "url": "http://ivinetrue.com"
+            "url": "http://godaangel.com"
         },
-        "termsOfService": "http://ivinetrue.com"
+        "termsOfService": "http://godaangel.com"
     },
     "host": SERVER_URL,  # "api.ivinetrue.com",
     "basePath": "/",  # base bash for blueprint registration
@@ -71,7 +71,8 @@ specs_security = [
 
 # all model by module for flask-admin
 ALL_MODEL_BY_MODULE = {
-    'user': ['User'],
+    'new_user': ['NewUser'],
+    'test_user': ['TestUser'],
     'user_address': ['UserAddress'],
     'order': ['Order'],
     'banner': ['Banner'],
@@ -79,12 +80,13 @@ ALL_MODEL_BY_MODULE = {
     'theme': ['Theme'],
     'category': ['Category'],
     'product': ['Product'],
-    'image': ['Image']
+    'image': ['Image'],
+    'shop': ['Shop']
 }
 
 # all api by module(version)
 ALL_API_BY_MODULE = {
-    'v1': ['token', 'user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay'],
+    'v1': ['token', 'new_user', 'test_user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay', 'shop'],
     'cms': ['user', 'theme', 'category', 'product', 'order', 'file']
 }
 

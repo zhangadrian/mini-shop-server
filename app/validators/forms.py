@@ -10,7 +10,8 @@ from wtforms import StringField, IntegerField, PasswordField, FileField, Multipl
 from wtforms.validators import DataRequired, length, Email, Regexp, EqualTo, ValidationError, NumberRange
 
 from app.libs.enums import ClientTypeEnum
-from app.models.user import User
+from app.models.test_user import TestUser as User
+from app.models.new_user import NewUser
 from app.validators.base import BaseValidator
 
 __author__ = 'Allen7D'

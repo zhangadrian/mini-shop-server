@@ -8,7 +8,7 @@ from flask import current_app
 from app.libs.enums import ClientTypeEnum
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
-from app.models.user import User
+from app.models.test_user import TestUser as User
 from app.service.token import Token
 from app.libs.token_auth import generate_auth_token
 from app.validators.forms import ClientValidator, TokenValidator
