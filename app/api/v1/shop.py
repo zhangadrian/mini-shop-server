@@ -61,7 +61,7 @@ def search_shop():
     search_res = search(location, keyword=[keyword_str])
     t2 = time()
     print(t2 -t1)
-    #print(search_res)
+    print(search_res)
     filter_list = []
     for item in search_res:
         #print(type(item))
@@ -105,15 +105,18 @@ def create_group():
     validator = BaseValidator().get_all_json()
     shop_id = validator["poi_id"]
     user_id = validator["open_id"]
+    print(shop_id)
+    print(user_id)
     shop_owner_data = NewUser.query.filter(NewUser.shop_id==shop_id).first()
     user_data = NewUser.query.filter(NewUser.openid==user_id).first()
     print(shop_owner_data)
     print(user_data)
-    shop_owner_name = shop_owner_data.nickname
+    if shop_owner_data:
+        shop_owner_name = shop_owner_data.nickname
     user_name = user_data.nickname
     
     #user_list = [shop_owner_name, user_name]
-    user_list = ["企业通讯录助手", "Adrian"]
+    user_list = ["Adrian", user_name]
     qy_wx_bot = QyWxBot()
     res = qy_wx_bot.add_group_chat(user_list=user_list)
     print(res)

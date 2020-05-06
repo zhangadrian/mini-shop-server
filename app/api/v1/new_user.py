@@ -31,7 +31,6 @@ def test_api():
     return Success(data=new_user)
 
 @api.route("/updateuser", methods=["POST"])
-@api.doc(auth=True)
 def add_user():
     validator = BaseValidator().get_all_json()
     print(validator)
@@ -51,6 +50,7 @@ def add_user():
 @api.route("/login", methods=["POST"])
 def user_login():
     validator = BaseValidator().get_all_json()
+    print(validator)
     ticket_code = validator["ticket_code"]
     print(ticket_code)
     wx_token = WxToken(ticket_code)
@@ -73,18 +73,18 @@ def user_login():
     }
     return Success(res)
 
-@api.route("/isreqister", methods=["POST"])
+@api.route("/joincontract", methods=["POST"])
 def is_reqister():
     validator = BaseValidator().get_all_json()
-    openid = validator["openid"]
-    user_data = NewUser.query.get_or_404(openid=openid)
+    openid = validator["open_id"]
+    is_in_contract = validator["is_in_contract"]
+    user_data = NewUser.query.filter(NewUser.openid==openid).first()
     if user_data:
-        res = user_data
-        error_code = 0
-    else:
-        res = {}
-        error_code = 1
-    return Success(data=res, error_code=error_code)
+        update_data = {
+            "is_in_contract": is_in_contract
+        }
+        user_data.update(**update_data)
+    return Success({"res": "join success"})
 
 @api.route("/mobile", methods=["POST"])
 def store_mobile():
@@ -122,14 +122,14 @@ def store_mobile():
         NewUser.create(**user_dict)
     return Success(user_dict)
 
-@api.route("isshopowner", methods=["POST"])
+@api.route("/isshopowner", methods=["POST"])
 def is_shop_owner():
     validator = BaseValidator().get_all_json()
     mobile = validator["mobile"]
-    user_data = NewUser.query.filter(NewUser.mobile==mobile).first()
-    if user_data:
-        res = {"is_shop_owner": user_data.is_shop_owner}
+    shop_data = Shop.query.filter(Shop.mobile==mobile).first()
+    if shop_data:
+        res = shop_data
     else:
-        res = {"is_shop_owner": user_data.is_shop_owner}
+        res = {"not_found": 1}
     return Success(data=res)
 
