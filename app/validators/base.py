@@ -29,6 +29,12 @@ class BaseValidator(WTForm):
             key: value.data for key, value in self._fields.items() if value.data is not None
         }
 
+    def get_request_data(self):
+        if request.data:
+            return request.data
+        else:
+            return ''
+
     def get_all_json(self):
         data, args = request.get_json(silent=True), request.args.to_dict()
         args_json = dict(data, **args) if data is not None else args

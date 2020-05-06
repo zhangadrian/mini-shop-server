@@ -23,6 +23,14 @@ class HTTP:
 		return res.json() if return_json else res.text
 
 	@staticmethod
+	def post(url, params, return_json=True):
+		import json
+		res = requests.post(url, data=json.dumps(params, ensure_ascii=False).encode("utf-8"))
+		if res.status_code != 200:
+			return {} if return_json else ''
+		return res.json() if return_json else res.text
+
+	@staticmethod
 	def download_pic(url, type='avatar'):
 		'''下载图片，并生成「32位随机不重复的字符串 + .jpeg」
 		其中，uuid来生成机器唯一标识

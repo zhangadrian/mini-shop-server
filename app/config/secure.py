@@ -11,7 +11,7 @@ SECRET_KEY = 'But you, Lord , are a shield around me, my glory, the One who lift
 TOKEN_EXPIRATION = 30 * 24 * 3600  # 有效期: 30天
 
 # MySQL 数据库配置
-SQLALCHEMY_DATABASE_URI = 'mysql+cymysql://root:root@localhost:3306/zerd?charset=utf8'
+SQLALCHEMY_DATABASE_URI = 'mysql+cymysql://root:1234567890@localhost:3306/zerd?charset=utf8'
 SQLALCHEMY_ENCODING = 'utf-8'
 SQLALCHEMY_TRACK_MODIFICATIONS = False  # 屏蔽 sql alchemy 的 FSADeprecationWarning
 
@@ -25,6 +25,15 @@ CORP_ID = 'ww43b2b04892bbeaed'
 CORP_SECRET = 'T_-UpwhdUHc7qr6qTndWyjji5AGmdkd19_pTt6ZlV3s'
 TOKEN_URL = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={0}&corpsecret={1}'
 CORP_API_URL = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/{0}?access_token={1}'
+
+# 回调函数TOKEN与AESKey
+CALLBACK_TOKEN = "K0dBHVCzvRMIJMEn2qRQeO"
+CALLBACK_AESKEY = "5qnmYF32XB0sMjXdiLmmmtdTVSGGjBiAs3t4J0CzkAJ"
+
+# 客服会话URl
+GET_ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}"
+POST_CS_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={0}"
+MEDIA_LIST_URL = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}"
 
 # 操作URL
 ADD_GROUP_CHAT_URL = 'http://31026h77o4.wicp.vip/v1/user/addgroupchat'

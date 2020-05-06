@@ -8,6 +8,7 @@ from flask import g
 from app.libs.enums import ScopeEnum
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
+
 from app.libs.token_auth import auth
 from app.models.new_user import NewUser
 from app.models.shop import Shop
@@ -15,6 +16,7 @@ from app.api_docs.v1 import user as api_doc  # api_doc可以引入
 from app.validators.base import BaseValidator
 from app.validators.forms import ChangePasswordValidator
 from app.service.wx_token import WxToken
+from app.service.callback import Callback
 import time
 
 __author__ = 'Allen7D'
@@ -29,6 +31,38 @@ def test_api():
     test_data={"test": "Hello, world."}
     new_user = NewUser.query.get_or_404(ident="10")
     return Success(data=new_user)
+
+@api.route('/callbacktest', methods=['POST'])
+def callback_test():
+    validator, request_data = BaseValidator().get_all_json(), BaseValidator().get_request_data()
+    print(validator)
+    callback = Callback()
+    sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce= \
+        validator['msg_signature'], validator['timestamp'], validator['nonce']
+
+    sReqData = request_data.decode("utf-8")
+    print(sReqData)
+    res_content = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
+
+    return Success(0)
+
+@api.route('/customservice', methods=['GET', 'POST'])
+def custom_service():
+    validator, request_data = BaseValidator().get_all_json(), BaseValidator().get_request_data()
+    print(validator)
+    callback = Callback()
+    if "echostr" in validator:
+        sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sEchoStr = \
+            validator['signature'], validator['timestamp'], validator['nonce'], validator['echostr']
+        res = callback.callback_validation(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sEchoStr)
+        return res
+    else:
+        openid = validator["openid"]
+        print(openid)
+        res = callback.callback_post_cs_message(openid)
+        return "Success"
+
+
 
 @api.route("/updateuser", methods=["POST"])
 @api.doc(auth=True)
@@ -116,7 +150,7 @@ def store_mobile():
         user_dict = {
             "open_id": openid,
             "mobile": mobile,
-            "is_shop_owner": shop_owner,
+            "is_shop_owner": is_shop_owner,
             "shop_id": shop_id,
         }
         NewUser.create(**user_dict)
