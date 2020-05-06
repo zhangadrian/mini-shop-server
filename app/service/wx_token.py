@@ -45,7 +45,6 @@ class WxToken:
             raise Exception('Invalid Buffer')
         return decrypted
 
-
     def __process_login_error(self, wx_result):
         if not wx_result:
             raise WeChatException()
