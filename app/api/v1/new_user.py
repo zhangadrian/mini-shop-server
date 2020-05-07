@@ -3,7 +3,7 @@
   Created by Allen7D on 2018/5/31.
   ↓↓↓ 普通用户接口 ↓↓↓
 """
-from flask import g
+from flask import g, session
 
 from app.libs.enums import ScopeEnum
 from app.libs.error_code import Success
@@ -50,7 +50,8 @@ def callback_test():
         user_id, change_type = res["user_id"], res["change_type"]
         user_info = callback.get_external_user_info(user_id)
         user_name = user_info["external_contact"]["name"]
-        user_data = NewUser.query.filter(NewUser.openid == openid).first()
+        #print(session["open_id"])
+        user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
         if user_data:
             user_cls = NewUser.get(nickname=user_name)
             update_data = {
@@ -103,6 +104,7 @@ def user_login():
     wx_token = WxToken(ticket_code)
     wx_result = wx_token.get()
     open_id = wx_result["openid"]
+    session["open_id"] = open_id
     session_id = wx_result["session_key"]
     user_data = NewUser.query.filter(NewUser.openid==open_id).first()
     if user_data:
