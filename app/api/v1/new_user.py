@@ -46,7 +46,10 @@ def callback_test():
         sReqData = request_data.decode("utf-8")
         sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce = \
             validator['msg_signature'], validator['timestamp'], validator['nonce']
-        res_content = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
+        res = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
+        user_id, change_type = res["user_id"], res["change_type"]
+        user_info = callback.get_external_user_info(user_id)
+        print(user_info)
 
     return Success(0)
 

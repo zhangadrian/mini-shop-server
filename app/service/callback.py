@@ -11,15 +11,19 @@ class Callback:
         self.token = current_app.config["CALLBACK_TOKEN"]
         self.encoding_aes_key = current_app.config["CALLBACK_AESKEY"]
         self.corp_id = current_app.config["CORP_ID"]
+        self.corp_secret = current_app.config["CORP_SECRET"]
         self.app_id = current_app.config["APP_ID"]
         self.app_secret = current_app.config["APP_SECRET"]
         self.access_token = ""
+        self.access_token_qy = ""
 
 
         self.get_access_token_url = current_app.config["GET_ACCESS_TOKEN"]
+        self.get_access_token_url_qy = current_app.config["TOKEN_URL"]
         self.post_cs_message = current_app.config["POST_CS_MESSAGE"]
         # self.contact_header_url = current_app.config["CONTACT_HEADER_URL"]
         self.media_list_url = current_app.config["MEDIA_LIST_URL"]
+        self.corp_api_url = current_app.config["CORP_API_URL"]
         self.contact_header_media_id = ""
 
         self.callback_access_token()
@@ -51,14 +55,20 @@ class Callback:
             print("ERR: DecryptMsg ret: " + str(ret))
             # sys.exit(1)
         # 解密成功，sMsg即为xml格式的明文
-        # TODO: 对明文的处理
-        # For example:
         sMsg = sMsg.decode("utf-8")
-        print(sMsg)
         xml_tree = ET.fromstring(sMsg)
         content = xml_tree.find("ExternalUserID").text
-        print(content)
-        return content
+        change = xml_tree.find("ChangeType").text
+        if 'del' in change:
+            change_type: 0
+        else:
+            change_type: 1
+
+        res = {
+            "user_id": content,
+            "change_type": change_type
+        }
+        return res
 
     def callback_access_token(self):
         get_url = self.get_access_token_url.format(self.app_id, self.app_secret)
@@ -66,6 +76,12 @@ class Callback:
         self.access_token = res["access_token"]
         print("get access token")
         print(self.access_token)
+        return 0
+
+    def callback_access_token_qy(self):
+        get_url = self.get_access_token_url_qy.format(self.corp_id, self.corp_secret)
+        res = HTTP.get(get_url)
+        self.access_token_qy = res["access_token"]
         return 0
 
     def callback_media_id(self):
@@ -78,7 +94,6 @@ class Callback:
         }
         res = HTTP.post(post_url, params)
         print(res)
-
 
     def callback_post_cs_message(self, user_openid):
         post_url = self.post_cs_message.format(self.access_token)
@@ -101,6 +116,14 @@ class Callback:
         }
         res = HTTP.post(post_url, params)
         return res
+
+    def get_external_user_info(self, user_id):
+        self.get_access_token_url_qy()
+        get_url = self.corp_api_url.format("get", self.access_token_qy) + "&external_userid=" + user_id
+        res = HTTP.get(get_url)
+        print(res)
+        return res
+
 
 
 
