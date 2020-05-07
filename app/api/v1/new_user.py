@@ -32,7 +32,7 @@ def test_api():
     new_user = NewUser.query.get_or_404(ident="10")
     return Success(data=new_user)
 
-@api.route('/callbacktest', methods=['POST'])
+@api.route('/callbacktest', methods=['Get', 'POST'])
 def callback_test():
     validator, request_data = BaseValidator().get_all_json(), BaseValidator().get_request_data()
     print(validator)
@@ -171,7 +171,7 @@ def is_shop_owner():
         res = {"not_found": 1}
     return Success(data=res)
 
-@api.route("isincontract", methods=["POST"])
+@api.route("/isincontract", methods=["POST"])
 def is_in_contract():
     validator = BaseValidator().get_all_json()
     openid = validator["open_id"]
