@@ -49,6 +49,7 @@ def callback_test():
         res = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
         user_id, change_type = res["user_id"], res["change_type"]
         user_info = callback.get_external_user_info(user_id)
+        user_openid = callback.get_external_user_openid(user_id)
         user_name = user_info["external_contact"]["name"]
         user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
         if user_data:
@@ -82,6 +83,15 @@ def add_user():
     validator = BaseValidator().get_all_json()
     print(validator)
     openid = validator["open_id"]
+    session_key = validator["session_id"]
+    if "encryptedData" in validator:
+        print("start decrypt")
+        encrypted_data = validator["encryptedData"]
+        iv = validator["iv"]
+        wx_token = WxToken("")
+        res = wx_token.decryt(session_key, iv, encrypted_data)
+        print(res)
+
     validator.pop("session_id")
     validator.pop("req_time")
     user_data = NewUser.query.filter(NewUser.openid==openid).first()
