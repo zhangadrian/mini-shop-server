@@ -37,12 +37,16 @@ def callback_test():
     validator, request_data = BaseValidator().get_all_json(), BaseValidator().get_request_data()
     print(validator)
     callback = Callback()
-    sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce= \
-        validator['msg_signature'], validator['timestamp'], validator['nonce']
-
-    sReqData = request_data.decode("utf-8")
-    print(sReqData)
-    res_content = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
+    if "echostr" in validator:
+        sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sEchoStr = \
+            validator['msg_signature'], validator['timestamp'], validator['nonce'], validator["echostr"]
+        res = callback.callback_validation(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sEchoStr, is_app=False)
+        return res
+    else:
+        sReqData = request_data.decode("utf-8")
+        sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce = \
+            validator['msg_signature'], validator['timestamp'], validator['nonce']
+        res_content = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
 
     return Success(0)
 
@@ -167,3 +171,13 @@ def is_shop_owner():
         res = {"not_found": 1}
     return Success(data=res)
 
+@api.route("isincontract", methods=["POST"])
+def is_shop_owner():
+    validator = BaseValidator().get_all_json()
+    openid = validator["open_id"]
+    user_data = NewUser.query.filter(NewUser.openid==openid).first()
+    if user_data:
+        res = {"is_in_contract": user_data.is_in_contract}
+    else:
+        res = {"is_in_contract": user_data.is_in_contract}
+    return Success(data=res)
