@@ -50,7 +50,6 @@ def callback_test():
         user_id, change_type = res["user_id"], res["change_type"]
         user_info = callback.get_external_user_info(user_id)
         user_name = user_info["external_contact"]["name"]
-        #print(session["open_id"])
         user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
         if user_data:
             user_cls = NewUser.get(nickname=user_name)
