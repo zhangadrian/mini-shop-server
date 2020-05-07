@@ -22,7 +22,7 @@ LOGIN_URL = 'https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&j
 
 # 企业微信
 CORP_ID = 'ww43b2b04892bbeaed'
-CORP_SECRET = 'T_-UpwhdUHc7qr6qTndWyjji5AGmdkd19_pTt6ZlV3s'
+CORP_SECRET = 'T_-UpwhdUHc7qr6qTndWykJwudi_KoQafKnckUGS_tw'
 TOKEN_URL = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={0}&corpsecret={1}'
 CORP_API_URL = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/{0}?access_token={1}'
 

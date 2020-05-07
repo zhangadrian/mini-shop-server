@@ -60,9 +60,9 @@ class Callback:
         content = xml_tree.find("ExternalUserID").text
         change = xml_tree.find("ChangeType").text
         if 'del' in change:
-            change_type: 0
+            change_type = 0
         else:
-            change_type: 1
+            change_type = 1
 
         res = {
             "user_id": content,
@@ -81,6 +81,7 @@ class Callback:
     def callback_access_token_qy(self):
         get_url = self.get_access_token_url_qy.format(self.corp_id, self.corp_secret)
         res = HTTP.get(get_url)
+        print(res)
         self.access_token_qy = res["access_token"]
         return 0
 
@@ -118,7 +119,7 @@ class Callback:
         return res
 
     def get_external_user_info(self, user_id):
-        self.get_access_token_url_qy()
+        self.callback_access_token_qy()
         get_url = self.corp_api_url.format("get", self.access_token_qy) + "&external_userid=" + user_id
         res = HTTP.get(get_url)
         print(res)
