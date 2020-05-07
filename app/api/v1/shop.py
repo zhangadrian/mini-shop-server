@@ -116,10 +116,13 @@ def create_group():
     user_name = user_data.nickname
     
     #user_list = [shop_owner_name, user_name]
-    user_list = ["Adrian", user_name]
-    qy_wx_bot = QyWxBot()
-    res = qy_wx_bot.add_group_chat(user_list=user_list)
-    print(res)
-    return Success(res)
+    if shop_owner_data.is_in_contract == 1:
+        user_list = ["Adrian", user_name]
+        qy_wx_bot = QyWxBot()
+        res = qy_wx_bot.add_group_chat(user_list=user_list)
+        return Success({"create_group": 1})
+    else:
+        return Success({"create_group": -1})
+
 
 
