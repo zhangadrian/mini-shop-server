@@ -172,7 +172,7 @@ def is_shop_owner():
     return Success(data=res)
 
 @api.route("isincontract", methods=["POST"])
-def is_shop_owner():
+def is_in_contract():
     validator = BaseValidator().get_all_json()
     openid = validator["open_id"]
     user_data = NewUser.query.filter(NewUser.openid==openid).first()
