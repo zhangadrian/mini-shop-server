@@ -129,7 +129,7 @@ class Callback:
         self.callback_access_token_qy()
         post_url = self.corp_api_url.format("convert_to_openid", self.access_token_qy)
         params = {
-            "external_userido": user_id
+            "external_userid": user_id
         }
         res = HTTP.post(post_url, params)
         print(res)

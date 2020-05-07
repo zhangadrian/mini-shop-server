@@ -49,7 +49,7 @@ def callback_test():
         res = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
         user_id, change_type = res["user_id"], res["change_type"]
         user_info = callback.get_external_user_info(user_id)
-        user_openid = callback.get_external_user_openid(user_id)
+        #user_openid = callback.get_external_user_openid(user_id)
         user_name = user_info["external_contact"]["name"]
         user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
         if user_data:
