@@ -10,9 +10,9 @@ __author__ = "adhcczhang"
 class Group(Base):
     __tablename__ = "group"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    poi_id = Column(String(100), unique=True, comment="店铺ID")
-    user_openid = Column(String(50), unique=True, comment='用户openid')
-    shop_owner_openid = Column(String(50), unique=True, comment='店铺openid')
+    poi_id = Column(String(100), comment="店铺ID")
+    user_openid = Column(String(50), comment='用户openid')
+    shop_owner_openid = Column(String(50), comment='店铺openid')
     user_nickname = Column(String(24), comment='用户昵称')
     shop_owner_nickname = Column(String(24), comment='店铺昵称')
     group_name = Column(String(100), comment='群名称')
