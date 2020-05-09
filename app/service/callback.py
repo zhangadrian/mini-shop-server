@@ -57,18 +57,21 @@ class Callback:
         # 解密成功，sMsg即为xml格式的明文
         sMsg = sMsg.decode("utf-8")
         xml_tree = ET.fromstring(sMsg)
-        content = xml_tree.find("ExternalUserID").text
-        change = xml_tree.find("ChangeType").text
-        if 'del' in change:
-            change_type = 0
-        else:
-            change_type = 1
+        if xml_tree.find("ExternalUserID"):
+            content = xml_tree.find("ExternalUserID").text
+            change = xml_tree.find("ChangeType").text
+            if 'del' in change:
+                change_type = 0
+            else:
+                change_type = 1
 
-        res = {
-            "user_id": content,
-            "change_type": change_type
-        }
-        return res
+            res = {
+                "user_id": content,
+                "change_type": change_type
+            }
+            return res
+        else:
+            return ''
 
     def callback_access_token(self):
         get_url = self.get_access_token_url.format(self.app_id, self.app_secret)
