@@ -67,6 +67,7 @@ def search_shop():
         #print(type(item))
         filter_list.append(item['_source']['id'])
     #print(filter_list)
+    filter_list.append("warrenyang_shop")
 
     shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=size, error_out=False)
     t3 = time()
@@ -116,13 +117,14 @@ def create_group():
     user_name = user_data.nickname
     
     #user_list = [shop_owner_name, user_name]
-    if shop_owner_data.is_in_contract == 1:
-        user_list = ["Adrian", user_name]
+    if not shop_owner_data or shop_owner_data.is_in_contract != 1:
+        return Success({"create_group": -1})
+    else:
+        shop_owner_name = shop_owner_data.nickname
+        user_list = [shop_owner_name, user_name]
         qy_wx_bot = QyWxBot()
         res = qy_wx_bot.add_group_chat(user_list=user_list)
         return Success({"create_group": 1})
-    else:
-        return Success({"create_group": -1})
 
 
 

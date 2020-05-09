@@ -28,7 +28,7 @@ class Callback:
 
         self.callback_access_token()
         # self.callback_media_id()
-        self.media_id = "e6l0-nJTQCZSux6iPa4tQRaZO3p84b60HfwyRMiPKGoBY3rXwM4F6FxaH6zOpAts"
+        self.media_id = "jf4QPJt75KQP1HOUFdo1vbxmwt6QM5F1RL8Ol3ArvR_w9lwaEqfphIcGOtgy1RVD"
         # self.wxcpt = WXBizMsgCrypt(self.token, self.encoding_aes_key, self.corp_id)
 
 
