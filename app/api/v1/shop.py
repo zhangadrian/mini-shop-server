@@ -115,14 +115,15 @@ def create_group():
         user_name = user_data.nickname
         shop_owner_name = shop_owner_data.nickname
         shop_owner_id = shop_owner_data.openid
-        group_data = Group.query.filter(and_(Group.user_openid==user_id, Group.shop_owner_openid==shop_owner_id)).first()
+        group_data = Group.query.filter(and_(Group.user_openid == user_id,
+                                             Group.shop_owner_openid == shop_owner_id, Group.status == 2)).first()
         qy_wx_bot = QyWxBot()
         if not group_data:
             user_list = [shop_owner_name, user_name]
 
             #shop_group_num = Group.query(func.count(distinct(Group.poi_id))).scalar()
             #print(shop_group_num)
-            shop_name = Shop.query.filter(Shop.poi_id==shop_id).first().name
+            shop_name = Shop.query.filter(Shop.poi_id == shop_id).first().name
             group_name = shop_name + "_No." + str(int(time()))
             group_dict = {
                 "poi_id": shop_id,

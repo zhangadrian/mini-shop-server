@@ -9,11 +9,13 @@ from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.new_user import NewUser
 from app.models.shop import Shop
+from app.models.group import Group
 from app.api_docs.v1 import user as api_doc  # api_doc可以引入
 from app.validators.base import BaseValidator
 from app.validators.forms import ChangePasswordValidator
 from app.service.wx_token import WxToken
 from app.service.callback import Callback
+from sqlalchemy import and_
 import time
 
 __author__ = 'adhcczhang'
@@ -44,20 +46,42 @@ def callback_test():
         sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce = \
             validator['msg_signature'], validator['timestamp'], validator['nonce']
         res = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
-        print(res)
-        if res != "":
-            user_id, change_type = res["user_id"], res["change_type"]
-            user_info = callback.get_external_user_info(user_id)
-            print(user_info)
-            #user_openid = callback.get_external_user_openid(user_id)
-            user_name = user_info["external_contact"]["name"]
-            user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
-            if user_data:
-                user_cls = NewUser.get(nickname=user_name)
-                update_data = {
-                    "is_in_contract": change_type
-                }
-                user_cls.update(**update_data)
+        if type(res) == "dict":
+            user_list, change_type = res["user_list"], res["change_type"]
+            if "chat_id" not in res:
+                user_info = user_list[0]
+                user_name = user_info["external_contact"]["name"]
+                user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
+                if user_data:
+                    user_cls = NewUser.get(nickname=user_name)
+                    update_data = {
+                        "is_in_contract": change_type
+                    }
+                    user_cls.update(**update_data)
+            else:
+                chat_id = res["chat_id"]
+                if len(user_list) == 2:
+                    user_name_0 = user_list[0]["external_contact"]["name"]
+                    user_name_1 = user_list[1]["external_contact"]["name"]
+                    time.sleep(10)
+                    update_dict = {
+                        "group_id": chat_id,
+                        "status": 2
+                    }
+                    group_data_1 = Group.query.filter(
+                        and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).first()
+                    group_data_2 = Group.query.filter(
+                        and_(Group.user_nickname == user_name_1, Group.shop_owner_nickname == user_name_0, Group.group_id=='')).first()
+                    if group_data_1:
+                        group_data_1.update(**update_dict)
+                    elif group_data_2:
+                        group_data_2.update(**update_dict)
+                else:
+                    group_data = Group.query.filter(Group.group_id == chat_id).first()
+                    update_dict = {
+                        "status": 1
+                    }
+                    group_data.update(**update_dict)
     return Success(0)
 
 @api.route('/customservice', methods=['GET', 'POST'])

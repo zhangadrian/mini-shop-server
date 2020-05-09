@@ -31,7 +31,6 @@ class Callback:
         self.media_id = "jf4QPJt75KQP1HOUFdo1vbxmwt6QM5F1RL8Ol3ArvR_w9lwaEqfphIcGOtgy1RVD"
         # self.wxcpt = WXBizMsgCrypt(self.token, self.encoding_aes_key, self.corp_id)
 
-
     def callback_validation(self, verify_msg_sig, verify_time_stamp, verify_nonce, verify_echo_str, is_app=True):
         # wxcpt = WXBizMsgCrypt(self.token, self.encoding_aes_key, self.corp_id)
         # ret = wxcpt.VerifyAESKey()
@@ -64,16 +63,23 @@ class Callback:
                 change_type = 0
             else:
                 change_type = 1
-
+            user_info = self.get_external_user_info(user_id)
+            user_list = [user_info]
             res = {
-                "user_id": user_id,
-                "change_type": change_type
+                "user_list": user_list,
+                "change_type": change_type,
             }
             return res
         elif xml_tree.find("ChatId") != None:
             chat_id = xml_tree.find("ChatId").text
+            res_dict = self.get_change_groupchat_info(chat_id)
+            user_list, chat_id = res_dict["user_list"], res_dict["chat_id"]
+            res = {
+                "user_list": user_list,
+                "change_type": len(user_list),
+                "chat_id": chat_id
+            }
             return res
-
 
     def callback_access_token(self):
         get_url = self.get_access_token_url.format(self.app_id, self.app_secret)
@@ -148,10 +154,17 @@ class Callback:
         }
         res = HTTP.post(post_url, params)
         member_list = res["group_chat"]["member_list"]
-        if len(member_list) == 3:
-            return 1
-        else:
-            return 0
+        user_list = []
+        for member in member_list:
+            if member_list["type"] == 2:
+                user_id = member["userid"]
+                user_info = self.get_external_user_info(user_id)
+                user_list.append(user_info)
+        res_dict = {
+            "chat_id": res["group_chat"]["chat_id"],
+            "user_list": user_list
+        }
+        return res_dict
 
 
 
