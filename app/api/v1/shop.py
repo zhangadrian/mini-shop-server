@@ -79,8 +79,8 @@ def search_shop():
     t1 = time()
     search_res = search(location, keyword=[keyword_str])
     t2 = time()
-    print(t2 -t1)
-    print(search_res)
+    # print(t2 -t1)
+    # print(search_res)
     filter_list = []
     for item in search_res:
         #print(type(item))
@@ -91,7 +91,7 @@ def search_shop():
     test_shop_data = Shop.query.filter(Shop.poi_id=="warrenyang_shop").first()
     shop_data_list.items.insert(0, test_shop_data)
     t3 = time()
-    print(t3 - t2)
+    # print(t3 - t2)
     res = {
         "total": shop_data_list.total,
         "current_page": shop_data_list.page,
