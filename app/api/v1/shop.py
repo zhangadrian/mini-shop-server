@@ -119,10 +119,10 @@ def create_group():
         if not group_data:
             user_list = [shop_owner_name, user_name]
 
-            shop_group_num = Group.query(func.count(distinct(Group.poi_id))).scalar()
-            print(shop_group_num)
+            #shop_group_num = Group.query(func.count(distinct(Group.poi_id))).scalar()
+            #print(shop_group_num)
             shop_name = Shop.query.filter(Shop.poi_id==shop_id).first().name
-            group_name = shop_name + "_No." + str(shop_group_num)
+            group_name = shop_name + "_No." + str(int(time()))
             group_dict = {
                 "poi_id": shop_id,
                 "user_openid": user_id,

@@ -81,7 +81,8 @@ ALL_MODEL_BY_MODULE = {
     'category': ['Category'],
     'product': ['Product'],
     'image': ['Image'],
-    'shop': ['Shop']
+    'shop': ['Shop'],
+    'group': ['Group']
 }
 
 # all api by module(version)
