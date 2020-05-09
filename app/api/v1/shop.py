@@ -86,9 +86,10 @@ def search_shop():
         #print(type(item))
         filter_list.append(item['_source']['id'])
     #print(filter_list)
-    filter_list.append("warrenyang_shop")
 
     shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=size, error_out=False)
+    test_shop_data = Shop.query.filter(Shop.poi_id=="warrenyang_shop").first()
+    shop_data_list.items.insert(0, test_shop_data)
     t3 = time()
     print(t3 - t2)
     res = {

@@ -44,9 +44,11 @@ def callback_test():
         sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce = \
             validator['msg_signature'], validator['timestamp'], validator['nonce']
         res = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
-        if res:
+        print(res)
+        if res != "":
             user_id, change_type = res["user_id"], res["change_type"]
             user_info = callback.get_external_user_info(user_id)
+            print(user_info)
             #user_openid = callback.get_external_user_openid(user_id)
             user_name = user_info["external_contact"]["name"]
             user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
