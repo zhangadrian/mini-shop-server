@@ -57,6 +57,7 @@ class Callback:
         # 解密成功，sMsg即为xml格式的明文
         sMsg = sMsg.decode("utf-8")
         xml_tree = ET.fromstring(sMsg)
+        print(xml_tree.find("ExternalUserID"))
         try:
             content = xml_tree.find("ExternalUserID").text
             print(content)
@@ -138,6 +139,20 @@ class Callback:
         res = HTTP.post(post_url, params)
         print(res)
         return res
+
+    def get_change_groupchat_info(self, chat_id):
+        self.callback_access_token_qy()
+        post_url = self.corp_api_url("group/get", self.access_token_qy)
+        params = {
+            "chat_id": chat_id
+        }
+        res = HTTP.post(post_url, params)
+        member_list = res["group_chat"]["member_list"]
+        if len(member_list) == 3:
+            return 1
+        else:
+            return 0
+
 
 
 
