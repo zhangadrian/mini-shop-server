@@ -1,12 +1,10 @@
 # _*_ coding: utf-8 _*_
-"""
-  Created by Allen7D on 2018/7/6.
-"""
+
 from sqlalchemy import Column, Integer, SmallInteger, String, Float, Text
 
 from app.models.base import Base
 
-__author__ = "Allen7D"
+__author__ = "adhcczhang"
 
 
 class Shop(Base):

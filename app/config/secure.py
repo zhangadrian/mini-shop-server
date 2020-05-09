@@ -36,7 +36,7 @@ POST_CS_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_
 MEDIA_LIST_URL = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}"
 
 # 操作URL
-ADD_GROUP_CHAT_URL = 'http://31026h77o4.wicp.vip/v1/user/addgroupchat'
+GROUP_CHAT_URL = 'http://31026h77o4.wicp.vip/v1/user/'
 
 # 微信·开放平台(OPEN)登录[第三方(Third-Party)]
 OPEN_APP_ID = 'wx87186e0123456789'

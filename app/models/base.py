@@ -157,13 +157,13 @@ class Base(CRUDMixin, db.Model):
     delete_time = Column(Integer, comment='删除时间')
     update_time = Column(Integer, comment='更新时间')
     status = Column(SmallInteger, default=1, comment='状态，是否软删除')  # 软删除
-    state = 1
+    # state = 1
 
     @orm.reconstructor
     def init_on_load(self):
         # 被隐藏的属性则无法用append方法添加
-        self.state = 2
-        print(2)
+        # self.state = 2
+        # print(2)
         self.exclude = ['create_time', 'update_time', 'delete_time', 'status']
         all_columns = inspect(self.__class__).columns.keys()
         self.fields = list(set(all_columns) - set(self.exclude))

@@ -1,7 +1,4 @@
 # _*_ coding: utf-8 _*_
-"""
-  Created by Allen7D on 2018/5/31.
-"""
 from flask import g
 from sqlalchemy import Column, Integer, String, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -14,7 +11,7 @@ from app.service.open_token import OpenToken
 from app.service.wx_token import WxToken
 from app.service.account_token import AccountToken
 
-__author__ = 'Allen7D'
+__author__ = 'adhcczhang'
 
 
 class NewUser(Base):

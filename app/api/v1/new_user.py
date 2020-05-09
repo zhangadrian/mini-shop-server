@@ -1,8 +1,5 @@
 # _*_ coding: utf-8 _*_
-"""
-  Created by Allen7D on 2018/5/31.
-  ↓↓↓ 普通用户接口 ↓↓↓
-"""
+
 from flask import g, session
 
 from app.libs.enums import ScopeEnum
@@ -19,7 +16,7 @@ from app.service.wx_token import WxToken
 from app.service.callback import Callback
 import time
 
-__author__ = 'Allen7D'
+__author__ = 'adhcczhang'
 
 # 直接将api文档的内容放入RedPrint中
 
