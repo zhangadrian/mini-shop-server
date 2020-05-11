@@ -2,18 +2,15 @@
 
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
-from app.libs.poi_search.es_search import search
-from app.models.base import db, Pagination
+from app.service.shop_recall import Recall
 from app.models.shop import Shop
 from app.models.new_user import NewUser
 from app.models.group import Group
 from app.service.qy_wx_bot import QyWxBot
 from app.api_docs.v1 import shop as api_doc
 from app.validators.base import BaseValidator
-from app.validators.forms import PaginateValidator, ResetPasswordValidator
 from time import time
-from sqlalchemy import and_, func, distinct
+from sqlalchemy import and_
 
 __author__ = 'adhcczhang'
 
@@ -76,29 +73,8 @@ def search_shop():
     location = validator['location']
     page = validator['page']
     size = validator['size']
-    t1 = time()
-    search_res = search(location, keyword=[keyword_str])
-    t2 = time()
-    # print(t2 -t1)
-    # print(search_res)
-    filter_list = []
-    for item in search_res:
-        #print(type(item))
-        filter_list.append(item['_source']['id'])
-    #print(filter_list)
-
-    shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=size, error_out=False)
-    test_shop_data = Shop.query.filter(Shop.poi_id=="warrenyang_shop").first()
-    shop_data_list.items.insert(0, test_shop_data)
-    test_shop_data = Shop.query.filter(Shop.poi_id=="haolin_shop").first()
-    shop_data_list.items.insert(0, test_shop_data)
-    t3 = time()
-    # print(t3 - t2)
-    res = {
-        "total": shop_data_list.total,
-        "current_page": shop_data_list.page,
-        "items":shop_data_list.items
-    }
+    recall = Recall()
+    res = recall.sort_by_distance(page, size, keyword_str, location)
     return Success(data=res)
 
 
