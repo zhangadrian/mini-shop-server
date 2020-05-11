@@ -29,8 +29,10 @@ class QyWxBot:
         print(params)
         headers = {'Content-Type': 'application/json;charset=UTF-8'}
         r = requests.post(post_url, data=json.dumps(params).encode("utf-8"), headers=headers)
-        self.__process_login_error(r.json())  # 微信异常处理
-        return r.json()
+        print("add group res")
+        print(r.json())
+        res = r.json()["data"]["add_group_res"]
+        return res
 
     def awake_group(self, group_name):
         post_url = self.group_chat_url + "awakegroup"
@@ -39,8 +41,8 @@ class QyWxBot:
         }
         headers = {'Content-Type': 'application/json;charset=UTF-8'}
         r = requests.post(post_url, data=json.dumps(params).encode("utf-8"), headers=headers)
-        self.__process_login_error(r.json())  # 微信异常处理
-        return r.json()
+        res = r.json()["data"]["awake_group_res"]
+        return res
     
     def __process_login_error(self, wx_result):
         if not wx_result:

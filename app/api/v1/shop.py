@@ -90,6 +90,8 @@ def search_shop():
     shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=size, error_out=False)
     test_shop_data = Shop.query.filter(Shop.poi_id=="warrenyang_shop").first()
     shop_data_list.items.insert(0, test_shop_data)
+    test_shop_data = Shop.query.filter(Shop.poi_id=="haolin_shop").first()
+    shop_data_list.items.insert(0, test_shop_data)
     t3 = time()
     # print(t3 - t2)
     res = {
@@ -107,17 +109,22 @@ def create_group():
     user_id = validator["open_id"]
     shop_owner_data = NewUser.query.filter(NewUser.shop_id==shop_id).first()
     user_data = NewUser.query.filter(NewUser.openid==user_id).first()
+    print("create group")
 
 
     if not shop_owner_data or shop_owner_data.is_in_contract != 1:
         return Success({"create_group": -1})
     else:
+        print("create group")
+        
+        
         user_name = user_data.nickname
         shop_owner_name = shop_owner_data.nickname
         shop_owner_id = shop_owner_data.openid
         group_data = Group.query.filter(and_(Group.user_openid == user_id,
                                              Group.shop_owner_openid == shop_owner_id, Group.status == 2)).first()
         qy_wx_bot = QyWxBot()
+        print(group_data)
         if not group_data:
             user_list = [shop_owner_name, user_name]
 
@@ -133,13 +140,19 @@ def create_group():
                 "shop_owner_nickname": shop_owner_name,
                 "group_name": group_name,
             }
-            qy_wx_bot.add_group_chat(group_name, user_list=user_list)
-            Group.create(**group_dict)
-            create_group_res = 1
+            add_group_res = qy_wx_bot.add_group_chat(group_name, user_list=user_list)
+            if add_group_res == 0:
+                Group.create(**group_dict)
+                create_group_res = 1
+            else:
+                create_group_res = -1
         else:
             group_name = group_data.group_name
-            qy_wx_bot.awake_group(group_name)
-            create_group_res = 2
+            awake_group_res = qy_wx_bot.awake_group(group_name)
+            if awake_group_res == 0:
+                create_group_res = 2
+            else:
+                create_group_res = -1
         return Success({"create_group": create_group_res})
 
 

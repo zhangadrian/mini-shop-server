@@ -46,7 +46,7 @@ def callback_test():
         sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce = \
             validator['msg_signature'], validator['timestamp'], validator['nonce']
         res = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
-        if type(res) == "dict":
+        if isinstance(res, dict):
             user_list, change_type = res["user_list"], res["change_type"]
             if "chat_id" not in res:
                 user_info = user_list[0]
@@ -63,15 +63,18 @@ def callback_test():
                 if len(user_list) == 2:
                     user_name_0 = user_list[0]["external_contact"]["name"]
                     user_name_1 = user_list[1]["external_contact"]["name"]
-                    time.sleep(10)
+                    #time.sleep(10)
                     update_dict = {
                         "group_id": chat_id,
                         "status": 2
                     }
+                    print([user_name_0, user_name_1])
                     group_data_1 = Group.query.filter(
                         and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).first()
                     group_data_2 = Group.query.filter(
                         and_(Group.user_nickname == user_name_1, Group.shop_owner_nickname == user_name_0, Group.group_id=='')).first()
+                    print(group_data_1)
+                    print(group_data_2)
                     if group_data_1:
                         group_data_1.update(**update_dict)
                     elif group_data_2:

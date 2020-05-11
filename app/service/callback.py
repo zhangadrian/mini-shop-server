@@ -74,6 +74,8 @@ class Callback:
             chat_id = xml_tree.find("ChatId").text
             res_dict = self.get_change_groupchat_info(chat_id)
             user_list, chat_id = res_dict["user_list"], res_dict["chat_id"]
+            print(user_list)
+            print(chat_id)
             res = {
                 "user_list": user_list,
                 "change_type": len(user_list),
@@ -92,7 +94,7 @@ class Callback:
     def callback_access_token_qy(self):
         get_url = self.get_access_token_url_qy.format(self.corp_id, self.corp_secret)
         res = HTTP.get(get_url)
-        print(res)
+        #print(res)
         self.access_token_qy = res["access_token"]
         return 0
 
@@ -148,15 +150,18 @@ class Callback:
 
     def get_change_groupchat_info(self, chat_id):
         self.callback_access_token_qy()
-        post_url = self.corp_api_url("group/get", self.access_token_qy)
+        post_url = self.corp_api_url.format("groupchat/get", self.access_token_qy)
+        print(post_url)
+        print(chat_id)
         params = {
             "chat_id": chat_id
         }
         res = HTTP.post(post_url, params)
+        print(res)
         member_list = res["group_chat"]["member_list"]
         user_list = []
         for member in member_list:
-            if member_list["type"] == 2:
+            if member["type"] == 2:
                 user_id = member["userid"]
                 user_info = self.get_external_user_info(user_id)
                 user_list.append(user_info)
