@@ -2,8 +2,8 @@
 
 from math import radians, cos, sin, asin, sqrt
 from app.libs.poi_search.es_search import search
-from app.models.base import db, Pagination
 from app.models.shop import Shop
+from app.model_views.shop import ShopCollection
 
 
 class Recall:
@@ -50,10 +50,13 @@ class Recall:
             test_shop_data = Shop.query.filter(Shop.poi_id == "haolin_shop").first()
             shop_data_list.items.insert(0, test_shop_data)
             distance_list.insert(0, 10)
+        shop_collection = ShopCollection()
+        shop_collection.fill(shop_data_list, distance_list)
+
         res = {
             "total": shop_data_list.total,
             "current_page": shop_data_list.page,
-            "items": shop_data_list.items,
+            "items": shop_collection.items,
             "distance": distance_list
         }
         return res
