@@ -7,6 +7,8 @@ from app.libs.httper import HTTP
 
 import xml.etree.cElementTree as ET
 
+from app.service.cache import cache
+
 class Callback:
     def __init__(self):
         self.token = current_app.config["CALLBACK_TOKEN"]
@@ -85,31 +87,19 @@ class Callback:
             }
             return res
 
+    @cache.cached(timeout=6000, key_prefix='access_token')
     def callback_access_token(self):
-        cached = current_app.cache.get('access_token')
-        if cached:
-            self.access_token = cached
-        else:
-            get_url = self.get_access_token_url.format(self.app_id, self.app_secret)
-            res = HTTP.get(get_url)
-            self.access_token = res["access_token"]
-            current_app.cache.set('access_token', self.access_token, timeout=6000)
+        get_url = self.get_access_token_url.format(self.app_id, self.app_secret)
+        res = HTTP.get(get_url)
         print("get access token")
-        print(self.access_token)
-        return 0
+        return res["access_token"]
 
+    @cache.cached(timeout=6000, key_prefix='access_token_qy')
     def callback_access_token_qy(self):
-        cached = current_app.cache.get('access_token_qy')
-        if cached:
-            self.access_token = cached
-        else:
-            get_url = self.get_access_token_url_qy.format(self.corp_id, self.corp_secret)
-            res = HTTP.get(get_url)
-            self.access_token_qy = res["access_token"]
-            current_app.cache.set('access_token_qy', self.access_token_qy, timeout=6000)
+        get_url = self.get_access_token_url_qy.format(self.corp_id, self.corp_secret)
+        res = HTTP.get(get_url)
         print("get access token qy")
-        print(self.access_token_qy)
-        return 0
+        return res["access_token"]
 
     def callback_media_id(self):
         post_url = self.media_list_url.format(self.access_token)
@@ -127,7 +117,8 @@ class Callback:
 
         with open(self.media_id_file_path, 'rb') as media_id_file:
             media_id = pickle.load(media_id_file)["media_id"]
-        post_url = self.post_cs_message.format(self.access_token)
+        access_token = self.callback_access_token()
+        post_url = self.post_cs_message.format(access_token)
         params = {
             "touser": user_openid,
             "msgtype": "text",
@@ -149,15 +140,15 @@ class Callback:
         return res
 
     def get_external_user_info(self, user_id):
-        self.callback_access_token_qy()
-        get_url = self.corp_api_url.format("get", self.access_token_qy) + "&external_userid=" + user_id
+        access_token_qy = self.callback_access_token_qy()
+        get_url = self.corp_api_url.format("get", access_token_qy) + "&external_userid=" + user_id
         res = HTTP.get(get_url)
         print(res)
         return res
 
     def get_external_user_openid(self, user_id):
-        self.callback_access_token_qy()
-        post_url = self.corp_api_url.format("convert_to_openid", self.access_token_qy)
+        access_token_qy = self.callback_access_token_qy()
+        post_url = self.corp_api_url.format("convert_to_openid", access_token_qy)
         params = {
             "external_userid": user_id
         }
@@ -166,8 +157,8 @@ class Callback:
         return res
 
     def get_change_groupchat_info(self, chat_id):
-        self.callback_access_token_qy()
-        post_url = self.corp_api_url.format("groupchat/get", self.access_token_qy)
+        access_token_qy = self.callback_access_token_qy()
+        post_url = self.corp_api_url.format("groupchat/get", access_token_qy)
         print(post_url)
         print(chat_id)
         params = {

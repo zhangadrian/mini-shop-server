@@ -16,7 +16,7 @@ from app.web import web
 from app.api import create_blueprint_list
 from app.libs.error import APIException
 from app.libs.error_code import ServerError
-
+from app.service.cache import cache
 __author__ = 'Allen7D'
 
 
@@ -27,6 +27,7 @@ def create_app():
     load_config(app)
     register_blueprint(app)
     register_plugin(app)
+    cache.init_app(app, config={'CACHE_TYPE': 'simple'})
 
     return app
 
