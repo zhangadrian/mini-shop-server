@@ -3,8 +3,9 @@
 from flask import current_app
 
 from app.libs.WXBizMsgCrypt3 import WXBizMsgCrypt
-import xml.etree.cElementTree as ET
 from app.libs.httper import HTTP
+
+import xml.etree.cElementTree as ET
 
 class Callback:
     def __init__(self):
@@ -28,6 +29,7 @@ class Callback:
 
         self.callback_access_token()
         # self.callback_media_id()
+        self.media_id_file_path = "../static/media_id.pkl"
         self.media_id = "jf4QPJt75KQP1HOUFdo1vbxmwt6QM5F1RL8Ol3ArvR_w9lwaEqfphIcGOtgy1RVD"
         # self.wxcpt = WXBizMsgCrypt(self.token, self.encoding_aes_key, self.corp_id)
 
@@ -110,6 +112,10 @@ class Callback:
         print(res)
 
     def callback_post_cs_message(self, user_openid):
+        import pickle
+
+        with open(self.media_id_file_path, 'rb') as media_id_file:
+            media_id = pickle.load(media_id_file)["media_id"]
         post_url = self.post_cs_message.format(self.access_token)
         params = {
             "touser": user_openid,
@@ -125,7 +131,7 @@ class Callback:
             "msgtype": "image",
             "image":
                 {
-                    "media_id": self.media_id
+                    "media_id": media_id
                 }
         }
         res = HTTP.post(post_url, params)
