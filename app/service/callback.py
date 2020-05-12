@@ -29,8 +29,8 @@ class Callback:
 
         self.callback_access_token()
         # self.callback_media_id()
-        self.media_id_file_path = "../static/media_id.pkl"
-        self.media_id = "jf4QPJt75KQP1HOUFdo1vbxmwt6QM5F1RL8Ol3ArvR_w9lwaEqfphIcGOtgy1RVD"
+        self.media_id_file_path = "/root/adhcczhang/mini-shop-server/app/static/media_id.pkl"
+        #self.media_id = "jf4QPJt75KQP1HOUFdo1vbxmwt6QM5F1RL8Ol3ArvR_w9lwaEqfphIcGOtgy1RVD"
         # self.wxcpt = WXBizMsgCrypt(self.token, self.encoding_aes_key, self.corp_id)
 
     def callback_validation(self, verify_msg_sig, verify_time_stamp, verify_nonce, verify_echo_str, is_app=True):
@@ -86,18 +86,29 @@ class Callback:
             return res
 
     def callback_access_token(self):
-        get_url = self.get_access_token_url.format(self.app_id, self.app_secret)
-        res = HTTP.get(get_url)
-        self.access_token = res["access_token"]
+        cached = current_app.cache.get('access_token')
+        if cached:
+            self.access_token = cached
+        else:
+            get_url = self.get_access_token_url.format(self.app_id, self.app_secret)
+            res = HTTP.get(get_url)
+            self.access_token = res["access_token"]
+            current_app.cache.set('access_token', self.access_token, timeout=6000)
         print("get access token")
         print(self.access_token)
         return 0
 
     def callback_access_token_qy(self):
-        get_url = self.get_access_token_url_qy.format(self.corp_id, self.corp_secret)
-        res = HTTP.get(get_url)
-        #print(res)
-        self.access_token_qy = res["access_token"]
+        cached = current_app.cache.get('access_token_qy')
+        if cached:
+            self.access_token = cached
+        else:
+            get_url = self.get_access_token_url_qy.format(self.corp_id, self.corp_secret)
+            res = HTTP.get(get_url)
+            self.access_token_qy = res["access_token"]
+            current_app.cache.set('access_token_qy', self.access_token_qy, timeout=6000)
+        print("get access token qy")
+        print(self.access_token_qy)
         return 0
 
     def callback_media_id(self):
@@ -176,8 +187,4 @@ class Callback:
             "user_list": user_list
         }
         return res_dict
-
-
-
-
 
