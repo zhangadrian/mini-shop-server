@@ -21,4 +21,5 @@ class ShopCollection:
         self.items = []
 
     def fill(self, shop_list, distance_list):
-        self.items = [ShopViewModel(shop_list.items[i], distance_list[i]).__dict__ for i in range(len(shop_list.items))]
+        print(type(shop_list.items))
+        self.items = [ShopViewModel(shop_list.items[i], distance_list[i]).__dict__ for i in range(len(distance_list))]
