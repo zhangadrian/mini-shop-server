@@ -4,6 +4,7 @@
 """
 from flask_admin.contrib.sqla import ModelView as _ModelView
 from sqlalchemy import func
+import json
 
 __author__ = 'Allen7D'
 
@@ -19,6 +20,41 @@ class ModelView(_ModelView):
 	def __add__(self, other):
 		self.column_exclude_list = list(set(self.column_exclude_list + other.column_exclude_list))
 
+		return self
+
+	def __getitem__(self, item):
+		attr = getattr(self, item)
+		# 将字符串转为JSON
+		if isinstance(attr, str):
+			try:
+				attr = json.loads(attr)
+			except ValueError:
+				pass
+		return attr
+
+	def set_attrs(self, **kwargs):
+		# 快速赋值，用法: set_attrs(form.data)
+		for key, value in kwargs.items():
+			if hasattr(self, key) and key != 'id':
+				setattr(self, key, value)
+
+	def keys(self):
+		# 在 app/app.py中的 JSONEncoder中的 dict(o)使用
+		# 在此处，整合要输出的属性：self.fields
+		return self.fields
+
+	def hide(self, *keys):
+		for key in keys:
+			# 使用exclude，在 Model层和 Service层等任意的操作中，已经隐藏的属性无法再添加
+			# self.exclude.append(key)
+			if key in self.fields:
+				self.fields.remove(key)
+		return self
+
+	def append(self, *keys):
+		for key in keys:
+			if key not in self.fields:
+				self.fields.append(key)
 		return self
 
 	# 对于查询，进行条件过滤
