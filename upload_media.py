@@ -24,10 +24,12 @@ def upload_media():
     access_token = callback_access_token()
     upload_url = upload_media_url.format(access_token)
     # cmd = "curl -F media=@contact_me_qr.png " + '"' + upload_url + '"'
-    cmd = "curl -F media=@app/static/contact_me_qr.png " + upload_url
+    cmd = "curl -F media=@/root/adhcczhang/mini-shop-server/app/static/contact_me_qr.png " + upload_url
+    print(cmd)
 
     process = subprocess.run(cmd.split(" "), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output = process.stdout.decode('utf8')
+    print(output)
     media_id = json.loads(output)["media_id"]
 
     return media_id
@@ -36,7 +38,7 @@ def upload_media():
 if __name__ == "__main__":
     import pickle
 
-    res_file_path = "app/static/media_id.pkl"
+    res_file_path = "/root/adhcczhang/mini-shop-server/app/static/media_id.pkl"
     media_id = upload_media()
     res_dict = {
         "media_id": media_id
