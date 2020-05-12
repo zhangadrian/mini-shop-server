@@ -27,13 +27,13 @@ class Recall:
 
     def sort_by_distance(self, page, page_size, search_words, location):
         search_res = search(location, keyword=[search_words])
-        print(search_res)
+        #print(search_res)
         filter_list = []
         for item in search_res:
             filter_list.append(item['_source']['id'])
 
         shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=page_size, error_out=False)
-        print(shop_data_list.items)
+        #print(shop_data_list.items)
         distance_list = []
         current_lat = location["lat"]
         current_lon = location["lon"]
@@ -52,11 +52,13 @@ class Recall:
             distance_list.insert(0, 10)
         shop_collection = ShopCollection()
         shop_collection.fill(shop_data_list, distance_list)
+        #print(shop_collection.items)
+        #print(shop_collection.items[0].name)
 
         res = {
             "total": shop_data_list.total,
             "current_page": shop_data_list.page,
-            "items": shop_collection.items,
+            "items": shop_data_list.items,
             "distance": distance_list
         }
         return res
