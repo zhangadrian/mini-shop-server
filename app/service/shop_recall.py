@@ -58,7 +58,7 @@ class Recall:
         res = {
             "total": shop_data_list.total,
             "current_page": shop_data_list.page,
-            "items": shop_data_list.items,
+            "items": shop_collection.items,
             "distance": distance_list
         }
         return res
