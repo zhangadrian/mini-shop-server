@@ -4,6 +4,8 @@ __author__ = "adhcczhang"
 
 
 class ShopViewModel:
+    fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance"]
+
     def __init__(self, shop, distance):
         self.name = shop.name
         self.address = shop.address
