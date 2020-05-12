@@ -27,12 +27,13 @@ class Recall:
 
     def sort_by_distance(self, page, page_size, search_words, location):
         search_res = search(location, keyword=[search_words])
+        print(search_res)
         filter_list = []
         for item in search_res:
             filter_list.append(item['_source']['id'])
 
-        shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=page_size,
-                                                                                  error_out=False)
+        shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=page_size, error_out=False)
+        print(shop_data_list.items)
         distance_list = []
         current_lat = location["lat"]
         current_lon = location["lon"]
@@ -42,7 +43,7 @@ class Recall:
             distance = self.haversine(current_lon, current_lat, shop_lon, shop_lat)
             distance_list.append(distance)
 
-        if page == 0:
+        if page == 1:
             test_shop_data = Shop.query.filter(Shop.poi_id == "warrenyang_shop").first()
             shop_data_list.items.insert(0, test_shop_data)
             distance_list.insert(0, 10)
@@ -55,3 +56,4 @@ class Recall:
             "items": shop_data_list.items,
             "distance": distance_list
         }
+        return res

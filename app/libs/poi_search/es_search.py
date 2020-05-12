@@ -7,7 +7,7 @@ import sys
 import codecs
 from elasticsearch import Elasticsearch
 
-es = Elasticsearch([{'host':'47.95.235.197', 'port': 9200}])
+es = Elasticsearch([{'host':'127.0.0.1', 'port': 9200}])
 
 INDEX_NAME = "index_only_distance"
 
