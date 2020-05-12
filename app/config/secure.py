@@ -34,6 +34,7 @@ CALLBACK_AESKEY = "5qnmYF32XB0sMjXdiLmmmtdTVSGGjBiAs3t4J0CzkAJ"
 GET_ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}"
 POST_CS_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={0}"
 MEDIA_LIST_URL = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}"
+QR_FILE_PATH = ""
 
 # 操作URL
 GROUP_CHAT_URL = 'http://31026h77o4.wicp.vip/v1/user/'
