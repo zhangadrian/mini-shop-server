@@ -84,7 +84,8 @@ def callback_test():
                     update_dict = {
                         "status": 1
                     }
-                    group_data.update(**update_dict)
+                    if group_data:
+                        group_data.update(**update_dict)
     return Success(0)
 
 @api.route('/customservice', methods=['GET', 'POST'])

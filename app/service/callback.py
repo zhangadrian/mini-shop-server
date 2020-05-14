@@ -118,6 +118,7 @@ class Callback:
         with open(self.media_id_file_path, 'rb') as media_id_file:
             media_id = pickle.load(media_id_file)["media_id"]
         access_token = self.callback_access_token()
+        print(access_token)
         post_url = self.post_cs_message.format(access_token)
         params = {
             "touser": user_openid,
@@ -158,6 +159,7 @@ class Callback:
 
     def get_change_groupchat_info(self, chat_id):
         access_token_qy = self.callback_access_token_qy()
+        print(access_token_qy)
         post_url = self.corp_api_url.format("groupchat/get", access_token_qy)
         print(post_url)
         print(chat_id)
