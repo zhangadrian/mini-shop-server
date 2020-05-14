@@ -69,12 +69,13 @@ def get_one():
 @api.route('/searchshop', methods=['POST'])
 def search_shop():
     validator = BaseValidator().get_all_json()
+    user_id = validator["open_id"]
     keyword_str = validator['keyword']
     location = validator['location']
     page = validator['page']
     size = validator['size']
     recall = Recall()
-    res = recall.sort_by_distance(page, size, keyword_str, location)
+    res = recall.sort_by_distance(page, size, keyword_str, location, user_id)
     return Success(data=res)
 
 

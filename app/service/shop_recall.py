@@ -3,8 +3,9 @@
 from math import radians, cos, sin, asin, sqrt
 from app.libs.poi_search.es_search import search
 from app.models.shop import Shop
+from app.models.group import Group
 from app.model_views.shop import ShopCollection
-
+from sqlalchemy import and_
 
 class Recall:
 
@@ -25,7 +26,7 @@ class Recall:
         r = 6371  # 地球平均半径，单位为公里
         return c * r * 1000
 
-    def sort_by_distance(self, page, page_size, search_words, location):
+    def sort_by_distance(self, page, page_size, search_words, location, user_id):
         search_res = search(location, keyword=[search_words])
         #print(search_res)
         filter_list = []
@@ -33,6 +34,10 @@ class Recall:
             filter_list.append(item['_source']['id'])
 
         shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=page_size, error_out=False)
+        group_data_list = Group.query.filter(and_(Group.user_openid == user_id, Group.status == 2)).all()
+        group_data_dict = {}
+        for group_data in group_data_list:
+            group_data_dict[group_data.poi_id] = 1
         #print(shop_data_list.items)
         distance_list = []
         current_lat = location["lat"]
@@ -51,7 +56,7 @@ class Recall:
             shop_data_list.items.insert(0, test_shop_data)
             distance_list.insert(0, 10)
         shop_collection = ShopCollection()
-        shop_collection.fill(shop_data_list, distance_list)
+        shop_collection.fill(shop_data_list, distance_list, group_data_dict)
         #print(shop_collection.items)
         #print(shop_collection.items[0].name)
 
