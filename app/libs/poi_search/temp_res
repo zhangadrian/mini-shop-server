@@ -1,0 +1,4 @@
+116.3191633
+40.045047
+{'_index': 'index_street_info', '_type': 'poi', '_id': 'rZzeF3IB4B7LA0uzlBKz', '_score': None, '_source': {'id': '126', 'name': '上地街道', 'normalisedname': '上地街道', 'location': {'lon': 116.313126, 'lat': 40.031029}}, 'sort': [1641.2880787310526]}
+0.013205289840698242
