@@ -97,7 +97,7 @@ def create_group():
         shop_owner_name = shop_owner_data.nickname
         shop_owner_id = shop_owner_data.openid
         group_data = Group.query.filter(and_(Group.user_openid == user_id,
-                                             Group.shop_owner_openid == shop_owner_id, Group.status == 2)).first()
+                                             Group.shop_owner_openid == shop_owner_id, Group.status == 2)).order_by(Group.id.desc()).first()
         qy_wx_bot = QyWxBot()
         print(group_data)
         if not group_data:

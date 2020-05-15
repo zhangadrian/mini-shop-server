@@ -69,16 +69,20 @@ def callback_test():
                         "status": 2
                     }
                     print([user_name_0, user_name_1])
-                    group_data_1 = Group.query.filter(
-                        and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).first()
-                    group_data_2 = Group.query.filter(
-                        and_(Group.user_nickname == user_name_1, Group.shop_owner_nickname == user_name_0, Group.group_id=='')).first()
-                    print(group_data_1)
-                    print(group_data_2)
-                    if group_data_1:
-                        group_data_1.update(**update_dict)
-                    elif group_data_2:
-                        group_data_2.update(**update_dict)
+                    group_data = Group.query.filter(Group.group_id == chat_id).first()
+                    if not group_data:
+                        group_data_1 = Group.query.filter(
+                            and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).order_by(Group.id.desc()).first()
+                        group_data_2 = Group.query.filter(
+                            and_(Group.user_nickname == user_name_1, Group.shop_owner_nickname == user_name_0, Group.group_id=='')).order_by(Group.id.desc()).first()
+                        print(group_data_1)
+                        print(group_data_2)
+                        if group_data_1:
+                            group_data_1.update(**update_dict)
+                        elif group_data_2:
+                            group_data_2.update(**update_dict)
+                    else:
+                        print(group_data)
                 else:
                     group_data = Group.query.filter(Group.group_id == chat_id).first()
                     update_dict = {
