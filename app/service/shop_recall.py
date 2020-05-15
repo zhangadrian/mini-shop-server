@@ -48,7 +48,7 @@ class Recall:
             shop_lat = float(shop_data.latitude)/1e6
             shop_lon = float(shop_data.longitude)/1e6
             search_res_street = search_street({"lat": shop_lat, "lon": shop_lon}, keyword=[""])
-            street_name = search_res_street['_source']['name']
+            street_name = search_res_street[0]['_source']['name']
             street_info_list.append(street_name)
             distance = self.haversine(current_lon, current_lat, shop_lon, shop_lat)
             distance_list.append(distance)
