@@ -93,8 +93,6 @@ def create_group():
         return Success({"create_group": -1})
     else:
         print("create group")
-        
-        
         user_name = user_data.nickname
         shop_owner_name = shop_owner_data.nickname
         shop_owner_id = shop_owner_data.openid
@@ -131,6 +129,20 @@ def create_group():
             else:
                 create_group_res = -1
         return Success({"create_group": create_group_res})
+
+@api.route('/groupshopinfo', methods=['POST'])
+def group_shop_info():
+    validator = BaseValidator().get_all_json()
+    shop_id_list = validator["poi_id_list"]
+    user_id = validator["open_id"]
+
+    recall = Recall()
+    res = recall.get_shop_list(user_id, shop_id_list)
+    return Success({"created_group_shop": res})
+
+
+
+
 
 
 
