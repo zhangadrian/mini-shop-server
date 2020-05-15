@@ -28,7 +28,11 @@ class Recall:
         return c * r * 1000
 
     def sort_by_distance(self, page, page_size, search_words, location, user_id):
+        from time import time
+        t1 = time()
         search_res = search(location, keyword=[search_words])
+        t2 = time()
+        print(t2-t1)
         #print(search_res)
         filter_list = []
         for item in search_res:
@@ -40,6 +44,8 @@ class Recall:
         for group_data in group_data_list:
             group_data_dict[group_data.poi_id] = 1
         #print(shop_data_list.items)
+        t3 = time()
+        print(t3-t2)
         distance_list = []
         street_info_list = []
         current_lat = location["lat"]
@@ -52,14 +58,18 @@ class Recall:
             street_info_list.append(street_name)
             distance = self.haversine(current_lon, current_lat, shop_lon, shop_lat)
             distance_list.append(distance)
+        t4 = time()
+        print(t4-t3)
 
         if page == 1:
             test_shop_data = Shop.query.filter(Shop.poi_id == "warrenyang_shop").first()
             shop_data_list.items.insert(0, test_shop_data)
             distance_list.insert(0, 10)
+            street_info_list.insert(0, "中关村")
             test_shop_data = Shop.query.filter(Shop.poi_id == "haolin_shop").first()
             shop_data_list.items.insert(0, test_shop_data)
             distance_list.insert(0, 10)
+            street_info_list.insert(0, "中关村")
         shop_collection = ShopCollection()
         shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list)
         #print(shop_collection.items)
