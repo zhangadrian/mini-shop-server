@@ -27,10 +27,26 @@ class Recall:
         r = 6371  # 地球平均半径，单位为公里
         return c * r * 1000
 
+    @staticmethod
+    def list_page(input_list, page, page_size):
+        if page_size*page >= len(input_list):
+            return input_list[(page-1)*page_size:]
+        else:
+            return input_list[(page-1)*page_size:page*page_size-1]
+
     def sort_by_distance(self, page, page_size, search_words, location, user_id):
         from time import time
         t1 = time()
         search_res = search(location, keyword=[search_words])
+        search_res = self.list_page(search_res, page, page_size)
+        if not search_res:
+            res = {
+                "total": 0,
+                "current_page": page,
+                "items": [],
+            }
+            return res
+
         t2 = time()
         print(t2-t1)
         #print(search_res)
@@ -38,7 +54,8 @@ class Recall:
         for item in search_res:
             filter_list.append(item['_source']['id'])
 
-        shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=page_size, error_out=False)
+        # shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).paginate(page=page, per_page=page_size, error_out=False)
+        shop_data_list = Shop.query.filter(Shop.poi_id.in_(filter_list)).all()
         group_data_list = Group.query.filter(and_(Group.user_openid == user_id, Group.status == 2)).all()
         group_data_dict = {}
         for group_data in group_data_list:
@@ -76,8 +93,8 @@ class Recall:
         #print(shop_collection.items[0].name)
 
         res = {
-            "total": shop_data_list.total,
-            "current_page": shop_data_list.page,
+            "total": 20,
+            "current_page": page,
             "items": shop_collection.items,
         }
         return res
