@@ -89,11 +89,11 @@ def search_geometry(index, location, size=1, distance="10000km"):
         'size': size,
     })
 
-    for item in result['hits']['hits']:
-        print(item)
+    # for item in result['hits']['hits']:
+    #     print(item)
     return result['hits']['hits']
 
-def search(location, keyword=[]):
+def search(location, keyword=""):
     print(location)
     print(keyword)
     if keyword:
@@ -119,7 +119,7 @@ def main():
         start_time = time()
         search_geometry(INDEX_NAME, location)
         end_time = time()
-        print(end_time-start_time)
+        # print(end_time-start_time)
 
 
 

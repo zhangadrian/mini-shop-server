@@ -5,9 +5,9 @@ __author__ = "adhcczhang"
 
 
 class ShopViewModel(ModelView):
-    fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance", "group_created"]
+    fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance", "group_created", "street_name"]
 
-    def __init__(self, shop, distance, group_data_dict):
+    def __init__(self, shop, distance, group_data_dict, street_name):
         self.name = shop.name
         self.address = shop.address
         self.mobile = shop.mobile
@@ -19,13 +19,14 @@ class ShopViewModel(ModelView):
             self.group_created = 1
         else:
             self.group_created = 0
+        self.street_name = street_name
 
 
 class ShopCollection:
     def __init__(self):
         self.items = []
 
-    def fill(self, shop_list, distance_list, group_data_dict):
+    def fill(self, shop_list, distance_list, group_data_dict, street_info_list):
         print(type(shop_list.items))
-        self.items = [ShopViewModel(shop_list.items[i], distance_list[i], group_data_dict) for i in range(len(shop_list.items))]
+        self.items = [ShopViewModel(shop_list.items[i], distance_list[i], group_data_dict, street_info_list[i]) for i in range(len(shop_list.items))]
 

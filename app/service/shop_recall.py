@@ -2,6 +2,7 @@
 
 from math import radians, cos, sin, asin, sqrt
 from app.libs.poi_search.es_search import search
+from app.libs.poi_search.es_search_street import search as search_street
 from app.models.shop import Shop
 from app.models.group import Group
 from app.model_views.shop import ShopCollection
@@ -40,11 +41,15 @@ class Recall:
             group_data_dict[group_data.poi_id] = 1
         #print(shop_data_list.items)
         distance_list = []
+        street_info_list = []
         current_lat = location["lat"]
         current_lon = location["lon"]
         for shop_data in shop_data_list.items:
             shop_lat = float(shop_data.latitude)/1e6
             shop_lon = float(shop_data.longitude)/1e6
+            search_res_street = search_street({"lat": shop_lat, "lon": shop_lon}, keyword=[""])
+            street_name = search_res_street['_source']['name']
+            street_info_list.append(street_name)
             distance = self.haversine(current_lon, current_lat, shop_lon, shop_lat)
             distance_list.append(distance)
 
@@ -56,7 +61,7 @@ class Recall:
             shop_data_list.items.insert(0, test_shop_data)
             distance_list.insert(0, 10)
         shop_collection = ShopCollection()
-        shop_collection.fill(shop_data_list, distance_list, group_data_dict)
+        shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list)
         #print(shop_collection.items)
         #print(shop_collection.items[0].name)
 

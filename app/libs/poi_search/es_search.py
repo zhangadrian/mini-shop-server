@@ -75,6 +75,17 @@ def search_geometry(index, location, size=20, distance="10000km"):
                 }
             }
         },
+        "sort": [
+            {
+                "_geo_distance": {
+                    "location": {
+                        "lat": float(location["lat"]),
+                        "lon": float(location["lon"]),
+                    },
+                    "order": "asc"
+                }
+            }
+        ],
         'size': size,
     })
 
@@ -82,7 +93,7 @@ def search_geometry(index, location, size=20, distance="10000km"):
     #    print(item)
     return result['hits']['hits']
 
-def search(location, keyword=[]):
+def search(location, keyword=""):
     print(location)
     print(keyword)
     if keyword:
