@@ -5,7 +5,7 @@ __author__ = "adhcczhang"
 
 
 class ShopViewModel(ModelView):
-    fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance"]
+    fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance", "group_created"]
 
     def __init__(self, shop, distance, group_data_dict):
         self.name = shop.name
