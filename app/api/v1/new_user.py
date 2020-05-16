@@ -15,7 +15,7 @@ from app.validators.base import BaseValidator
 from app.validators.forms import ChangePasswordValidator
 from app.service.wx_token import WxToken
 from app.service.callback import Callback
-from sqlalchemy import and_
+rom sqlalchemy import and_
 import time
 
 __author__ = 'adhcczhang'
@@ -33,6 +33,7 @@ def test_api():
 
 @api.route('/callbacktest', methods=['Get', 'POST'])
 def callback_test():
+    import random
     validator, request_data = BaseValidator().get_all_json(), BaseValidator().get_request_data()
     print(validator)
     callback = Callback()
@@ -63,7 +64,7 @@ def callback_test():
                 if len(user_list) == 2:
                     user_name_0 = user_list[0]["external_contact"]["name"]
                     user_name_1 = user_list[1]["external_contact"]["name"]
-                    #time.sleep(10)
+                    time.sleep(3 + random.random())
                     update_dict = {
                         "group_id": chat_id,
                         "status": 2
