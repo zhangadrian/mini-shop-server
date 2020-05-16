@@ -15,7 +15,7 @@ from app.validators.base import BaseValidator
 from app.validators.forms import ChangePasswordValidator
 from app.service.wx_token import WxToken
 from app.service.callback import Callback
-rom sqlalchemy import and_
+from sqlalchemy import and_
 import time
 
 __author__ = 'adhcczhang'
