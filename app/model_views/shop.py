@@ -27,7 +27,6 @@ class ShopCollection:
         self.items = []
 
     def fill(self, shop_list, distance_list, group_data_dict, street_info_list):
-        print(type(shop_list.items))
-        self.items = [ShopViewModel(shop_list.items[i], distance_list[i], group_data_dict, street_info_list[i]) for i in range(len(shop_list.items))]
+        self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i]) for i in range(len(shop_list))]
         self.items.sort(key=lambda x:x.distance)
 

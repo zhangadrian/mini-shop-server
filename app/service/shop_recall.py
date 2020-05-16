@@ -67,7 +67,7 @@ class Recall:
         street_info_list = []
         current_lat = location["lat"]
         current_lon = location["lon"]
-        for shop_data in shop_data_list.items:
+        for shop_data in shop_data_list:
             shop_lat = float(shop_data.latitude)/1e6
             shop_lon = float(shop_data.longitude)/1e6
             search_res_street = search_street({"lat": shop_lat, "lon": shop_lon}, keyword=[""])
@@ -80,11 +80,11 @@ class Recall:
 
         if page == 1:
             test_shop_data = Shop.query.filter(Shop.poi_id == "warrenyang_shop").first()
-            shop_data_list.items.insert(0, test_shop_data)
+            shop_data_list.insert(0, test_shop_data)
             distance_list.insert(0, 10)
             street_info_list.insert(0, "中关村")
             test_shop_data = Shop.query.filter(Shop.poi_id == "haolin_shop").first()
-            shop_data_list.items.insert(0, test_shop_data)
+            shop_data_list.insert(0, test_shop_data)
             distance_list.insert(0, 10)
             street_info_list.insert(0, "中关村")
         shop_collection = ShopCollection()

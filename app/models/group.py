@@ -16,7 +16,7 @@ class Group(Base):
     user_nickname = Column(String(24), comment='用户昵称')
     shop_owner_nickname = Column(String(24), comment='店铺昵称')
     group_name = Column(String(100), comment='群名称')
-    group_id = Column(String(50), default='', unique=True, comment='企业微信的群聊ID')
+    group_id = Column(String(100), default='', comment='企业微信的群聊ID')
     fields = ["poi_id", "user_openid", "shop_owner_openid", "user_nickname", "shop_owner_nickname", 'group_name']
 
     def keys(self):
