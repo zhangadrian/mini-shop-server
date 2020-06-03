@@ -7,30 +7,46 @@ from app.models.base import Base
 __author__ = "adhcczhang"
 
 
-class Shop(Base):
-    __tablename__ = "new_shop"
+class NewShop(Base):
+    __tablename__ = "shop_info"
     id = Column(Integer, primary_key=True, autoincrement=True)
     poi_id = Column(String(50), unique=True, comment="店铺ID")
-    name = Column(String(100), unique=True, comment="店铺ID")
-    address = Column(String(100), comment="店铺地址")
-    mobile = Column(String(20), comment="店铺电话")
+    name = Column(String(100), comment="店铺ID")
+    address = Column(String(500), comment="店铺地址")
+    mobile = Column(String(50), comment="店铺电话")
     latitude = Column(Integer, comment="维度")
     longitude = Column(Integer, comment="经度")
-    province = Column(String(10), comment="经度")
+    province = Column(String(50), comment="经度")
     rate = Column(Float, comment="评分")
     quality = Column(Float)
     category = Column(String(50))
-    city = Column(String(10))
+    city = Column(String(50))
     poi_score = Column(Float)
-    recommend = Column(String(50))
-    district = Column(String(10))
-    businesshour = Column(String(50))
-    special = Column(String(100))
-    special_food = Column(String(100))
-    fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude",
-              "province", "rate", "quality", "category", "city", "poi_score", "recommend",
-              "district", "businesshour", "special", "special_food"]
+    recommend = Column(String(1000))
+    district = Column(String(50))
+    businesshour = Column(String(1000))
+    special = Column(String(1000))
+    special_food = Column(String(1000))
+    fields = [
+        "poi_id",
+        "name",
+        "address",
+        "mobile",
+        "latitude",
+        "longitude",
+        "province",
+        "rate",
+        "quality",
+        "category",
+        "city",
+        "poi_score",
+        "recommend",
+        "district",
+        "businesshour",
+        "special",
+        "special_food",
+    ]
 
     def keys(self):
-        self.hide('id')
+        self.hide("id")
         return self.fields
