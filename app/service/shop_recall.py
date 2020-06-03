@@ -84,15 +84,6 @@ class Recall:
         t4 = time()
         print(t4-t3)
 
-        if page == 1:
-            test_shop_data = Shop.query.filter(Shop.poi_id == "warrenyang_shop").first()
-            shop_data_list.insert(0, test_shop_data)
-            distance_list.insert(0, 10)
-            street_info_list.insert(0, "中关村")
-            test_shop_data = Shop.query.filter(Shop.poi_id == "haolin_shop").first()
-            shop_data_list.insert(0, test_shop_data)
-            distance_list.insert(0, 10)
-            street_info_list.insert(0, "中关村")
         shop_collection = ShopCollection()
         shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list)
         #print(shop_collection.items)

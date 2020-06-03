@@ -1,5 +1,6 @@
 # _*_ coding: utf-8 _*_
 from app.model_views.base import ModelView
+from app.models.new_shop import NewShop as Shop
 
 __author__ = "adhcczhang"
 
@@ -27,6 +28,7 @@ class ShopViewModel(ModelView):
 class ShopCollection:
     def __init__(self):
         self.items = []
+        self.debug = True
 
     def change_category(self, category):
         category_list = category.split(":")
@@ -50,5 +52,9 @@ class ShopCollection:
             category = shop_data.category
             category_list.append(self.change_category(category))
         self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i], category_list[i]) for i in range(len(shop_list))]
+        if self.debug:
+            test_shop_data = Shop.query.filter(Shop.poi_id == "warrenyang_shop").first()
+            test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村", "美食")
+            self.items.insert(0, test_shop_view)
         self.items.sort(key=lambda x:x.distance)
 
