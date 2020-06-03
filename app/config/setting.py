@@ -82,6 +82,7 @@ ALL_MODEL_BY_MODULE = {
     'product': ['Product'],
     'image': ['Image'],
     'shop': ['Shop'],
+    'new_shop': ['NewShop'],
     'group': ['Group']
 }
 

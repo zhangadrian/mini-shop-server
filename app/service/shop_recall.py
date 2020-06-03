@@ -1,9 +1,11 @@
 # _*_ coding: utf-8 _*_
 
 from math import radians, cos, sin, asin, sqrt
-from app.libs.poi_search.es_search import search
+#from app.libs.poi_search.es_search import search
+from app.libs.poi_search.es_search_category import search
 from app.libs.poi_search.es_search_street import search as search_street
-from app.models.shop import Shop
+#from app.models.shop import Shop
+from app.models.new_shop import NewShop as Shop
 from app.models.group import Group
 from app.model_views.shop import ShopCollection
 from sqlalchemy import and_
@@ -34,10 +36,13 @@ class Recall:
         else:
             return input_list[(page-1)*page_size:page*page_size-1]
 
-    def sort_by_distance(self, page, page_size, search_words, location, user_id):
+    def sort_by_distance(self, page, page_size, search_words, location, user_id, category=""):
         from time import time
         t1 = time()
-        search_res = search(location, keyword=[search_words])
+        current_lat = location["lat"]
+        current_lon = location["lon"]
+        search_res = search(location, keyword=search_words, category=category)
+        #search_res = search(location, keyword=[search_words])
         search_res = self.list_page(search_res, page, page_size)
         if not search_res:
             res = {
@@ -49,7 +54,6 @@ class Recall:
 
         t2 = time()
         print(t2-t1)
-        #print(search_res)
         filter_list = []
         for item in search_res:
             filter_list.append(item['_source']['id'])
@@ -65,15 +69,17 @@ class Recall:
         print(t3-t2)
         distance_list = []
         street_info_list = []
-        current_lat = location["lat"]
-        current_lon = location["lon"]
         for shop_data in shop_data_list:
             shop_lat = float(shop_data.latitude)/1e6
             shop_lon = float(shop_data.longitude)/1e6
             search_res_street = search_street({"lat": shop_lat, "lon": shop_lon}, keyword=[""])
-            street_name = search_res_street[0]['_source']['name']
+            if len(search_res_street) <= 0:
+                street_name = shop_data.district
+            else:
+                street_name = search_res_street[0]['_source']['name']
             street_info_list.append(street_name)
             distance = self.haversine(current_lon, current_lat, shop_lon, shop_lat)
+            print(distance)
             distance_list.append(distance)
         t4 = time()
         print(t4-t3)

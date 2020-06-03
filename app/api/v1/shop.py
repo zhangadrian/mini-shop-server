@@ -4,6 +4,7 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.service.shop_recall import Recall
 from app.models.shop import Shop
+from app.models.new_shop import NewShop
 from app.models.new_user import NewUser
 from app.models.group import Group
 from app.service.qy_wx_bot import QyWxBot
