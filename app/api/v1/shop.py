@@ -75,7 +75,10 @@ def search_shop():
     location = validator['location']
     page = validator['page']
     size = validator['size']
-    category = validator["category"]
+    if "category" in validator:
+        category = validator["category"]
+    else:
+        category = ""
     recall = Recall()
     res = recall.sort_by_distance(page, size, keyword_str, location, user_id, category)
     return Success(data=res)

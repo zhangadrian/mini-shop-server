@@ -47,8 +47,11 @@ class ShopCollection:
     def fill(self, shop_list, distance_list, group_data_dict, street_info_list):
         category_list = []
         for shop_data in shop_list:
-            category = shop_data.category
-            category_list.append(self.change_category(category))
+            try:
+                category = shop_data.category
+                category_list.append(self.change_category(category))
+            except:
+                category_list.append("美食")
         self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i], category_list[i]) for i in range(len(shop_list))]
         self.items.sort(key=lambda x:x.distance)
 
