@@ -94,6 +94,46 @@ def search_keyword_category(index, keywords, location, category, size=20, distan
     #for item in result['hits']['hits']:
     #    print(item)
     return result['hits']['hits']
+def search_geometry_category(index, location, category,  size=20, distance="10000km"):
+    result = es.search(index=index, doc_type='poi', body={
+        "query": {
+            "bool": {
+                "must" : {
+                    "match_all" : {}
+                },
+                "filter": [
+                    {
+                        "term": {"category": category}
+                    },
+                    { 
+                        "geo_distance": {
+                            "distance": distance,
+                            "location": {
+                                "lat": float(location["lat"]),
+                                "lon": float(location["lon"]),
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "sort": [
+            {
+                "_geo_distance": {
+                    "location": {
+                        "lat": float(location["lat"]),
+                        "lon": float(location["lon"]),
+                    },
+                    "order": "asc"
+                }
+            }
+        ],
+        'size': size,
+    })
+
+    for item in result['hits']['hits']:
+        print(item)
+    return result['hits']['hits']
 
 def search_geometry(index, location, size=20, distance="10000km"):
     result = es.search(index=index, doc_type='poi', body={
@@ -142,7 +182,10 @@ def search(location, keyword="", category=""):
         else:
             search_res = search_keyword_category(INDEX_NAME, keywords, location, category)
     else:
-        search_res = search_geometry(INDEX_NAME, location)
+        if category == '':
+            search_res = search_geometry(INDEX_NAME, location)
+        else:
+            search_res = search_geometry_category(INDEX_NAME, location, category)
     return search_res
 
 def main():

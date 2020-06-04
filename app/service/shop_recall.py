@@ -42,6 +42,7 @@ class Recall:
         current_lat = location["lat"]
         current_lon = location["lon"]
         search_res = search(location, keyword=search_words, category=category)
+        print(search_res)
         #search_res = search(location, keyword=[search_words])
         search_res = self.list_page(search_res, page, page_size)
         if not search_res:
