@@ -8,8 +8,9 @@ from app.libs.redprint import RedPrint
 
 from app.libs.token_auth import auth
 from app.models.new_user import NewUser
-from app.models.shop import Shop
+from app.models.new_shop import NewShop as Shop
 from app.models.group import Group
+from app.model_views.shop import ShopCollection 
 from app.api_docs.v1 import user as api_doc  # api_doc可以引入
 from app.validators.base import BaseValidator
 from app.validators.forms import ChangePasswordValidator
@@ -217,9 +218,20 @@ def store_mobile():
 def is_shop_owner():
     validator = BaseValidator().get_all_json()
     mobile = validator["mobile"]
+    print(mobile)
     shop_data = Shop.query.filter(Shop.mobile==mobile).first()
     if shop_data:
-        res = shop_data
+        shop_data_list = [shop_data]
+        distance_list = [-1]
+        group_data_dict = {}
+        if shop_data.district:
+            street_info_list = [shop_data.district]
+        else:
+            street_info_list = ["中关村"]
+        print(street_info_list)
+        shop_collection = ShopCollection()
+        shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list)
+        res = shop_collection.items[0]
     else:
         res = {"not_found": 1}
     return Success(data=res)
