@@ -6,6 +6,7 @@ from app.service.shop_recall import Recall
 from app.models.shop import Shop
 from app.models.new_shop import NewShop
 from app.models.new_user import NewUser
+from app.models.shop_detail import ShopDetail
 from app.models.group import Group
 from app.service.qy_wx_bot import QyWxBot
 from app.api_docs.v1 import shop as api_doc
@@ -145,6 +146,28 @@ def group_shop_info():
     res = recall.get_shop_list(user_id, shop_id_list)
     return Success({"created_group_shop": res})
 
+@api.route('/updateshopdetail', methods=['POST'])
+def update_shop_detail():
+    validator = BaseValidator().get_all_json()
+    poi_id = validator["poi_id"]
+    update_data = validator["update_data"]
+
+    new_shop_detail = ShopDetail.update_shop_detal(poi_id, update_data)
+    return Success(new_shop_detail)
+
+
+@api.route('/updateshopdetail', methods=['POST'])
+def update_shop_detail():
+    validator = BaseValidator().get_all_json()
+    poi_id = validator["poi_id"]
+    update_data = validator["update_data"]
+
+    new_shop_detail = ShopDetail.update_shop_detal(poi_id, update_data)
+    return Success(new_shop_detail)
+
+@api.route('/uploadactiondata', methods=['POST'])
+def upload_action_data():
+    return 1
 
 
 

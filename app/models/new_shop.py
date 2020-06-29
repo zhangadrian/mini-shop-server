@@ -11,7 +11,7 @@ class NewShop(Base):
     __tablename__ = "shop_info"
     id = Column(Integer, primary_key=True, autoincrement=True)
     poi_id = Column(String(50), unique=True, comment="店铺ID")
-    name = Column(String(100), comment="店铺ID")
+    name = Column(String(100), comment="店铺名称")
     address = Column(String(500), comment="店铺地址")
     mobile = Column(String(50), comment="店铺电话")
     latitude = Column(Integer, comment="维度")
