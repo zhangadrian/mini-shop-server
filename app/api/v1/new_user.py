@@ -219,19 +219,21 @@ def is_shop_owner():
     validator = BaseValidator().get_all_json()
     mobile = validator["mobile"]
     print(mobile)
-    shop_data = Shop.query.filter(Shop.mobile==mobile).first()
+    shop_data = Shop.query.filter(Shop.mobile == mobile).all()
     if shop_data:
-        shop_data_list = [shop_data]
-        distance_list = [-1]
+        shop_data_list = shop_data
+        distance_list = [-1]*len(shop_data)
         group_data_dict = {}
-        if shop_data.district:
-            street_info_list = [shop_data.district]
-        else:
-            street_info_list = ["中关村"]
+        street_info_list = []
+        for shop_item in shop_data:
+            if shop_item.district:
+                street_info_list.append(shop_item.district)
+            else:
+                street_info_list.append("中关村")
         print(street_info_list)
         shop_collection = ShopCollection()
         shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list)
-        res = shop_collection.items[0]
+        res = shop_collection.items
     else:
         res = {"not_found": 1}
     return Success(data=res)
