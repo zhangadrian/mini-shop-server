@@ -233,7 +233,7 @@ def is_shop_owner():
         print(street_info_list)
         shop_collection = ShopCollection()
         shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list)
-        res = shop_collection.items
+        res = shop_collection.items[:-1]
     else:
         res = {"not_found": 1}
     return Success(data=res)
