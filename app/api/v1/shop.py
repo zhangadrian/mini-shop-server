@@ -179,7 +179,7 @@ def delete_shop_detail():
 
 @api.route('/uploadactiondata', methods=['POST'])
 def upload_action_data():
-    return 1
+    return Success({"res": 1})
 
 
 
