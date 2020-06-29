@@ -136,6 +136,7 @@ def create_group():
                 create_group_res = -1
         return Success({"create_group": create_group_res})
 
+
 @api.route('/groupshopinfo', methods=['POST'])
 def group_shop_info():
     validator = BaseValidator().get_all_json()
@@ -146,24 +147,35 @@ def group_shop_info():
     res = recall.get_shop_list(user_id, shop_id_list)
     return Success({"created_group_shop": res})
 
+
 @api.route('/updateshopdetail', methods=['POST'])
 def update_shop_detail():
     validator = BaseValidator().get_all_json()
     poi_id = validator["poi_id"]
     update_data = validator["update_data"]
 
-    new_shop_detail = ShopDetail.update_shop_detal(poi_id, update_data)
+    new_shop_detail = ShopDetail.update_shop_detail(poi_id, update_data)
     return Success(new_shop_detail)
+
+@api.route('/updateshopinfo', methods=['POST'])
+def update_shop_info():
+    validator = BaseValidator().get_all_json()
+    poi_id = validator["poi_id"]
+    update_data = validator["update_data"]
+
+    new_shop_info = NewShop.update_shop_info(poi_id, update_data)
+    return Success(new_shop_info)
 
 
 @api.route('/deleteshopdetail', methods=['POST'])
 def delete_shop_detail():
     validator = BaseValidator().get_all_json()
     poi_id = validator["poi_id"]
-    update_data = validator["update_data"]
+    delete_id_list = validator["delete_id"]
 
-    new_shop_detail = ShopDetail.update_shop_detal(poi_id, update_data)
+    new_shop_detail = ShopDetail.delete_shop_detail(poi_id, delete_id_list)
     return Success(new_shop_detail)
+
 
 @api.route('/uploadactiondata', methods=['POST'])
 def upload_action_data():

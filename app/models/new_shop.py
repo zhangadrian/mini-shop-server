@@ -50,3 +50,10 @@ class NewShop(Base):
     def keys(self):
         self.hide("id")
         return self.fields
+
+    @classmethod
+    def update_shop_info(cls, poi_id, update_data):
+        shop_info = cls.query.filter(cls.poi_id == poi_id).first_or_404()
+        shop_info.update(**update_data)
+
+        return shop_info

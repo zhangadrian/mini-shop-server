@@ -84,7 +84,7 @@ ALL_MODEL_BY_MODULE = {
     'shop': ['Shop'],
     'new_shop': ['NewShop'],
     'group': ['Group'],
-    'shop_detail': ['ShopDetail']
+    'shop_detail': ['ShopDetail'],
 
 }
 
