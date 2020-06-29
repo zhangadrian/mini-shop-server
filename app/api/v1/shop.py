@@ -156,8 +156,8 @@ def update_shop_detail():
     return Success(new_shop_detail)
 
 
-@api.route('/updateshopdetail', methods=['POST'])
-def update_shop_detail():
+@api.route('/deleteshopdetail', methods=['POST'])
+def delete_shop_detail():
     validator = BaseValidator().get_all_json()
     poi_id = validator["poi_id"]
     update_data = validator["update_data"]
