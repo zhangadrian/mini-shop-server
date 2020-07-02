@@ -91,14 +91,14 @@ class ShopCollection:
                 if category_list[1] == "便利店" or category_list[1] == "超市":
                     return "购物"
         if category_list[0] == "美食":
-            return "美食"
+            return "餐饮"
         if category_list[0] == "酒店宾馆":
             return "住宿"
-        if category_list[0] == "汽车" or category_list[0] == "生活服务" or category_list[0] == "娱乐休闲":
-            return "服务"
-        if category_list[0] == "运动健身":
-            return "健身"
-        return "其他"
+        if category_list[0] == "娱乐休闲":
+            return "娱乐"
+        if category_list[0] == "运动健身" or category_list[0] == "汽车" or category_list[0] == "生活服务" :
+            return "生活"
+        return "更多"
 
     def fill(self, shop_list, distance_list, group_data_dict, street_info_list):
         category_list = []
@@ -107,7 +107,7 @@ class ShopCollection:
                 category = shop_data.category
                 category_list.append(self.change_category(category))
             except:
-                category_list.append("其他")
+                category_list.append("更多")
         self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i], category_list[i]) for i in range(len(shop_list))]
         if self.debug:
             test_shop_data = Shop.query.filter(Shop.poi_id == "warrenyang_shop").first()
