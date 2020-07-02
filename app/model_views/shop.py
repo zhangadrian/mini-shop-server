@@ -26,11 +26,39 @@ class ShopViewModel(ModelView):
             self.group_created = 0
         self.street_name = street_name
         self.category = category
-    
+
     @staticmethod
-    def re_week(s):
+    def str2weeklist(input):
+        num_week_dict = {
+            "周一": 0,
+            "周二": 1,
+            "周三": 2,
+            "周四": 3,
+            "周五": 4,
+            "周六": 5,
+            "周日": 6,
+        }
+
+        week_list = ["周一", "周二", "周三", "周四", "周五", "周六", "周日",]
+
+        try:
+            start_weekday, end_weekday = input.split("至")
+        except:
+            start_weekday, end_weekday = "周一", "周日"
+
+        start_index, end_index = num_week_dict[start_weekday], num_week_dict[end_weekday]
+
+        try:
+            res = week_list[start_index: end_weekday+1]
+        except:
+            res = week_list
+        return res
+
+
+    def re_week(self, s):
+
         if not s:
-            return {"business_week": "周一至周日",
+            return {"business_week": self.str2weeklist("周一至周日"),
                     "business_hour": "00:00-23:59"}
         week_res_list = re.findall(r"(周[\u4e00-\u9fa5]{2}周[\u4e00-\u9fa5]{1})", s)
         time_res_list = re.findall(r"(\d{2}:\d{2}-\d{2}:\d{2})", s)
@@ -46,8 +74,9 @@ class ShopViewModel(ModelView):
         else:
             time_res = "00:00-23:59"
             
-        return {"business_week": week_res,
-                "business_hour": time_res}
+        return {"business_week": self.str2weeklist(week_res),
+                "business_hour": time_res
+               }
 
 
 class ShopCollection:
