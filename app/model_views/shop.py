@@ -111,7 +111,7 @@ class ShopCollection:
         self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i], category_list[i]) for i in range(len(shop_list))]
         if self.debug:
             test_shop_data = Shop.query.filter(Shop.poi_id == "warrenyang_shop").first()
-            test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村", "美食")
+            test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村", "餐饮")
             self.items.append(test_shop_view)
         self.items.sort(key=lambda x:x.distance)
 
