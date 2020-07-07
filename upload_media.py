@@ -23,6 +23,7 @@ def upload_media():
 
     access_token = callback_access_token()
     upload_url = upload_media_url.format(access_token)
+    media_id_list = []
     # cmd = "curl -F media=@contact_me_qr.png " + '"' + upload_url + '"'
     cmd = "curl -F media=@/root/adhcczhang/mini-shop-server/app/static/contact_me_qr.png " + upload_url
     print(cmd)
@@ -30,18 +31,26 @@ def upload_media():
     process = subprocess.run(cmd.split(" "), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output = process.stdout.decode('utf8')
     print(output)
-    media_id = json.loads(output)["media_id"]
+    media_id_list[0] = json.loads(output)["media_id"]
 
-    return media_id
+    cmd = "curl -F media=@/root/adhcczhang/mini-shop-server/app/static/qrcode_258.png " + upload_url
+    print(cmd)
+
+    process = subprocess.run(cmd.split(" "), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output = process.stdout.decode('utf8')
+    print(output)
+    media_id_list[1] = json.loads(output)["media_id"]
+
+    return media_id_list
 
 
 if __name__ == "__main__":
     import pickle
 
     res_file_path = "/root/adhcczhang/mini-shop-server/app/static/media_id.pkl"
-    media_id = upload_media()
+    media_id_list = upload_media()
     res_dict = {
-        "media_id": media_id
+        "media_id": media_id_list
     }
 
     with open(res_file_path, 'wb') as res_file:

@@ -107,7 +107,9 @@ def custom_service():
     else:
         openid = validator["openid"]
         print(openid)
-        res = callback.callback_post_cs_message(openid)
+        time.sleep(1)
+        user_data = NewUser.query.filter(NewUser.openid == openid).first()
+        res = callback.callback_post_cs_message(openid, reply_type=user_data.extend)
         return "Success"
 
 
@@ -129,7 +131,7 @@ def add_user():
     validator.pop("session_id")
     validator.pop("req_time")
     user_data = NewUser.query.filter(NewUser.openid==openid).first()
-    print(user_data)
+    # print(user_data)
     if user_data:
         user_cls = NewUser.get(openid=openid)
         new_user = user_cls.update(**validator)
@@ -247,4 +249,21 @@ def is_in_contract():
         res = {"is_in_contract": user_data.is_in_contract}
     else:
         res = {"is_in_contract": user_data.is_in_contract}
+    return Success(data=res)
+
+
+@api.route("/choosereply", methods=["POST"])
+def choose_reply():
+    validator = BaseValidator().get_all_json()
+    openid = validator["open_id"]
+    reply_type = validator["reply"]
+    user_data = NewUser.query.filter(NewUser.openid==openid).first()
+    if user_data:
+        user_dict = {
+            "extend": reply_type
+        }
+        user_data.update(**user_dict)
+        res = {"res": 0}
+    else:
+        res = {"res": -1}
     return Success(data=res)
