@@ -42,8 +42,48 @@ class ShopDetail(Base):
 
     @classmethod
     def update_shop_detail(cls, poi_id, update_data):
+        pic_id_dict = {
+            0: "shop_pic_1",
+            1: "shop_pic_2",
+            2: "shop_pic_3",
+            3: "shop_pic_4",
+        }
+
+        comment_id_dict = {
+            0: "shop_pic_comment_1",
+            1: "shop_pic_comment_2",
+            2: "shop_pic_comment_3",
+            3: "shop_pic_comment_4",
+        }
         shop_detail = cls.query.filter(cls.poi_id == poi_id).first_or_404()
-        shop_detail.update(**update_data)
+        try:
+            shop_pic_list = update_data["shop_pic_list"]
+            shop_pic_index = update_data["shop_pic_index"]
+        except:
+            shop_pic_list = []
+            shop_pic_index = []
+        try:
+            shop_pic_comment_list = update_data["shop_pic_list"]
+            shop_pic_comment_index = update_data["shop_pic_comment_index"]
+        except:
+            shop_pic_comment_list = []
+            shop_pic_comment_index = []
+        shop_detail_data = {}
+
+        if "shop_head_pic" in update_data:
+            shop_detail_data["shop_head_pic"] = update_data["shop_head_pic"]
+        if "shop_intro" in update_data:
+            shop_detail_data["shop_intro"] = update_data["shop_intro"]
+
+        for index, pic in enumerate(shop_pic_list):
+            update_index = shop_pic_index[index]
+            shop_detail_data[pic_id_dict[update_index]] = pic
+
+        for index, comment in enumerate(shop_pic_comment_list):
+            update_index = shop_pic_comment_index[index]
+            shop_detail_data[comment_id_dict[update_index]] = comment
+
+        shop_detail.update(**shop_detail_data)
 
         return shop_detail
 
@@ -51,23 +91,23 @@ class ShopDetail(Base):
     def delete_shop_detail(cls, poi_id, delete_id_list):
         shop_detail = cls.query.filter(cls.poi_id == poi_id).first_or_404()
         pic_id_dict = {
-            "0": "shop_pic_1",
-            "1": "shop_pic_2",
-            "2": "shop_pic_3",
-            "3": "shop_pic_4",
+            0: "shop_pic_1",
+            1: "shop_pic_2",
+            2: "shop_pic_3",
+            3: "shop_pic_4",
         }
 
-        word_id_dict = {
-            "0": "shop_pic_comment_1",
-            "1": "shop_pic_comment_2",
-            "2": "shop_pic_comment_3",
-            "3": "shop_pic_comment_4",
+        comment_id_dict = {
+            0: "shop_pic_comment_1",
+            1: "shop_pic_comment_2",
+            2: "shop_pic_comment_3",
+            3: "shop_pic_comment_4",
         }
 
         update_data = {}
         for delete_id in delete_id_list:
             update_data[pic_id_dict[delete_id]] = ""
-            update_data[word_id_dict[delete_id]] = ""
+            update_data[comment_id_dict[delete_id]] = ""
 
         shop_detail.update(**update_data)
 
