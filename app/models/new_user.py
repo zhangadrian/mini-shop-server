@@ -64,19 +64,19 @@ class NewUser(Base):
     def register_by_email(nickname, account, secret):
         """邮箱注册"""
         form = {'nickname': nickname, 'email': account, 'password': secret}
-        return User.create(**form)
+        return NewUser.create(**form)
 
     @staticmethod
     def register_by_mobile(nickname, account):
         """手机号注册"""
         form = {'nickname': nickname, 'mobile': account}
-        return User.create(**form)
+        return NewUser.create(**form)
 
     @staticmethod
     def register_by_wx_mina(account):
         """小程序注册"""
         form = {'openid': account}
-        return User.create(**form)
+        return NewUser.create(**form)
 
     @staticmethod
     def register_by_wx_open(form):
@@ -85,11 +85,11 @@ class NewUser(Base):
         :param form: 属性包含(openid、unionid、nickname、headimgurl)
         :return:
         """
-        return User.create(**form)
+        return NewUser.create(**form)
 
     @staticmethod
     def verify_by_email(email, password):
-        user = User.query.filter_by(email=email) \
+        user = NewUser.query.filter_by(email=email) \
             .first_or_404(e=UserException(msg='该账号未注册'))
         if not user.check_password(password):
             raise AuthFailed(msg='密码错误')
@@ -98,7 +98,7 @@ class NewUser(Base):
 
     @staticmethod
     def verify_by_mobile(mobile, password):
-        user = User.query.filter_by(mobile=mobile) \
+        user = NewUser.query.filter_by(mobile=mobile) \
             .first_or_404(e=UserException(msg='该账号未注册'))
         if not user.check_password(password):
             raise AuthFailed(msg='密码错误')
@@ -110,10 +110,10 @@ class NewUser(Base):
         ut = WxToken(code)
         wx_result = ut.get()  # wx_result = {session_key, expires_in, openid}
         openid = wx_result['openid']
-        user = User.query.filter_by(openid=openid).first()
+        user = NewUser.query.filter_by(openid=openid).first()
         # 如果不在数据库，则新建用户
         if not user:
-            user = User.register_by_wx_mina(openid)
+            user = NewUser.register_by_wx_mina(openid)
         scope = Scope.match_user_scope(auth=user.auth)
         return {'uid': user.id, 'scope': scope}
 
@@ -123,9 +123,9 @@ class NewUser(Base):
         ot = OpenToken(code)
         user_info = ot.get()
         openid = user_info['openid']  # 用户唯一标识
-        user = User.query.filter_by(openid=openid).first()
+        user = NewUser.query.filter_by(openid=openid).first()
         if not user:
-            user = User.register_by_wx_open(form=user_info)
+            user = NewUser.register_by_wx_open(form=user_info)
         scope = Scope.match_user_scope(auth=user.auth)
         return {'uid': user.id, 'scope': scope}
 
@@ -134,9 +134,9 @@ class NewUser(Base):
         ot = AccountToken(code)
         user_info = ot.get()
         unionid = user_info['unionid']
-        user = User.query.filter_by(unionid=unionid).first()
+        user = NewUser.query.filter_by(unionid=unionid).first()
         if not user:
-            user = User.register_by_wx_open(user_info)
+            user = NewUser.register_by_wx_open(user_info)
         scope = Scope.match_user_scope(auth=user.auth)
         return {'uid': user.id, 'scope': scope}
 

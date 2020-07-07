@@ -112,11 +112,11 @@ class Callback:
         res = HTTP.post(post_url, params)
         print(res)
 
-    def callback_post_cs_message(self, user_openid):
+    def callback_post_cs_message(self, user_openid, reply_type="0"):
         import pickle
 
         with open(self.media_id_file_path, 'rb') as media_id_file:
-            media_id = pickle.load(media_id_file)["media_id"]
+            media_id = pickle.load(media_id_file)["media_id"][reply_type]
         access_token = self.callback_access_token()
         print(access_token)
         post_url = self.post_cs_message.format(access_token)
