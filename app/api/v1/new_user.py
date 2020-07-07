@@ -267,3 +267,11 @@ def choose_reply():
     else:
         res = {"res": -1}
     return Success(data=res)
+
+@api.route("/groupcount", methods=["POST"])
+def group_count():
+    validator = BaseValidator().get_all_json()
+    poi_id = validator["poi_id"]
+    group_count = Group.shop_group_count(poi_id)
+
+    return Success({"shop_group_count": group_count})
