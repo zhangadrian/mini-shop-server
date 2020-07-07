@@ -154,9 +154,9 @@ def update_shop_detail():
     poi_id = validator["poi_id"]
     update_data = validator["update_data"]
 
-    # new_shop_detail = ShopDetail.update_shop_detail(poi_id, update_data)
-    # return Success(new_shop_detail)
-    return Success({"res": 0})
+    new_shop_detail = ShopDetail.update_shop_detail(poi_id, update_data)
+    return Success(new_shop_detail)
+    # return Success({"res": 0})
 
 @api.route('/updateshopinfo', methods=['POST'])
 def update_shop_info():
@@ -164,9 +164,9 @@ def update_shop_info():
     poi_id = validator["poi_id"]
     update_data = validator["update_data"]
 
-    # new_shop_info = NewShop.update_shop_info(poi_id, update_data)
-    # return Success(new_shop_info)
-    return Success({"res": 0})
+    new_shop_info = Shop.update_shop_info(poi_id, update_data)
+    return Success(new_shop_info)
+    # return Success({"res": 0})
 
 
 @api.route('/deleteshopdetail', methods=['POST'])
@@ -175,9 +175,9 @@ def delete_shop_detail():
     poi_id = validator["poi_id"]
     delete_id_list = validator["delete_id"]
 
-    # new_shop_detail = ShopDetail.delete_shop_detail(poi_id, delete_id_list)
-    # return Success(new_shop_detail)
-    return Success({"res": 0})
+    new_shop_detail = ShopDetail.delete_shop_detail(poi_id, delete_id_list)
+    return Success(new_shop_detail)
+    # return Success({"res": 0})
 
 
 @api.route('/uploadactiondata', methods=['POST'])
@@ -190,7 +190,7 @@ def get_shop_detail_info():
     validator = BaseValidator().get_all_json()
     poi_id = validator["poi_id"]
     shop = Shop.query.filter(Shop.poi_id == poi_id).first()
-    shop_detail = ShopDetail.filter(ShopDetail.poi_id == poi_id).first()
+    shop_detail = ShopDetail.query.filter(ShopDetail.poi_id == poi_id).first()
     shop_detail_view = ShopDetailView(shop, shop_detail)
 
     return Success(data=shop_detail_view)
