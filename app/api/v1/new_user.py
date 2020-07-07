@@ -256,7 +256,7 @@ def is_in_contract():
 def choose_reply():
     validator = BaseValidator().get_all_json()
     openid = validator["open_id"]
-    reply_type = validator["reply"]
+    reply_type = validator["reply_type"]
     user_data = NewUser.query.filter(NewUser.openid==openid).first()
     if user_data:
         user_dict = {
