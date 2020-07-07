@@ -3,14 +3,14 @@
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.service.shop_recall import Recall
-from app.models.shop import Shop
-from app.models.new_shop import NewShop
+from app.models.new_shop import NewShop as Shop
 from app.models.new_user import NewUser
 from app.models.shop_detail import ShopDetail
 from app.models.group import Group
 from app.service.qy_wx_bot import QyWxBot
 from app.api_docs.v1 import shop as api_doc
 from app.validators.base import BaseValidator
+from app.model_views.shop import ShopDetailView
 from time import time
 from sqlalchemy import and_
 
@@ -183,6 +183,20 @@ def delete_shop_detail():
 @api.route('/uploadactiondata', methods=['POST'])
 def upload_action_data():
     return Success({"res": 0})
+
+
+@api.route('/getshopdetailinfo', methods=["POST"])
+def get_shop_detail_info():
+    validator = BaseValidator().get_all_json()
+    poi_id = validator["poi_id"]
+    shop = Shop.query.filter(Shop.poi_id == poi_id).first()
+    shop_detail = ShopDetail.filter(ShopDetail.poi_id == poi_id).first()
+    shop_detail_view = ShopDetailView(shop, shop_detail)
+
+    return Success(data=shop_detail_view)
+
+
+
 
 
 

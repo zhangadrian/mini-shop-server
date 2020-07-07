@@ -22,3 +22,14 @@ class Group(Base):
     def keys(self):
         self.hide('id')
         return self.fields
+
+    @staticmethod
+    def shop_group_count(poi_id):
+        shop_group_list = Group.query.filter(Group.poi_id == poi_id).all()
+        if shop_group_list:
+            return len(shop_group_list)
+        else:
+            return 0
+
+
+
