@@ -55,7 +55,8 @@ class ShopDetail(Base):
             2: "shop_pic_comment_3",
             3: "shop_pic_comment_4",
         }
-        shop_detail = cls.query.filter(cls.poi_id == poi_id).first_or_404()
+        shop_detail = cls.query.filter(cls.poi_id == poi_id).first()
+
         try:
             shop_pic_list = update_data["shop_pic_list"]
             shop_pic_index = update_data["shop_pic_index"]
@@ -68,7 +69,7 @@ class ShopDetail(Base):
         except:
             shop_pic_comment_list = []
             shop_pic_comment_index = []
-        shop_detail_data = {}
+        shop_detail_data = {"poi_id": poi_id}
 
         if "shop_head_pic" in update_data:
             shop_detail_data["shop_head_pic"] = update_data["shop_head_pic"]
@@ -83,7 +84,10 @@ class ShopDetail(Base):
             update_index = shop_pic_comment_index[index]
             shop_detail_data[comment_id_dict[update_index]] = comment
 
-        shop_detail.update(**shop_detail_data)
+        if shop_detail:
+            shop_detail.update(**shop_detail_data)
+        else:
+            ShopDetail.create(**shop_detail_data)
 
         return shop_detail
 
