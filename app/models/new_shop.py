@@ -58,7 +58,7 @@ class NewShop(Base):
         if "businesshour" in update_data:
             businesshour = update_data["businesshour"]
             businessweek = update_data["businessweek"]
-            new_businessweek = businessweek.join("到")
+            new_businessweek = "到".join(businessweek)
             new_businesshour = businesshour + "\t" + new_businessweek
             update_data["businesshour"] = new_businesshour
             update_data.pop("businessweek")
