@@ -64,7 +64,7 @@ class ShopDetail(Base):
             shop_pic_list = []
             shop_pic_index = []
         try:
-            shop_pic_comment_list = update_data["shop_pic_list"]
+            shop_pic_comment_list = update_data["shop_pic_comment_list"]
             shop_pic_comment_index = update_data["shop_pic_comment_index"]
         except:
             shop_pic_comment_list = []

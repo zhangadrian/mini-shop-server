@@ -54,6 +54,14 @@ class NewShop(Base):
     @classmethod
     def update_shop_info(cls, poi_id, update_data):
         shop_info = cls.query.filter(cls.poi_id == poi_id).first_or_404()
+
+        if "businesshour" in update_data:
+            businesshour = update_data["businesshour"]
+            businessweek = update_data["businessweek"]
+            new_businessweek = businessweek.join("到")
+            new_businesshour = businesshour + "\t" + new_businessweek
+            update_data["businesshour"] = new_businesshour
+            update_data.pop("businessweek")
         shop_info.update(**update_data)
 
         return shop_info
