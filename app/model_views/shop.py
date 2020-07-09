@@ -15,6 +15,8 @@ class BaseShopView(ModelView):
         self.poi_id = shop.poi_id
         self.latitude = shop.latitude
         self.longitude = shop.longitude
+        self.shop_intro = shop.shop_intro
+        self.shop_head_pic = shop.shop_head_pic
         self.business_hour = self.re_week(shop.businesshour)
         try:
             self.category = self.change_category(shop.category)
@@ -120,7 +122,6 @@ class ShopDetailView(BaseShopView):
             self.shop_head_pic = ""
             self.shop_intro = ""
             self.shop_pic_list, self.shop_pic_comment_list = [], []
-
 
     def pic_list(self, shop_detail):
         shop_pic_list = [shop_detail.shop_pic_1,
