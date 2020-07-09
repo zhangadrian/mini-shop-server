@@ -18,6 +18,9 @@ class BaseShopView(ModelView):
         self.shop_intro = shop.shop_intro
         self.shop_head_pic = shop.shop_head_pic
         self.business_hour = self.re_week(shop.businesshour)
+
+        print("店铺头像")
+        print(shop.shop_head_pic)
         try:
             self.category = self.change_category(shop.category)
         except:
@@ -115,12 +118,8 @@ class ShopDetailView(BaseShopView):
     def __init__(self, shop, shop_detail):
         super(ShopDetailView, self).__init__(shop)
         if shop_detail:
-            self.shop_head_pic = shop_detail.shop_head_pic
-            self.shop_intro = shop_detail.shop_intro
             self.shop_pic_list, self.shop_pic_comment_list = self.pic_list(shop_detail)
         else:
-            self.shop_head_pic = ""
-            self.shop_intro = ""
             self.shop_pic_list, self.shop_pic_comment_list = [], []
 
     def pic_list(self, shop_detail):
