@@ -24,8 +24,6 @@ class ShopDetail(Base):
     fields = [
         "id",
         "poi_id",
-        "shop_head_pic",
-        "shop_intro",
         "shop_pic_1",
         "shop_pic_2",
         "shop_pic_3",
@@ -70,11 +68,6 @@ class ShopDetail(Base):
             shop_pic_comment_list = []
             shop_pic_comment_index = []
         shop_detail_data = {"poi_id": poi_id}
-
-        if "shop_head_pic" in update_data:
-            shop_detail_data["shop_head_pic"] = update_data["shop_head_pic"]
-        if "shop_intro" in update_data:
-            shop_detail_data["shop_intro"] = update_data["shop_intro"]
 
         for index, pic in enumerate(shop_pic_list):
             update_index = shop_pic_index[index]

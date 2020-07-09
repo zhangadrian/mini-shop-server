@@ -27,6 +27,8 @@ class NewShop(Base):
     businesshour = Column(String(1000))
     special = Column(String(1000))
     special_food = Column(String(1000))
+    shop_head_pic = Column(String(1000), default="")
+    shop_intro = Column(String(1000), default="")
     fields = [
         "poi_id",
         "name",
@@ -45,6 +47,8 @@ class NewShop(Base):
         "businesshour",
         "special",
         "special_food",
+        "shop_head_pic",
+        "shop_intro",
     ]
 
     def keys(self):
