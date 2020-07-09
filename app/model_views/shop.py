@@ -19,8 +19,6 @@ class BaseShopView(ModelView):
         self.shop_head_pic = shop.shop_head_pic
         self.business_hour = self.re_week(shop.businesshour)
 
-        print("店铺头像")
-        print(shop.shop_head_pic)
         try:
             self.category = self.change_category(shop.category)
         except:
@@ -99,7 +97,7 @@ class BaseShopView(ModelView):
 
 class ShopViewModel(BaseShopView):
     fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance",
-              "group_created", "street_name", "category", "business_hour"]
+              "group_created", "street_name", "category", "business_hour", "shop_head_pic", "shop_intro"]
 
     def __init__(self, shop, distance, group_data_dict, street_name):
         super(ShopViewModel, self).__init__(shop)
