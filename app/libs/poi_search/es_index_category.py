@@ -69,7 +69,7 @@ def delete_index(index):
     else:
         print('index not exist: %s' % index)
 
-def change_category(category):
+def change_category_old(category):
     category_list = category.split(":")
     if category_list[0] == "购物":
         if len(category_list) >=2:
@@ -84,6 +84,22 @@ def change_category(category):
     if category_list[0] == "运动健身":
         return "健身"
     return "其他"
+
+def change_category(category):
+    category_list = category.split(":")
+    if category_list[0] == "购物":
+        if len(category_list) >= 2:
+            if category_list[1] == "便利店" or category_list[1] == "超市":
+                return "购物"
+    if category_list[0] == "美食":
+        return "餐饮"
+    if category_list[0] == "酒店宾馆":
+        return "住宿"
+    if category_list[0] == "娱乐休闲":
+        return "娱乐"
+    if category_list[0] == "运动健身" or category_list[0] == "汽车" or category_list[0] == "生活服务":
+        return "生活"
+    return "更多"
 
 
 def insert_data(index, dir_path):
