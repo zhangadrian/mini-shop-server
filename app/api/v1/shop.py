@@ -11,6 +11,7 @@ from app.service.qy_wx_bot import QyWxBot
 from app.api_docs.v1 import shop as api_doc
 from app.validators.base import BaseValidator
 from app.model_views.shop import ShopDetailView
+from app.service.tencent_cos import TencentCos
 from time import time
 from sqlalchemy import and_
 
@@ -194,6 +195,13 @@ def get_shop_detail_info():
     shop_detail_view = ShopDetailView(shop, shop_detail)
 
     return Success(data=shop_detail_view)
+
+@api.route('/getcoscredential', methods=["POST"])
+def get_cos_credential():
+    tencent_cos = TencentCos()
+    cos_credential = tencent_cos.get_credential()
+
+    return Success(data=cos_credential)
 
 
 

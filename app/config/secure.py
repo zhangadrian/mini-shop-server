@@ -39,6 +39,10 @@ QR_FILE_PATH = ""
 # 操作URL
 GROUP_CHAT_URL = 'http://31026h77o4.wicp.vip/v1/user/'
 
+#腾讯云cos
+COS_SECRET_ID = "AKIDnLyNWgfQ7WehY9TXUDfqwlJVRJumZjqg"
+COS_SECRET_KEY = "oNr42kESPQL0nMespdZIlzmItEJBsGOX"
+
 # 微信·开放平台(OPEN)登录[第三方(Third-Party)]
 OPEN_APP_ID = 'wx87186e0123456789'
 OPEN_APP_SECRET = '606d686fa91edc283d9cd00123456789'
