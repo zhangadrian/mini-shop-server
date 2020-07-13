@@ -81,6 +81,7 @@ class ShopDetail(Base):
             shop_detail.update(**shop_detail_data)
         else:
             ShopDetail.create(**shop_detail_data)
+            shop_detail = cls.query.filter(cls.poi_id == poi_id).first()
 
         return shop_detail
 
