@@ -8,6 +8,8 @@ __author__ = "adhcczhang"
 
 
 class BaseShopView(ModelView):
+    fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude",
+              "category", "business_hour", "shop_head_pic", "shop_intro"]
     def __init__(self, shop):
         self.name = shop.name
         self.address = shop.address
