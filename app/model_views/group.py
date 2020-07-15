@@ -4,6 +4,8 @@ __author__ = "adhcczhang"
 
 
 class BaseGroupView(ModelView):
+    fields = ["group_name", "user_nickname", "shop_owner_nickname", "group_id", "poi_id"]
+
     def __init__(self, group):
         self.group_name = group.group_name
         self.user_nickname = group.user_nickname
