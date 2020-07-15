@@ -193,8 +193,8 @@ class Callback:
         access_token_qy = self.callback_access_token_contact()
         get_url = self.corp_api_url.format("user", access_token_qy) + "&userid=" + user_id
         res = HTTP.get(get_url)
-        print(get_url)
-        print(res)
+        if "status" not in res:
+            res = {"status": 4}
         return res
 
     def change_remark(self, user_id, external_userid, remark):
