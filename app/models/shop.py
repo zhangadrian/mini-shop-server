@@ -21,3 +21,4 @@ class Shop(Base):
     def keys(self):
         self.hide('id')
         return self.fields
+

@@ -1,7 +1,7 @@
 # _*_ coding: utf-8 _*_
 
 from sqlalchemy import Column, Integer, SmallInteger, String, Float, Text
-
+from sqlalchemy import and_
 from app.models.base import Base
 
 __author__ = "adhcczhang"
@@ -34,6 +34,19 @@ class Group(Base):
             "user_group_info": user_group_list,
         }
         return res
+
+    @classmethod
+    def get_shop_list(cls, user_id, shop_id_list):
+        group_data_list = Group.query.filter(and_(Group.user_openid == user_id, Group.status == 2)).all()
+        group_data_dict = {}
+        for group_data in group_data_list:
+            group_data_dict[group_data.poi_id] = 1
+
+        res_dict = {}
+        for shop_id in shop_id_list:
+            if shop_id in group_data_dict:
+                res_dict[shop_id] = 1
+        return res_dict
 
 
 
