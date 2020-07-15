@@ -2,18 +2,16 @@
 
 from flask import g, session
 
-from app.libs.enums import ScopeEnum
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 
-from app.libs.token_auth import auth
 from app.models.new_user import NewUser
 from app.models.new_shop import NewShop as Shop
 from app.models.group import Group
-from app.model_views.shop import ShopCollection 
+from app.model_views.shop import ShopCollection
+from app.model_views.group import GroupCollection
 from app.api_docs.v1 import user as api_doc  # api_doc可以引入
 from app.validators.base import BaseValidator
-from app.validators.forms import ChangePasswordValidator
 from app.service.wx_token import WxToken
 from app.service.callback import Callback
 from sqlalchemy import and_
@@ -53,7 +51,11 @@ def callback_test():
             if "chat_id" not in res:
                 user_info = user_list[0]
                 user_name = user_info["external_contact"]["name"]
+                external_userid = user_info["external_contact"]["external_userid"]
+                user_id = "ZhangBoWen"
                 user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
+                remark = user_data.openid
+                callback.change_remark(user_id, external_userid, remark)
                 if user_data:
                     user_cls = NewUser.get(nickname=user_name)
                     update_data = {
@@ -219,6 +221,7 @@ def store_mobile():
         NewUser.create(**user_dict)
     return Success(user_dict)
 
+
 @api.route("/isshopowner", methods=["POST"])
 def is_shop_owner():
     validator = BaseValidator().get_all_json()
@@ -243,6 +246,7 @@ def is_shop_owner():
         res = {"not_found": 1}
     return Success(data=res)
 
+
 @api.route("/isincontract", methods=["POST"])
 def is_in_contract():
     validator = BaseValidator().get_all_json()
@@ -250,6 +254,10 @@ def is_in_contract():
     user_data = NewUser.query.filter(NewUser.openid==openid).first()
     if user_data:
         res = {"is_in_contract": user_data.is_in_contract}
+        if user_data.is_shop_owner:
+            callback = Callback()
+            user_status = callback.get_user_status(user_data.shop_id)["status"]
+            res["is_follower"] = user_status
     else:
         res = {"is_in_contract": user_data.is_in_contract}
     return Success(data=res)
@@ -271,10 +279,16 @@ def choose_reply():
         res = {"res": -1}
     return Success(data=res)
 
+
 @api.route("/groupcount", methods=["POST"])
 def group_count():
     validator = BaseValidator().get_all_json()
     poi_id = validator["poi_id"]
-    group_count = Group.shop_group_count(poi_id)
+    open_id = validator["open_id"]
+    group_res = Group.shop_group_count(poi_id, open_id)
+    group_collection = GroupCollection()
 
-    return Success({"shop_group_count": group_count})
+    group_res["user_group_info"] = group_collection.fill(group_res["user_group_info"])
+    group_res["shop_group_info"] = group_collection.fill(group_res["shop_group_info"])
+
+    return Success(group_res)
