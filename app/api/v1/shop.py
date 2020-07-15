@@ -95,7 +95,6 @@ def create_group():
     user_data = NewUser.query.filter(NewUser.openid==user_id).first()
     print("create group")
 
-
     if not shop_owner_data or shop_owner_data.is_in_contract != 1:
         return Success({"create_group": -1})
     else:
@@ -108,7 +107,7 @@ def create_group():
         qy_wx_bot = QyWxBot()
         print(group_data)
         if not group_data:
-            user_list = [shop_owner_name, user_name]
+            user_list = ["测试号", "Adrian126"]
 
             #shop_group_num = Group.query(func.count(distinct(Group.poi_id))).scalar()
             #print(shop_group_num)
