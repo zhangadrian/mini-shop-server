@@ -57,7 +57,7 @@ def search_keyword(index, keywords, location,size=20, distance="5km"):
     return result['hits']['hits']
 
 
-def search_keyword_category(index, keywords, location, category, size=20, distance="10km"):
+def search_keyword_category(index, keywords, location, category, size=20, distance="100km"):
     result = es.search(index=index, doc_type='poi', body={
         'query': {
             'bool': {
@@ -91,9 +91,11 @@ def search_keyword_category(index, keywords, location, category, size=20, distan
         'size': size,
     })
 
-    #for item in result['hits']['hits']:
-    #    print(item)
+    for item in result['hits']['hits']:
+        print(item)
     return result['hits']['hits']
+
+
 def search_geometry_category(index, location, category,  size=20, distance="10000km"):
     result = es.search(index=index, doc_type='poi', body={
         "query": {
@@ -201,7 +203,7 @@ def main():
         print(sys.argv[3])
         location = {'lon': float(sys.argv[2]), 'lat': float(sys.argv[3])}
         #search_geometry(INDEX_NAME, location)
-        search_keyword_category(INDEX_NAME, "便利店", location, "购物")
+        search_keyword_category(INDEX_NAME, "店", location, "娱乐")
 
 
 

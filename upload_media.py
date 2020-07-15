@@ -31,7 +31,7 @@ def upload_media():
     process = subprocess.run(cmd.split(" "), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output = process.stdout.decode('utf8')
     print(output)
-    media_id_list[0] = json.loads(output)["media_id"]
+    media_id_list.append(json.loads(output)["media_id"])
 
     cmd = "curl -F media=@/root/adhcczhang/mini-shop-server/app/static/qrcode_258.png " + upload_url
     print(cmd)
@@ -39,7 +39,7 @@ def upload_media():
     process = subprocess.run(cmd.split(" "), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output = process.stdout.decode('utf8')
     print(output)
-    media_id_list[1] = json.loads(output)["media_id"]
+    media_id_list.append(json.loads(output)["media_id"])
 
     return media_id_list
 

@@ -112,7 +112,7 @@ def custom_service():
         if user_data.extend:
             res = callback.callback_post_cs_message(openid, reply_type=user_data.extend)
         else:
-            res = callback.callback_post_cs_message(openid)
+            res = callback.callback_post_cs_message(openid, reply_type = 0)
         return "Success"
 
 
