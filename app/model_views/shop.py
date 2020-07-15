@@ -148,3 +148,11 @@ class ShopCollection:
             self.items.append(test_shop_view)
         self.items.sort(key=lambda x:x.distance)
 
+
+class BaseShopCollection:
+    def __init__(self):
+        self.items = []
+
+    def fill(self, shop_list):
+        self.items = [BaseShopView(shop_item) for shop_item in shop_list]
+        return self.items

@@ -69,3 +69,8 @@ class NewShop(Base):
         shop_info.update(**update_data)
 
         return shop_info
+
+    @classmethod
+    def get_shop_info_list(cls, shop_id_list):
+        shop_data_list = NewShop.query.filter(NewShop.poi_id.in_(shop_id_list)).all()
+        return shop_data_list

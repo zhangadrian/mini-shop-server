@@ -142,9 +142,7 @@ def group_shop_info():
     validator = BaseValidator().get_all_json()
     shop_id_list = validator["poi_id_list"]
     user_id = validator["open_id"]
-
-    recall = Recall()
-    res = recall.get_shop_list(user_id, shop_id_list)
+    res = Group.get_shop_list(user_id, shop_id_list)
     return Success({"created_group_shop": res})
 
 

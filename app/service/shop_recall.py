@@ -97,17 +97,13 @@ class Recall:
         }
         return res
 
-    def get_shop_list(self, user_id, shop_id_list):
-        group_data_list = Group.query.filter(and_(Group.user_openid == user_id, Group.status == 2)).all()
-        group_data_dict = {}
-        for group_data in group_data_list:
-            group_data_dict[group_data.poi_id] = 1
 
-        res_dict = {}
-        for shop_id in shop_id_list:
-            if shop_id in group_data_dict:
-                res_dict[shop_id] = 1
-        return res_dict
+
+
+
+
+
+
 
 
 
