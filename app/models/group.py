@@ -24,12 +24,17 @@ class Group(Base):
         return self.fields
 
     @staticmethod
-    def shop_group_count(poi_id):
+    def shop_group_count(poi_id, open_id):
         shop_group_list = Group.query.filter(Group.poi_id == poi_id).all()
-        if shop_group_list:
-            return len(shop_group_list)
-        else:
-            return 0
+        user_group_list = Group.query.filter(Group.user_openid == open_id).all()
+        res = {
+            "group_count": len(shop_group_list),
+            "shop_group_count": len(shop_group_list),
+            "user_group_count": len(user_group_list),
+            "shop_group_info": shop_group_list,
+            "user_group_info": user_group_list,
+        }
+        return res
 
 
 

@@ -15,6 +15,7 @@ class Callback:
         self.encoding_aes_key = current_app.config["CALLBACK_AESKEY"]
         self.corp_id = current_app.config["CORP_ID"]
         self.corp_secret = current_app.config["CORP_SECRET"]
+        self.contact_secret = current_app.config["CONTACT_SECRET"]
         self.app_id = current_app.config["APP_ID"]
         self.app_secret = current_app.config["APP_SECRET"]
         self.access_token = ""
@@ -101,6 +102,13 @@ class Callback:
         print("get access token qy")
         return res["access_token"]
 
+    @cache.cached(timeout=6000, key_prefix='access_token_contact')
+    def callback_access_token_contact(self):
+        get_url = self.get_access_token_url_qy.format(self.corp_id, self.contact_secret)
+        res = HTTP.get(get_url)
+        print("get access token contact")
+        return res["access_token"]
+
     def callback_media_id(self):
         post_url = self.media_list_url.format(self.access_token)
         print(post_url)
@@ -180,4 +188,23 @@ class Callback:
             "user_list": user_list
         }
         return res_dict
+
+    def get_user_status(self, user_id):
+        access_token_qy = self.callback_access_token_contact()
+        get_url = self.corp_api_url.format("user", access_token_qy) + "&userid=" + user_id
+        res = HTTP.get(get_url)
+        return res
+
+    def change_remark(self, user_id, external_userid, remark):
+        access_token_qy = self.callback_access_token_qy()
+        post_url = self.corp_api_url.format("externalcontact/remark", access_token_qy)
+        params = {
+            "userid": user_id,
+            "external_userid": external_userid,
+            "remark": remark
+        }
+        res = HTTP.post(post_url, params)
+        return res
+
+
 
