@@ -32,6 +32,7 @@ class GroupCollection:
 
     def fill(self, group_list):
         shop_info_list = self.get_shop_list(group_list)
+        print(shop_info_list)
         zip_group_shop = zip(group_list, shop_info_list)
         self.items = [BaseGroupView(group_item, shop_item) for group_item, shop_item in zip_group_shop]
         return self.items
