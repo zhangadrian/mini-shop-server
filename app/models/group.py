@@ -28,7 +28,6 @@ class Group(Base):
         shop_group_list = Group.query.filter(Group.poi_id == poi_id).all()
         user_group_list = Group.query.filter(Group.user_openid == open_id).all()
         res = {
-            "group_count": len(shop_group_list),
             "shop_group_count": len(shop_group_list),
             "user_group_count": len(user_group_list),
             "shop_group_info": shop_group_list,
