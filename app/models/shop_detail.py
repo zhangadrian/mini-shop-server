@@ -85,36 +85,36 @@ class ShopDetail(Base):
 
         return shop_detail
 
-    @staticmethod
-    def row2dict(row):
-        res = {}
-        for column in row.__table__.columns:
-            res[column.name] = str(getattr(row, column.name))
-        return res
-
-    def change_order(self, delete_id_list, shop_detail):
-        pic_id_dict = {
-            0: "shop_pic_1",
-            1: "shop_pic_2",
-            2: "shop_pic_3",
-            3: "shop_pic_4",
-        }
-
-        comment_id_dict = {
-            0: "shop_pic_comment_1",
-            1: "shop_pic_comment_2",
-            2: "shop_pic_comment_3",
-            3: "shop_pic_comment_4",
-        }
-        full_id_set = set(pic_id_dict.keys())
-        delete_id_set = set(delete_id_list)
-        left_id_list = sorted(list(full_id_set - delete_id_set))
-        shop_detail_dict = self.row2dict(shop_detail)
-        update_data = {}
-        for index, left_id in enumerate(left_id_list):
-            update_data[pic_id_dict[index]] = shop_detail_dict[pic_id_dict[left_id]]
-            update_data[comment_id_dict[index]] = shop_detail_dict[comment_id_dict[left_id]]
-        return update_data
+    # @staticmethod
+    # def row2dict(row):
+    #     res = {}
+    #     for column in row.__table__.columns:
+    #         res[column.name] = str(getattr(row, column.name))
+    #     return res
+    #
+    # def change_order(self, delete_id_list, shop_detail):
+    #     pic_id_dict = {
+    #         0: "shop_pic_1",
+    #         1: "shop_pic_2",
+    #         2: "shop_pic_3",
+    #         3: "shop_pic_4",
+    #     }
+    #
+    #     comment_id_dict = {
+    #         0: "shop_pic_comment_1",
+    #         1: "shop_pic_comment_2",
+    #         2: "shop_pic_comment_3",
+    #         3: "shop_pic_comment_4",
+    #     }
+    #     full_id_set = set(pic_id_dict.keys())
+    #     delete_id_set = set(delete_id_list)
+    #     left_id_list = sorted(list(full_id_set - delete_id_set))
+    #     shop_detail_dict = self.row2dict(shop_detail)
+    #     update_data = {}
+    #     for index, left_id in enumerate(left_id_list):
+    #         update_data[pic_id_dict[index]] = shop_detail_dict[pic_id_dict[left_id]]
+    #         update_data[comment_id_dict[index]] = shop_detail_dict[comment_id_dict[left_id]]
+    #     return update_data
 
     @classmethod
     def delete_shop_detail(cls, poi_id, delete_dict):
