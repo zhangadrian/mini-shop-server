@@ -25,8 +25,8 @@ class Group(Base):
 
     @staticmethod
     def shop_group_count(poi_id, open_id):
-        shop_group_list = Group.query.filter(Group.poi_id == poi_id).all()
-        user_group_list = Group.query.filter(Group.user_openid == open_id).all()
+        shop_group_list = Group.query.filter(and_(Group.poi_id == poi_id, Group.status == 2)).all()
+        user_group_list = Group.query.filter(and_(Group.user_openid == open_id, Group.status == 2)).all()
         res = {
             "shop_group_count": len(shop_group_list),
             "user_group_count": len(user_group_list),
