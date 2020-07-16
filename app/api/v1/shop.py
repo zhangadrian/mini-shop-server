@@ -171,9 +171,9 @@ def update_shop_info():
 def delete_shop_detail():
     validator = BaseValidator().get_all_json()
     poi_id = validator["poi_id"]
-    delete_id_list = validator["delete_id"]
+    update_data = validator["update_data"]
 
-    new_shop_detail = ShopDetail.delete_shop_detail(poi_id, delete_id_list)
+    new_shop_detail = ShopDetail.delete_shop_detail(poi_id, update_data)
     return Success(new_shop_detail)
     # return Success({"res": 0})
 

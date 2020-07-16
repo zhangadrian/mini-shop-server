@@ -86,27 +86,29 @@ class ShopDetail(Base):
         return shop_detail
 
     @classmethod
-    def delete_shop_detail(cls, poi_id, delete_id_list):
-        shop_detail = cls.query.filter(cls.poi_id == poi_id).first_or_404()
-        pic_id_dict = {
-            0: "shop_pic_1",
-            1: "shop_pic_2",
-            2: "shop_pic_3",
-            3: "shop_pic_4",
-        }
+    def delete_shop_detail(cls, poi_id, delete_dict):
+        shop_detail = cls.query.filter(cls.poi_id == poi_id).first()
+        if shop_detail:
+            pic_id_dict = {
+                0: "shop_pic_1",
+                1: "shop_pic_2",
+                2: "shop_pic_3",
+                3: "shop_pic_4",
+            }
 
-        comment_id_dict = {
-            0: "shop_pic_comment_1",
-            1: "shop_pic_comment_2",
-            2: "shop_pic_comment_3",
-            3: "shop_pic_comment_4",
-        }
+            comment_id_dict = {
+                0: "shop_pic_comment_1",
+                1: "shop_pic_comment_2",
+                2: "shop_pic_comment_3",
+                3: "shop_pic_comment_4",
+            }
+            delete_id_list = delete_dict["delete_id_list"]
+            update_data = {}
+            for delete_id in delete_id_list:
+                update_data[int(pic_id_dict[delete_id])] = ""
+                update_data[int(comment_id_dict[delete_id])] = ""
 
-        update_data = {}
-        for delete_id in delete_id_list:
-            update_data[pic_id_dict[delete_id]] = ""
-            update_data[comment_id_dict[delete_id]] = ""
-
-        shop_detail.update(**update_data)
-
-        return shop_detail
+            shop_detail.update(**update_data)
+            return shop_detail
+        else:
+            return {"res": "shop not found"}
