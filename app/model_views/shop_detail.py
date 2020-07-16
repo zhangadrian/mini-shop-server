@@ -3,7 +3,7 @@ from app.model_views.base import ModelView
 
 __author__ = "adhcczhang"
 
-class ShopDetailView(ModelView):
+class BaseShopDetailView(ModelView):
     fields = ["poi_id", "shop_pic_list", "shop_pic_index", "shop_pic_comment_list", "shop_pic_comment_index"]
 
     def __init__(self, shop_detail):
