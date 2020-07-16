@@ -89,7 +89,8 @@ def search_shop():
 @api.route('/creategroup', methods=['POST'])
 def create_group():
     validator = BaseValidator().get_all_json()
-    shop_id = validator["poi_id"]
+    # shop_id = validator["poi_id"]
+    shop_id = "Ceshihao"
     user_id = validator["open_id"]
     shop_owner_data = NewUser.query.filter(NewUser.shop_id==shop_id).first()
     user_data = NewUser.query.filter(NewUser.openid==user_id).first()
