@@ -39,8 +39,8 @@ class Recall:
     def sort_by_distance(self, page, page_size, search_words, location, user_id, category=""):
         from time import time
         t1 = time()
-        current_lat = location["lat"]
-        current_lon = location["lon"]
+        current_lat = float(location["lat"])
+        current_lon = float(location["lon"])
         search_res = search(location, keyword=search_words, category=category)
         print(search_res)
         #search_res = search(location, keyword=[search_words])
