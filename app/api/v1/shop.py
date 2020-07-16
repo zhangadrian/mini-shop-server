@@ -174,7 +174,9 @@ def delete_shop_detail():
     update_data = validator["update_data"]
 
     new_shop_detail = ShopDetail.delete_shop_detail(poi_id, update_data)
-    return Success(new_shop_detail)
+    shop = Shop.query.filter(Shop.poi_id == poi_id).first()
+    shop_detail_view = ShopDetailView(shop, new_shop_detail)
+    return Success(shop_detail_view)
     # return Success({"res": 0})
 
 
