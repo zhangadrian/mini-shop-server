@@ -105,8 +105,8 @@ class ShopDetail(Base):
             delete_id_list = delete_dict["delete_id_list"]
             update_data = {}
             for delete_id in delete_id_list:
-                update_data[int(pic_id_dict[delete_id])] = ""
-                update_data[int(comment_id_dict[delete_id])] = ""
+                update_data[pic_id_dict[int(delete_id)]] = ""
+                update_data[comment_id_dict[int(delete_id)]] = ""
 
             shop_detail.update(**update_data)
             return shop_detail
