@@ -91,8 +91,8 @@ class ShopDetail(Base):
         for column in row.__table__.columns:
             res[column.name] = str(getattr(row, column.name))
         return res
-
-    def change_order(self, delete_id_list, shop_detail):
+    @classmethod
+    def change_order(cls, delete_id_list, shop_detail):
         pic_id_dict = {
             0: "shop_pic_1",
             1: "shop_pic_2",
@@ -109,7 +109,7 @@ class ShopDetail(Base):
         full_id_set = set(pic_id_dict.keys())
         delete_id_set = set(delete_id_list)
         left_id_list = sorted(list(full_id_set - delete_id_set))
-        shop_detail_dict = self.row2dict(shop_detail)
+        shop_detail_dict = cls.row2dict(shop_detail)
         update_data = {}
         for index, left_id in enumerate(left_id_list):
             update_data[pic_id_dict[index]] = shop_detail_dict[pic_id_dict[left_id]]
