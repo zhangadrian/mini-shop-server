@@ -9,7 +9,8 @@ __author__ = "adhcczhang"
 
 class BaseShopView(ModelView):
     fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude",
-              "category", "business_hour", "shop_head_pic", "shop_intro"]
+              "category", "business_hour", "shop_head_pic", "shop_intro", "status"]
+
     def __init__(self, shop):
         self.name = shop.name
         self.address = shop.address
@@ -20,6 +21,10 @@ class BaseShopView(ModelView):
         self.shop_intro = shop.shop_intro
         self.shop_head_pic = shop.shop_head_pic
         self.business_hour = self.re_week(shop.businesshour)
+        if shop.status:
+            self.status = int(shop.status)
+        else:
+            self.status = 4
 
         try:
             self.category = self.change_category(shop.category)
