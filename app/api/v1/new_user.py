@@ -101,7 +101,7 @@ def callback_test():
                 status, shop_id = res["status"], res["shop_id"]
                 shop_data = Shop.query.filter(Shop.poi_id == shop_id).first()
                 update_dict = {
-                    status: status
+                    "status": status
                 }
                 shop_data.update(**update_dict)
     return Success(0)
