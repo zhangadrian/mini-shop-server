@@ -40,6 +40,22 @@ class ShopDetail(Base):
 
     @classmethod
     def update_shop_detail(cls, poi_id, update_data):
+        shop_detail = cls.query.filter(cls.poi_id == poi_id).first()
+        shop_detail_data = {"poi_id": poi_id}
+        for index, data_item in enumerate(update_data):
+            shop_detail_data["shop_pic_" + str(index)] = data_item["shop_pic_url"]
+            shop_detail_data["shop_pic_comment_" + str(index)] = data_item["shop_pic_comment"]
+
+        if shop_detail:
+            shop_detail.update(**shop_detail_data)
+        else:
+            ShopDetail.create(**shop_detail_data)
+            shop_detail = cls.query.filter(cls.poi_id == poi_id).first()
+
+        return shop_detail
+
+    @classmethod
+    def update_shop_detail_old(cls, poi_id, update_data):
         pic_id_dict = {
             0: "shop_pic_1",
             1: "shop_pic_2",
