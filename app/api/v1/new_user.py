@@ -35,6 +35,7 @@ def callback_test():
     import random
     validator, request_data = BaseValidator().get_all_json(), BaseValidator().get_request_data()
     print(validator)
+    print(request_data)
     callback = Callback()
     if "echostr" in validator:
         sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sEchoStr = \
@@ -47,8 +48,9 @@ def callback_test():
             validator['msg_signature'], validator['timestamp'], validator['nonce']
         res = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
         if isinstance(res, dict):
-            user_list, change_type = res["user_list"], res["change_type"]
-            if "chat_id" not in res:
+
+            if "external_user" in res:
+                user_list, change_type = res["user_list"], res["change_type"]
                 user_info = user_list[0]
                 user_name = user_info["external_contact"]["name"]
                 external_userid = user_info["external_contact"]["external_userid"]
@@ -62,7 +64,8 @@ def callback_test():
                         "is_in_contract": change_type
                     }
                     user_cls.update(**update_data)
-            else:
+            elif "chat_id" in res:
+                user_list, change_type = res["user_list"], res["change_type"]
                 chat_id = res["chat_id"]
                 if len(user_list) == 2:
                     user_name_0 = user_list[0]["external_contact"]["name"]
@@ -94,6 +97,13 @@ def callback_test():
                     }
                     if group_data:
                         group_data.update(**update_dict)
+            elif "contact" in res:
+                status, shop_id = res["status"], res["shop_id"]
+                shop_data = Shop.query.filter(Shop.poi_id == shop_id).first()
+                update_dict = {
+                    status: status
+                }
+                shop_data.update(**update_dict)
     return Success(0)
 
 @api.route('/customservice', methods=['GET', 'POST'])

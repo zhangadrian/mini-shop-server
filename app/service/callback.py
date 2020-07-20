@@ -73,6 +73,7 @@ class Callback:
             res = {
                 "user_list": user_list,
                 "change_type": change_type,
+                "external_user": 1
             }
             return res
         elif xml_tree.find("ChatId") != None:
@@ -87,6 +88,19 @@ class Callback:
                 "chat_id": chat_id
             }
             return res
+        elif xml_tree.find("ChangeType") != None:
+            change_type = xml_tree.find("ChangeType").text
+            if "update_user" in change_type:
+                if xml_tree.find("Status") != None:
+                    status = str(xml_tree.find("Status").text)
+                    shop_id = xml_tree.find("UserID").text
+                    res = {
+                        "status": status,
+                        "contact": 1,
+                        "shop_id": shop_id
+                    }
+                    return res
+
 
     @cache.cached(timeout=6000, key_prefix='access_token')
     def callback_access_token(self):
