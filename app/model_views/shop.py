@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 from app.model_views.base import ModelView
 from app.models.new_shop import NewShop as Shop
+from app.model_views.shop_detail import BaseShopDetailView
 
 import re
 
@@ -116,16 +117,17 @@ class ShopViewModel(BaseShopView):
         self.street_name = street_name
 
 
-class ShopDetailView(BaseShopView):
+class ShopDetailView(BaseShopView, BaseShopDetailView):
     fields = ["poi_id", "name", "address", "mobile", "category", "business_hour",
               "shop_pic_list", "shop_head_pic", "shop_intro", "shop_pic_comment_list"]
 
     def __init__(self, shop, shop_detail):
         super(ShopDetailView, self).__init__(shop)
-        if shop_detail:
-            self.shop_pic_list, self.shop_pic_comment_list = self.pic_list(shop_detail)
-        else:
-            self.shop_pic_list, self.shop_pic_comment_list = [], []
+        super(BaseShopDetailView, self).__init__(shop_detail)
+        # if shop_detail:
+        #     self.shop_pic_list, self.shop_pic_comment_list = self.pic_list(shop_detail)
+        # else:
+        #     self.shop_pic_list, self.shop_pic_comment_list = [], []
 
     def pic_list(self, shop_detail):
         shop_pic_list = [shop_detail.shop_pic_1,
