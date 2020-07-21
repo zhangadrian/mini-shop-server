@@ -214,6 +214,7 @@ class Callback:
     def get_user_status(self, user_id):
         access_token_qy = self.callback_access_token_contact()
         print(user_id)
+        user_id = "lenyang-shop_3"
         get_url = self.corp_api_url.format("user", access_token_qy) + "&userid=" + user_id
         res = HTTP.get(get_url)
         print(res)

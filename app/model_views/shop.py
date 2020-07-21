@@ -104,7 +104,7 @@ class BaseShopView(ModelView):
 
 class ShopViewModel(BaseShopView):
     fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance",
-              "group_created", "street_name", "category", "business_hour", "shop_head_pic", "shop_intro"]
+              "group_created", "street_name", "category", "business_hour", "shop_head_pic", "shop_intro", "status"]
 
     def __init__(self, shop, distance, group_data_dict, street_name):
         super(ShopViewModel, self).__init__(shop)

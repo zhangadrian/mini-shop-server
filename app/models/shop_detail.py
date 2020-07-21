@@ -43,8 +43,8 @@ class ShopDetail(Base):
         shop_detail = cls.query.filter(cls.poi_id == poi_id).first()
         shop_detail_data = {"poi_id": poi_id}
         for index, data_item in enumerate(update_data):
-            shop_detail_data["shop_pic_" + str(index)] = data_item["shop_pic_url"]
-            shop_detail_data["shop_pic_comment_" + str(index)] = data_item["shop_pic_comment"]
+            shop_detail_data["shop_pic_" + str(index+1)] = data_item["shop_pic_url"]
+            shop_detail_data["shop_pic_comment_" + str(index+1)] = data_item["shop_pic_comment"]
 
         if shop_detail:
             shop_detail.update(**shop_detail_data)
