@@ -122,8 +122,8 @@ class ShopDetailView(BaseShopView, BaseShopDetailView):
               "shop_pic_list", "shop_head_pic", "shop_intro", "shop_pic_comment_list"]
 
     def __init__(self, shop, shop_detail):
-        super(ShopDetailView, self).__init__(shop)
-        super(BaseShopDetailView, self).__init__(shop_detail)
+        BaseShopView.__init__(self, shop)
+        BaseShopDetailView.__init__(self, shop_detail)
         # if shop_detail:
         #     self.shop_pic_list, self.shop_pic_comment_list = self.pic_list(shop_detail)
         # else:
