@@ -269,7 +269,8 @@ def is_in_contract():
             user_status = callback.get_user_status(user_data.shop_id)["status"]
             res["is_follower"] = user_status
     else:
-        res = {"is_in_contract": user_data.is_in_contract}
+        res = {"is_in_contract": user_data.is_in_contract,
+               "is_follower": 4}
     return Success(data=res)
 
 
