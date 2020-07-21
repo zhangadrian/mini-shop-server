@@ -16,7 +16,7 @@ class BaseShopDetailView(ModelView):
             self.shop_pic_comment_list = shop_detail_list_dict["shop_pic_comment_list"]
             self.shop_pic_comment_index = shop_detail_list_dict["shop_pic_comment_index"]
         else:
-            self.poi_id = -1
+            # self.poi_id = -1
             self.shop_pic_list = []
             self.shop_pic_index = []
             self.shop_pic_comment_list = []
