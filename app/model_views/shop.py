@@ -16,6 +16,7 @@ class BaseShopView(ModelView):
         self.name = shop.name
         self.address = shop.address
         self.mobile = shop.mobile
+        print(shop.poi_id)
         self.poi_id = shop.poi_id
         self.latitude = shop.latitude
         self.longitude = shop.longitude
