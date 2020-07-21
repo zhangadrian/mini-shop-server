@@ -134,11 +134,19 @@ class Callback:
         res = HTTP.post(post_url, params)
         print(res)
 
-    def callback_post_cs_message(self, user_openid, reply_type=0):
+    @cache.cached(timeout=36000, key_prefix="media_id")
+    def get_media_id(self):
         import pickle
-
         with open(self.media_id_file_path, 'rb') as media_id_file:
-            media_id = pickle.load(media_id_file)["media_id"][int(reply_type)]
+            media_id = pickle.load(media_id_file)["media_id"]
+        return media_id
+
+
+    def callback_post_cs_message(self, user_openid, reply_type=0):
+        media_id_list = self.get_media_id()
+        intro_list = ["请长按以下按钮添加企业通讯录为好友", "请长按以下按钮添加微信工作台"]
+        media_id = media_id_list[reply_type]
+        intro = intro_list[reply_type]
         access_token = self.callback_access_token()
         print(access_token)
         post_url = self.post_cs_message.format(access_token)
@@ -147,7 +155,7 @@ class Callback:
             "msgtype": "text",
             "text":
             {
-                "content": "请长按以下按钮添加企业通讯录为好友"
+                "content": intro
             }
         }
         res = HTTP.post(post_url, params)
