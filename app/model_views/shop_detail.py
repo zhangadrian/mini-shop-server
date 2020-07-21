@@ -7,8 +7,9 @@ class BaseShopDetailView(ModelView):
     fields = ["poi_id", "shop_pic_list", "shop_pic_index", "shop_pic_comment_list", "shop_pic_comment_index"]
 
     def __init__(self, shop_detail):
+        print(shop_detail)
         if shop_detail:
-            shop_detail_list_dict = self.dict2list()
+            shop_detail_list_dict = self.dict2list(shop_detail)
             self.poi_id = shop_detail.poi_id
             self.shop_pic_list = shop_detail_list_dict["shop_pic_list"]
             self.shop_pic_index = shop_detail_list_dict["shop_pic_index"]
