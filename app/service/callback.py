@@ -28,6 +28,7 @@ class Callback:
         # self.contact_header_url = current_app.config["CONTACT_HEADER_URL"]
         self.media_list_url = current_app.config["MEDIA_LIST_URL"]
         self.corp_api_url = current_app.config["CORP_API_URL"]
+        self.corp_contact_api_url = current_app.config["CORP_CONTACT_API_URL"]
         self.contact_header_media_id = ""
 
         self.callback_access_token()
@@ -214,7 +215,7 @@ class Callback:
     def get_user_status(self, user_id):
         access_token_qy = self.callback_access_token_contact()
         print(user_id)
-        get_url = self.corp_api_url.format("user", access_token_qy) + "&userid=" + user_id
+        get_url = self.corp_contact_api_url.format("get", access_token_qy) + "&userid=" + user_id
         res = HTTP.get(get_url)
         print(res)
         if "status" not in res:
