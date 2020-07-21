@@ -181,7 +181,7 @@ def delete_shop_detail():
     return Success(shop_detail_view)
     # return Success({"res": 0})
 
-
+# TODO
 @api.route('/uploadactiondata', methods=['POST'])
 def upload_action_data():
     return Success({"res": 0})

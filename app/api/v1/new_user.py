@@ -302,3 +302,12 @@ def group_count():
     group_res["shop_group_info"] = group_collection.fill(group_res["shop_group_info"])
 
     return Success(group_res)
+
+# TODO
+@api.route("/feedback", methods=["POST"])
+def feedback():
+    validator = BaseValidator().get_all_json()
+    open_id = validator["opend_id"]
+    feedback_dict = validator["feedback"]
+
+    return Success({"res": 1})
