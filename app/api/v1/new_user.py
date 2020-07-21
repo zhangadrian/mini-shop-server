@@ -269,7 +269,8 @@ def is_in_contract():
             user_status = callback.get_user_status(user_data.shop_id)["status"]
             res["is_follower"] = user_status
     else:
-        res = {"is_in_contract": user_data.is_in_contract}
+        res = {"is_in_contract": user_data.is_in_contract,
+               "is_follower": 4}
     return Success(data=res)
 
 
@@ -302,3 +303,12 @@ def group_count():
     group_res["shop_group_info"] = group_collection.fill(group_res["shop_group_info"])
 
     return Success(group_res)
+
+# TODO
+@api.route("/feedback", methods=["POST"])
+def feedback():
+    validator = BaseValidator().get_all_json()
+    open_id = validator["opend_id"]
+    feedback_dict = validator["feedback"]
+
+    return Success({"res": 1})
