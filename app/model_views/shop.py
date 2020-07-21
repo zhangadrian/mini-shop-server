@@ -124,6 +124,7 @@ class ShopDetailView(BaseShopView, BaseShopDetailView):
 
     def __init__(self, shop, shop_detail):
         BaseShopView.__init__(self, shop)
+        print(shop_detail)
         if shop_detail:
             BaseShopDetailView.__init__(self, shop_detail)
         else:
