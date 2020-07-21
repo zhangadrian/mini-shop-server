@@ -26,6 +26,7 @@ CORP_SECRET = 'T_-UpwhdUHc7qr6qTndWykJwudi_KoQafKnckUGS_tw'
 CONTACT_SECRET = "xaoqOAXzX0vmm5skthDfm9K0PGgd3XSECAqi2vgSrlw"
 TOKEN_URL = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={0}&corpsecret={1}'
 CORP_API_URL = 'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/{0}?access_token={1}'
+CORP_CONTACT_API_URL = 'https://qyapi.weixin.qq.com/cgi-bin/user/{0}?access_token={1}'
 
 # 回调函数TOKEN与AESKey
 CALLBACK_TOKEN = "K0dBHVCzvRMIJMEn2qRQeO"
