@@ -90,7 +90,7 @@ ALL_MODEL_BY_MODULE = {
 
 # all api by module(version)
 ALL_API_BY_MODULE = {
-    'v1': ['token', 'new_user', 'test_user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay', 'shop'],
+    'v1': ['token', 'new_user', 'test_user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay', 'shop', 'group'],
     'cms': ['user', 'theme', 'category', 'product', 'order', 'file']
 }
 
