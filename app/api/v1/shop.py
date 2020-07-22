@@ -13,7 +13,6 @@ from app.validators.base import BaseValidator
 from app.model_views.shop import ShopDetailView
 from app.service.tencent_cos import TencentCos
 from time import time
-from datetime import datetime
 from sqlalchemy import and_
 
 __author__ = 'adhcczhang'
