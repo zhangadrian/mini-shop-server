@@ -21,6 +21,7 @@ class NewUser(Base):
     openid = Column(String(50), unique=True, comment='小程序唯一ID(单单该小程序)')
     unionid = Column(String(50), unique=True, comment='微信唯一ID(全网所有)')
     mobile = Column(String(50), unique=True)
+    new_mobile = Column(String(50), default="")
     nickname = Column(String(24), comment='昵称')
     headpic = Column(String(500), comment="用户头像")
     is_checked = Column(SmallInteger, comment="是否为首次加入")

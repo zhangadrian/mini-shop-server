@@ -14,6 +14,7 @@ class NewShop(Base):
     name = Column(String(100), comment="店铺名称")
     address = Column(String(500), comment="店铺地址")
     mobile = Column(String(50), comment="店铺电话")
+    new_mobile = Column(String(50), comment="店铺电话")
     latitude = Column(Integer, comment="维度")
     longitude = Column(Integer, comment="经度")
     province = Column(String(50), comment="经度")

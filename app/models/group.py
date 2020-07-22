@@ -3,6 +3,9 @@
 from sqlalchemy import Column, Integer, SmallInteger, String, Float, Text
 from sqlalchemy import and_
 from app.models.base import Base
+from app.models.new_shop import NewShop as Shop
+
+from time import time
 
 __author__ = "adhcczhang"
 
@@ -25,15 +28,50 @@ class Group(Base):
 
     @staticmethod
     def shop_group_count(poi_id, open_id):
+        shop_data = Shop.query.filter(Shop.poi_id == poi_id).first()
+        if shop_data:
+            if not shop_data.status or int(shop_data.status) == 4:
+                shop_group_list = Group.query.filter(and_(Group.poi_id == poi_id, Group.status == 3)).all()
+                user_group_list = Group.query.filter(and_(Group.user_openid == open_id, Group.status == 2)).all()
+                res = {
+                    "invite_number": len(shop_group_list),
+                    "shop_group_info": [],
+                    "user_group_count": len(user_group_list),
+                    "user_group_info": user_group_list,
+                }
+            else:
+                shop_group_list = Group.query.filter(and_(Group.poi_id == poi_id, Group.status == 2)).all()
+                user_group_list = Group.query.filter(and_(Group.user_openid == open_id, Group.status == 2)).all()
+                res = {
+                    "shop_group_count": len(shop_group_list),
+                    "user_group_count": len(user_group_list),
+                    "shop_group_info": shop_group_list,
+                    "user_group_info": user_group_list,
+                }
+        else:
+            user_group_list = Group.query.filter(and_(Group.user_openid == open_id, Group.status == 2)).all()
+            res = {
+                "shop_group_info": [],
+                "user_group_count": len(user_group_list),
+                "user_group_info": user_group_list,
+            }
+        return res
+
+    @classmethod
+    def get_new_group(cls, time_gap, poi_id):
         shop_group_list = Group.query.filter(and_(Group.poi_id == poi_id, Group.status == 2)).all()
-        user_group_list = Group.query.filter(and_(Group.user_openid == open_id, Group.status == 2)).all()
+        current_time = int(time())
+
+        new_group_list = []
+        for shop_group in shop_group_list:
+            if current_time - shop_group.create_time < time_gap:
+                new_group_list.append(shop_group)
         res = {
-            "shop_group_count": len(shop_group_list),
-            "user_group_count": len(user_group_list),
-            "shop_group_info": shop_group_list,
-            "user_group_info": user_group_list,
+            "new_group_number": len(new_group_list),
+            "new_group_info": new_group_list
         }
         return res
+
 
     @classmethod
     def get_shop_list(cls, user_id, shop_id_list):

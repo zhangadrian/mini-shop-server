@@ -13,6 +13,7 @@ from app.validators.base import BaseValidator
 from app.model_views.shop import ShopDetailView
 from app.service.tencent_cos import TencentCos
 from time import time
+from datetime import datetime
 from sqlalchemy import and_
 
 __author__ = 'adhcczhang'
@@ -122,6 +123,7 @@ def create_group():
                 "user_nickname": user_name,
                 "shop_owner_nickname": shop_owner_name,
                 "group_name": group_name,
+                "create_time": int(time()),
             }
             add_group_res = qy_wx_bot.add_group_chat(group_name, user_list=user_list)
             if add_group_res == 0:

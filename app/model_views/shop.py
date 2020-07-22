@@ -15,8 +15,6 @@ class BaseShopView(ModelView):
     def __init__(self, shop):
         self.name = shop.name
         self.address = shop.address
-        self.mobile = shop.mobile
-        print(shop.poi_id)
         self.poi_id = shop.poi_id
         self.latitude = shop.latitude
         self.longitude = shop.longitude
@@ -27,6 +25,11 @@ class BaseShopView(ModelView):
             self.status = int(shop.status)
         else:
             self.status = 4
+
+        if shop.new_mobile:
+            self.mobile = shop.new_mobile
+        else:
+            self.mobile = shop.mobile
 
         try:
             self.category = self.change_category(shop.category)
@@ -148,7 +151,7 @@ class ShopCollection:
     def fill(self, shop_list, distance_list, group_data_dict, street_info_list):
         self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i]) for i in range(len(shop_list))]
         if self.debug:
-            test_shop_data = Shop.query.filter(Shop.poi_id == "warrenyang_shop").first()
+            test_shop_data = Shop.query.filter(Shop.poi_id == "Ceshihao").first()
             test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村")
             test_shop_view.category = "餐饮"
             self.items.append(test_shop_view)
