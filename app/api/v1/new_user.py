@@ -308,7 +308,7 @@ def group_count():
 @api.route("/feedback", methods=["POST"])
 def feedback():
     validator = BaseValidator().get_all_json()
-    open_id = validator["opend_id"]
+    open_id = validator["open_id"]
     feedback_dict = validator["feedback"]
 
     return Success({"res": 1})
