@@ -155,6 +155,10 @@ class ShopCollection:
             test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村")
             test_shop_view.category = "餐饮"
             self.items.append(test_shop_view)
+            test_shop_data = Shop.query.filter(Shop.poi_id == "haolin_shop").first()
+            test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村")
+            test_shop_view.category = "娱乐"
+            self.items.append(test_shop_view)
         self.items.sort(key=lambda x:x.distance)
 
 
