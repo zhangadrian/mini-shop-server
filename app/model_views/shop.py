@@ -124,11 +124,7 @@ class ShopDetailView(BaseShopView, BaseShopDetailView):
 
     def __init__(self, shop, shop_detail):
         BaseShopView.__init__(self, shop)
-        print(shop_detail)
-        if shop_detail:
-            BaseShopDetailView.__init__(self, shop_detail)
-        else:
-            self.shop_pic_list, self.shop_pic_comment_list = [], []
+        BaseShopDetailView.__init__(self, shop_detail)
 
     def pic_list(self, shop_detail):
         shop_pic_list = [shop_detail.shop_pic_1,
