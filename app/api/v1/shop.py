@@ -207,8 +207,10 @@ def get_cos_credential():
     return Success(data=cos_credential)
 
 
-
-
+# TODO
+@api.route('/inviteshopowner', methods=['POST'])
+def invite_shop_owner():
+    return Success({"res": 0})
 
 
 

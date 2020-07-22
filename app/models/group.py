@@ -35,6 +35,7 @@ class Group(Base):
                 user_group_list = Group.query.filter(and_(Group.user_openid == open_id, Group.status == 2)).all()
                 res = {
                     "invite_number": len(shop_group_list),
+                    "shop_group_count": 0,
                     "shop_group_info": [],
                     "user_group_count": len(user_group_list),
                     "user_group_info": user_group_list,
@@ -43,6 +44,7 @@ class Group(Base):
                 shop_group_list = Group.query.filter(and_(Group.poi_id == poi_id, Group.status == 2)).all()
                 user_group_list = Group.query.filter(and_(Group.user_openid == open_id, Group.status == 2)).all()
                 res = {
+                    "invite_number": 0,
                     "shop_group_count": len(shop_group_list),
                     "user_group_count": len(user_group_list),
                     "shop_group_info": shop_group_list,
@@ -51,7 +53,9 @@ class Group(Base):
         else:
             user_group_list = Group.query.filter(and_(Group.user_openid == open_id, Group.status == 2)).all()
             res = {
+                "invite_number": 0,
                 "shop_group_info": [],
+                "shop_group_count": 0,
                 "user_group_count": len(user_group_list),
                 "user_group_info": user_group_list,
             }
@@ -64,14 +68,14 @@ class Group(Base):
 
         new_group_list = []
         for shop_group in shop_group_list:
-            if current_time - shop_group.create_time < time_gap:
-                new_group_list.append(shop_group)
+            if shop_group.create_time:
+                if current_time - shop_group.create_time < time_gap:
+                    new_group_list.append(shop_group)
         res = {
             "new_group_number": len(new_group_list),
             "new_group_info": new_group_list
         }
         return res
-
 
     @classmethod
     def get_shop_list(cls, user_id, shop_id_list):
