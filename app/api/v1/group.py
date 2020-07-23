@@ -89,7 +89,7 @@ def new_group_count():
     validator = BaseValidator().get_all_json()
     poi_id = validator["poi_id"]
     one_day_time_gap = 86400
-    group_res = Group.shop_group_count(one_day_time_gap, poi_id)
+    group_res = Group.get_new_group(one_day_time_gap, poi_id)
     group_collection = GroupCollection()
 
     group_res["new_group_info"] = group_collection.fill(group_res["new_group_info"])

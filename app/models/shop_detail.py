@@ -40,7 +40,7 @@ class ShopDetail(Base):
 
     @classmethod
     def update_shop_detail(cls, poi_id, update_data):
-        shop_detail = cls.query.filter(cls.poi_id == poi_id).first()
+        shop_detail = cls.query.filter(cls.poi_id == str(poi_id)).first()
         shop_detail_data = {"poi_id": poi_id}
         for index, data_item in enumerate(update_data):
             shop_detail_data["shop_pic_" + str(index+1)] = data_item["shop_pic_url"]
@@ -69,7 +69,7 @@ class ShopDetail(Base):
             2: "shop_pic_comment_3",
             3: "shop_pic_comment_4",
         }
-        shop_detail = cls.query.filter(cls.poi_id == poi_id).first()
+        shop_detail = cls.query.filter(cls.poi_id == str(poi_id)).first()
 
         try:
             shop_pic_list = update_data["shop_pic_list"]
@@ -134,7 +134,7 @@ class ShopDetail(Base):
 
     @classmethod
     def delete_shop_detail(cls, poi_id, delete_dict):
-        shop_detail = cls.query.filter(cls.poi_id == poi_id).first()
+        shop_detail = cls.query.filter(cls.poi_id == str(poi_id)).first()
         if shop_detail:
             delete_id_list = delete_dict["delete_id_list"]
             update_data = cls.change_order(delete_id_list, shop_detail)

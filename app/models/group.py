@@ -28,7 +28,7 @@ class Group(Base):
 
     @staticmethod
     def shop_group_count(poi_id, open_id):
-        shop_data = Shop.query.filter(Shop.poi_id == poi_id).first()
+        shop_data = Shop.query.filter(Shop.poi_id == str(poi_id)).first()
         if shop_data:
             if not shop_data.status or int(shop_data.status) == 4:
                 shop_group_list = Group.query.filter(and_(Group.poi_id == poi_id, Group.status == 3)).all()
@@ -41,7 +41,7 @@ class Group(Base):
                     "user_group_info": user_group_list,
                 }
             else:
-                shop_group_list = Group.query.filter(and_(Group.poi_id == poi_id, Group.status == 2)).all()
+                shop_group_list = Group.query.filter(and_(Group.poi_id == str(poi_id), Group.status == 2)).all()
                 user_group_list = Group.query.filter(and_(Group.user_openid == open_id, Group.status == 2)).all()
                 res = {
                     "invite_number": 0,
@@ -63,7 +63,7 @@ class Group(Base):
 
     @classmethod
     def get_new_group(cls, time_gap, poi_id):
-        shop_group_list = Group.query.filter(and_(Group.poi_id == poi_id, Group.status == 2)).all()
+        shop_group_list = Group.query.filter(and_(Group.poi_id == str(poi_id), Group.status == 2)).all()
         current_time = int(time())
 
         new_group_list = []
