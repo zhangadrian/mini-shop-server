@@ -85,7 +85,7 @@ class Recall:
         t4 = time()
         print(t4-t3)
 
-        shop_collection = ShopCollection()
+        shop_collection = ShopCollection(is_debug=True)
         shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list)
         #print(shop_collection.items)
         #print(shop_collection.items[0].name)

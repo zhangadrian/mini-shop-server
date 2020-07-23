@@ -249,9 +249,9 @@ def is_shop_owner():
             else:
                 street_info_list.append("中关村")
         print(street_info_list)
-        shop_collection = ShopCollection()
+        shop_collection = ShopCollection(is_debug=False)
         shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list)
-        res = shop_collection.items[:-1]
+        res = shop_collection.items
     else:
         res = {"not_found": 1}
     return Success(data=res)

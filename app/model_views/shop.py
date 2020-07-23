@@ -144,9 +144,9 @@ class ShopDetailView(BaseShopView, BaseShopDetailView):
 
 
 class ShopCollection:
-    def __init__(self):
+    def __init__(self, is_debug=False):
         self.items = []
-        self.debug = True
+        self.debug = is_debug
 
     def fill(self, shop_list, distance_list, group_data_dict, street_info_list):
         self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i]) for i in range(len(shop_list))]
