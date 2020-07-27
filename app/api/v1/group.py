@@ -39,7 +39,7 @@ def create_group():
         qy_wx_bot = QyWxBot()
         print(group_data)
         if not group_data:
-            user_list = ["测试号", "user_name"]
+            user_list = ["测试号", user_name]
             # user_list = [shop_owner_name, user_name]
 
             #shop_group_num = Group.query(func.count(distinct(Group.poi_id))).scalar()
