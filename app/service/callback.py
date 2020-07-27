@@ -146,8 +146,8 @@ class Callback:
     def callback_post_cs_message(self, user_openid, reply_type=0):
         media_id_list = self.get_media_id()
         intro_list = ["请长按以下按钮添加企业通讯录为好友", "请长按以下按钮添加微信工作台"]
-        media_id = media_id_list[reply_type]
-        intro = intro_list[reply_type]
+        media_id = media_id_list[int(reply_type)]
+        intro = intro_list[int(reply_type)]
         access_token = self.callback_access_token()
         print(access_token)
         post_url = self.post_cs_message.format(access_token)
