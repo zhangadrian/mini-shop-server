@@ -205,7 +205,7 @@ class Callback:
         res = HTTP.post(post_url, params)
         print(res)
         member_list = res["group_chat"]["member_list"]
-        owner = res["group_chat"]["owener"]
+        owner = res["group_chat"]["owner"]
         user_list = [0,0]
         for member in member_list:
             if member["type"] == 2:
