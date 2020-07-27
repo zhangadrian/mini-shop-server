@@ -69,7 +69,7 @@ class Callback:
                 change_type = 0
             else:
                 change_type = 1
-            user_info = self.get_external_user_info(user_id)
+            user_info = self.get_external_user_info(user_id, info_type="external")
             user_list = [user_info]
             res = {
                 "user_list": user_list,
@@ -171,10 +171,15 @@ class Callback:
         res = HTTP.post(post_url, params)
         return res
 
-    def get_external_user_info(self, user_id):
-        access_token_qy = self.callback_access_token_qy()
-        get_url = self.corp_external_api_url.format("get", access_token_qy) + "&external_userid=" + user_id
-        res = HTTP.get(get_url)
+    def get_external_user_info(self, user_id, info_type="external"):
+        if info_type == "external":
+            access_token_qy = self.callback_access_token_qy()
+            get_url = self.corp_external_api_url.format("get", access_token_qy) + "&external_userid=" + user_id
+            res = HTTP.get(get_url)
+        else:
+            access_token_qy = self.callback_access_token_contact()
+            get_url = self.corp_contact_api_url.format("get", access_token_qy) + "&userid=" + user_id
+            res = HTTP.get(get_url)
         print(res)
         return res
 
@@ -200,12 +205,17 @@ class Callback:
         res = HTTP.post(post_url, params)
         print(res)
         member_list = res["group_chat"]["member_list"]
-        user_list = []
+        owner = res["group_chat"]["owener"]
+        user_list = [0,0]
         for member in member_list:
             if member["type"] == 2:
                 user_id = member["userid"]
-                user_info = self.get_external_user_info(user_id)
-                user_list.append(user_info)
+                user_info = self.get_external_user_info(user_id, info_type="external")
+                user_list[0] = user_info
+            if member["type"] and member["userid"] != owner:
+                user_id = member["userid"]
+                user_info = self.get_external_user_info(user_id, info_type="shop_owner")
+                user_list[1] = user_info
         res_dict = {
             "chat_id": res["group_chat"]["chat_id"],
             "user_list": user_list
