@@ -67,6 +67,7 @@ def callback_test():
             elif "chat_id" in res:
                 user_list, change_type = res["user_list"], res["change_type"]
                 chat_id = res["chat_id"]
+                print(res)
                 if len(user_list) == 2:
                     user_name_0 = user_list[0]["external_contact"]["name"]
                     user_name_1 = user_list[1]["external_contact"]["name"]
