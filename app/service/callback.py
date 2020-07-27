@@ -212,7 +212,7 @@ class Callback:
                 user_id = member["userid"]
                 user_info = self.get_external_user_info(user_id, info_type="external")
                 user_list[0] = user_info
-            if member["type"] and member["userid"] != owner:
+            if member["type"] == 1 and member["userid"] != owner:
                 user_id = member["userid"]
                 user_info = self.get_external_user_info(user_id, info_type="shop_owner")
                 user_list[1] = user_info
