@@ -27,7 +27,7 @@ class Callback:
         self.post_cs_message = current_app.config["POST_CS_MESSAGE"]
         # self.contact_header_url = current_app.config["CONTACT_HEADER_URL"]
         self.media_list_url = current_app.config["MEDIA_LIST_URL"]
-        self.corp_api_url = current_app.config["CORP_API_URL"]
+        self.corp_external_api_url = current_app.config["CORP_EXTERNAL_API_URL"]
         self.corp_contact_api_url = current_app.config["CORP_CONTACT_API_URL"]
         self.contact_header_media_id = ""
 
@@ -146,7 +146,6 @@ class Callback:
     def callback_post_cs_message(self, user_openid, reply_type=0):
         media_id_list = self.get_media_id()
         intro_list = ["请长按以下按钮添加企业通讯录为好友", "请长按以下按钮添加微信工作台"]
-        reply_type = int(reply_type)
         media_id = media_id_list[reply_type]
         intro = intro_list[reply_type]
         access_token = self.callback_access_token()
@@ -174,14 +173,14 @@ class Callback:
 
     def get_external_user_info(self, user_id):
         access_token_qy = self.callback_access_token_qy()
-        get_url = self.corp_api_url.format("get", access_token_qy) + "&external_userid=" + user_id
+        get_url = self.corp_external_api_url.format("get", access_token_qy) + "&external_userid=" + user_id
         res = HTTP.get(get_url)
         print(res)
         return res
 
     def get_external_user_openid(self, user_id):
         access_token_qy = self.callback_access_token_qy()
-        post_url = self.corp_api_url.format("convert_to_openid", access_token_qy)
+        post_url = self.corp_external_api_url.format("convert_to_openid", access_token_qy)
         params = {
             "external_userid": user_id
         }
@@ -192,7 +191,7 @@ class Callback:
     def get_change_groupchat_info(self, chat_id):
         access_token_qy = self.callback_access_token_qy()
         print(access_token_qy)
-        post_url = self.corp_api_url.format("groupchat/get", access_token_qy)
+        post_url = self.corp_external_api_url.format("groupchat/get", access_token_qy)
         print(post_url)
         print(chat_id)
         params = {
@@ -225,7 +224,7 @@ class Callback:
 
     def change_remark(self, user_id, external_userid, remark):
         access_token_qy = self.callback_access_token_qy()
-        post_url = self.corp_api_url.format("externalcontact/remark", access_token_qy)
+        post_url = self.corp_external_api_url.format("remark", access_token_qy)
         params = {
             "userid": user_id,
             "external_userid": external_userid,
