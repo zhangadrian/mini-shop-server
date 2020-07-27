@@ -91,8 +91,8 @@ def search_keyword_category(index, keywords, location, category, size=20, distan
         'size': size,
     })
 
-    for item in result['hits']['hits']:
-        print(item)
+    # for item in result['hits']['hits']:
+    #     print(item)
     return result['hits']['hits']
 
 
@@ -133,8 +133,8 @@ def search_geometry_category(index, location, category,  size=20, distance="1000
         'size': size,
     })
 
-    for item in result['hits']['hits']:
-        print(item)
+    # for item in result['hits']['hits']:
+    #     print(item)
     return result['hits']['hits']
 
 def search_geometry(index, location, size=20, distance="10000km"):
@@ -169,8 +169,8 @@ def search_geometry(index, location, size=20, distance="10000km"):
         'size': size,
     })
 
-    for item in result['hits']['hits']:
-        print(item)
+    # for item in result['hits']['hits']:
+    #     print(item)
     return result['hits']['hits']
 
 def search(location, keyword="", category=""):
