@@ -10,7 +10,7 @@ __author__ = "adhcczhang"
 
 class BaseShopView(ModelView):
     fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude",
-              "category", "business_hour", "shop_head_pic", "shop_intro", "status"]
+              "category", "business_hour", "shop_head_pic", "shop_intro", "status", "is_claimed"]
 
     def __init__(self, shop):
         self.name = shop.name
@@ -19,6 +19,7 @@ class BaseShopView(ModelView):
         self.latitude = shop.latitude
         self.longitude = shop.longitude
         self.shop_intro = shop.shop_intro
+        self.is_claimed = shop.is_claimed
         self.shop_head_pic = shop.shop_head_pic
         self.business_hour = self.re_week(shop.businesshour)
         if shop.status:
@@ -109,7 +110,7 @@ class BaseShopView(ModelView):
 
 class ShopViewModel(BaseShopView):
     fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance",
-              "group_created", "street_name", "category", "business_hour", "shop_head_pic", "shop_intro", "status"]
+              "group_created", "street_name", "category", "business_hour", "shop_head_pic", "shop_intro", "status", "is_claimed"]
 
     def __init__(self, shop, distance, group_data_dict, street_name):
         super(ShopViewModel, self).__init__(shop)

@@ -9,7 +9,6 @@ from app.models.new_user import NewUser
 from app.models.new_shop import NewShop as Shop
 from app.models.group import Group
 from app.model_views.shop import ShopCollection
-from app.model_views.group import GroupCollection
 from app.api_docs.v1 import user as api_doc  # api_doc可以引入
 from app.validators.base import BaseValidator
 from app.service.wx_token import WxToken
@@ -294,32 +293,6 @@ def choose_reply():
     else:
         res = {"res": -1}
     return Success(data=res)
-
-
-@api.route("/groupcount", methods=["POST"])
-def group_count():
-    validator = BaseValidator().get_all_json()
-    poi_id = validator["poi_id"]
-    open_id = validator["open_id"]
-    group_res = Group.shop_group_count(poi_id, open_id)
-    group_collection = GroupCollection()
-
-    group_res["user_group_info"] = group_collection.fill(group_res["user_group_info"])
-    group_res["shop_group_info"] = group_collection.fill(group_res["shop_group_info"])
-
-    return Success(group_res)
-
-@api.route("/newgroupcount", methods=["POST"])
-def new_group_count():
-    validator = BaseValidator().get_all_json()
-    poi_id = validator["poi_id"]
-    one_day_time_gap = 86400
-    group_res = Group.shop_group_count(one_day_time_gap, poi_id)
-    group_collection = GroupCollection()
-
-    group_res["new_group_info"] = group_collection.fill(group_res["new_group_info"])
-
-    return Success(group_res)
 
 # TODO
 @api.route("/feedback", methods=["POST"])

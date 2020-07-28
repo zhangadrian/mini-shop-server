@@ -30,6 +30,7 @@ class NewShop(Base):
     special_food = Column(String(1000))
     shop_head_pic = Column(String(1000), default="")
     shop_intro = Column(String(1000), default="")
+    is_claimed = Column(SmallInteger, comment="是否已经认领", default=0)
     fields = [
         "poi_id",
         "name",
@@ -50,6 +51,7 @@ class NewShop(Base):
         "special_food",
         "shop_head_pic",
         "shop_intro",
+        "is_claim",
     ]
 
     def keys(self):
@@ -75,3 +77,13 @@ class NewShop(Base):
     def get_shop_info_list(cls, shop_id_list):
         shop_data_list = NewShop.query.filter(NewShop.poi_id.in_(shop_id_list)).all()
         return shop_data_list
+
+    @classmethod
+    def claim_shop(cls, poi_id_list):
+        for i in range(len(poi_id_list)):
+            poi_id_list[i] = str(poi_id_list[i])
+        claim_dict = {
+            "is_claimed": 1
+        }
+        NewShop.query.filter(NewShop.poi_id.in_(poi_id_list)).update(claim_dict)
+        return 0

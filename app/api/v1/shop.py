@@ -4,16 +4,13 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.service.shop_recall import Recall
 from app.models.new_shop import NewShop as Shop
-from app.models.new_user import NewUser
 from app.models.shop_detail import ShopDetail
 from app.models.group import Group
-from app.service.qy_wx_bot import QyWxBot
 from app.api_docs.v1 import shop as api_doc
 from app.validators.base import BaseValidator
 from app.model_views.shop import ShopDetailView
 from app.service.tencent_cos import TencentCos
 from time import time
-from sqlalchemy import and_
 
 __author__ = 'adhcczhang'
 
@@ -86,60 +83,6 @@ def search_shop():
     return Success(data=res)
 
 
-@api.route('/creategroup', methods=['POST'])
-def create_group():
-    validator = BaseValidator().get_all_json()
-    # shop_id = validator["poi_id"]
-    shop_id = "Ceshihao"
-    user_id = validator["open_id"]
-    shop_owner_data = NewUser.query.filter(NewUser.shop_id==shop_id).first()
-    user_data = NewUser.query.filter(NewUser.openid==user_id).first()
-    print("create group")
-
-    if not shop_owner_data or shop_owner_data.is_in_contract != 1:
-        return Success({"create_group": -1})
-    else:
-        print("create group")
-        user_name = user_data.nickname
-        shop_owner_name = shop_owner_data.nickname
-        shop_owner_id = shop_owner_data.openid
-        group_data = Group.query.filter(and_(Group.user_openid == user_id,
-                                             Group.shop_owner_openid == shop_owner_id, Group.status == 2)).order_by(Group.id.desc()).first()
-        qy_wx_bot = QyWxBot()
-        print(group_data)
-        if not group_data:
-            # user_list = ["测试号", "Adrian126"]
-            user_list = [shop_owner_name, user_name]
-
-            #shop_group_num = Group.query(func.count(distinct(Group.poi_id))).scalar()
-            #print(shop_group_num)
-            shop_name = Shop.query.filter(Shop.poi_id == shop_id).first().name
-            group_name = shop_name + "_No." + str(int(time()))
-            group_dict = {
-                "poi_id": shop_id,
-                "user_openid": user_id,
-                "shop_owner_openid": shop_owner_id,
-                "user_nickname": user_name,
-                "shop_owner_nickname": shop_owner_name,
-                "group_name": group_name,
-                "create_time": int(time()),
-            }
-            add_group_res = qy_wx_bot.add_group_chat(group_name, user_list=user_list)
-            if add_group_res == 0:
-                Group.create(**group_dict)
-                create_group_res = 1
-            else:
-                create_group_res = -1
-        else:
-            group_name = group_data.group_name
-            awake_group_res = qy_wx_bot.awake_group(group_name)
-            if awake_group_res == 0:
-                create_group_res = 2
-            else:
-                create_group_res = -1
-        return Success({"create_group": create_group_res})
-
-
 @api.route('/groupshopinfo', methods=['POST'])
 def group_shop_info():
     validator = BaseValidator().get_all_json()
@@ -204,6 +147,13 @@ def get_cos_credential():
     cos_credential = tencent_cos.get_credential()
 
     return Success(data=cos_credential)
+
+@api.route('/claimshop', methods=["POST"])
+def claim_shop():
+    validator = BaseValidator().get_all_json()
+    poi_id_list = validator["poi_id_list"]
+    Shop.claim_shop(poi_id_list)
+    return Success({"res": 0})
 
 
 # TODO

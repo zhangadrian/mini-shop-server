@@ -42,8 +42,8 @@ class Query(BaseQuery):
     def filter_by(self, **kwargs):
         if 'status' not in kwargs.keys():
             kwargs['status'] = 1
-        print("kwargs")
-        print(kwargs)
+        # print("kwargs")
+        # print(kwargs)
         return super(Query, self).filter_by(**kwargs)
 
     def get_or_404(self, ident, e=None, error_code=None, msg=None):
@@ -117,8 +117,8 @@ class CRUDMixin(object):
     def create(cls, commit=True, **kwargs):
         """增"""
         instance = cls()
-        print("kwargs")
-        print(kwargs)
+        # print("kwargs")
+        # print(kwargs)
         for attr, value in kwargs.items():
             if hasattr(instance, attr):
                 setattr(instance, attr, value)
@@ -136,7 +136,7 @@ class CRUDMixin(object):
         db.session.add(self)
         if commit:
             db.session.commit()
-        print(self)
+        # print(self)
         return self
 
     def delete(self):
