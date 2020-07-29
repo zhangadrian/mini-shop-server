@@ -22,7 +22,9 @@ def query_all():
     return query_all
 
 
-def search_keyword(index, keywords, location,size=20, distance="5km"):
+def search_keyword(index, keywords, location, size=20, distance="100km"):
+    print(keywords)
+    print(location)
     result = es.search(index=index, doc_type='poi', body={
         'query': {
             'bool': {
@@ -52,8 +54,8 @@ def search_keyword(index, keywords, location,size=20, distance="5km"):
         'size': size,
     })
 
-    #for item in result['hits']['hits']:
-    #    print(item)
+    for item in result['hits']['hits']:
+        print(item)
     return result['hits']['hits']
 
 
@@ -91,8 +93,8 @@ def search_keyword_category(index, keywords, location, category, size=20, distan
         'size': size,
     })
 
-    # for item in result['hits']['hits']:
-    #     print(item)
+    for item in result['hits']['hits']:
+        print(item)
     return result['hits']['hits']
 
 
@@ -133,8 +135,8 @@ def search_geometry_category(index, location, category,  size=20, distance="1000
         'size': size,
     })
 
-    # for item in result['hits']['hits']:
-    #     print(item)
+    for item in result['hits']['hits']:
+        print(item)
     return result['hits']['hits']
 
 def search_geometry(index, location, size=20, distance="10000km"):
@@ -194,8 +196,8 @@ def main():
     if sys.argv[1] == 'key':
         keywords = ' '.join(sys.argv[2:])
         location = {
-            'lat': 11.57,
-            'lon': 2.68
+            'lat': 39.983,
+            'lon': 116.310
         }
         search_keyword(INDEX_NAME, keywords, location)
     elif sys.argv[1] == 'geo':
@@ -203,7 +205,7 @@ def main():
         print(sys.argv[3])
         location = {'lon': float(sys.argv[2]), 'lat': float(sys.argv[3])}
         #search_geometry(INDEX_NAME, location)
-        search_keyword_category(INDEX_NAME, "店", location, "娱乐")
+        search_keyword_category(INDEX_NAME, "笑雪测试店", location, "餐饮")
 
 
 
