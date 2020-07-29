@@ -14,6 +14,18 @@ es = Elasticsearch([{'host':'127.0.0.1', 'port': 9200}])
 INDEX_NAME = "index_category"
 DIR_PATH = '/root/adhcczhang/aux/shop_category'
 
+
+def delete_specific_index(index, index_id):
+    body = {
+        "query":{
+            "match":{
+                "_id": index_id
+            }
+        }
+    }
+    result = es.delete_by_query(index=index, body=body)
+    return result
+
 def create_index(index):
     '''创建索引'''
     body = {
@@ -158,6 +170,9 @@ def main():
         delete_index(INDEX_NAME)
     elif sys.argv[1] == 'insert':
         insert_data(INDEX_NAME, DIR_PATH)
+    elif sys.argv[1] == "delete_specific_index":
+        index_id = sys.argv[2]
+        delete_specific_index(INDEX_NAME, index_id)
 
 
 if __name__ == "__main__":
