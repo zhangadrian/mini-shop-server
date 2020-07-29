@@ -180,7 +180,7 @@ def search(location, keyword="", category=""):
     print(keyword)
     if len(keyword) > 0:
         print("search with keywords")
-        keywords = ' '.join(keyword)
+        keywords = ''.join(keyword)
         if category == '':
             search_res = search_keyword(INDEX_NAME, keywords, location)
         else:

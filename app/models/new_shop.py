@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 
-from sqlalchemy import Column, Integer, SmallInteger, String, Float, Text
+from sqlalchemy import Column, Integer, SmallInteger, String, Float
+from app.libs.poi_search.es_index_category import update_specific_index
 
 from app.models.base import Base
 
@@ -70,8 +71,25 @@ class NewShop(Base):
             update_data["businesshour"] = new_businesshour
             update_data.pop("businessweek")
         shop_info.update(**update_data)
-
+        cls.update_search_index(poi_id, update_data)
         return shop_info
+
+    @staticmethod
+    def update_search_index(poi_id, update_data):
+        key_dict = {
+            "name": 1,
+            "address": 1,
+            "mobile": 1,
+        }
+
+        index_dict = {}
+        for key in key_dict:
+            if key in update_data:
+                index_dict[key] = update_data[key]
+        if len(index_dict.keys()) > 0:
+            update_specific_index(poi_id, index_dict)
+        return 0
+
 
     @classmethod
     def get_shop_info_list(cls, shop_id_list):

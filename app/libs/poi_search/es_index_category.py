@@ -26,7 +26,7 @@ def delete_specific_index(index, index_id):
     result = es.delete_by_query(index=index, body=body)
     return result
 
-def update_specific_index(index, index_id, update_dict):
+def update_specific_index(index_id, update_dict):
     inline_list = []
     for key in update_dict:
         temp_str = "ctx._source."+ key + "= params." + key
@@ -43,7 +43,7 @@ def update_specific_index(index, index_id, update_dict):
             "params": update_dict,
         }
     }
-    result = es.update_by_query(index=index, body=body)
+    result = es.update_by_query(index=INDEX_NAME, body=body)
     print(result)
     return result
 
