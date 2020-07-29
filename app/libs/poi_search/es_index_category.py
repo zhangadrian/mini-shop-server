@@ -38,7 +38,9 @@ def update_specific_index(index, index_id, update_dict):
             "params": update_dict,
         }
     }
-    es.update_by_query(index=index, body=body)
+    result = es.update_by_query(index=index, body=body)
+    print(result)
+    return result
 
 
 def create_index(index):
