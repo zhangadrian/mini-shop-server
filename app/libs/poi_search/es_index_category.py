@@ -198,8 +198,8 @@ def main():
     elif sys.argv[1] == "update_specific_index":
         index_id = "xiaoxue_shop"
         update_dict = {
-            "name": "这就是一个测试店名",
-            "address": "中关村第三极大厦",
+            "name": "这是一个名字很长到只是用来测试的虚假店铺",
+            "address": "北京市北京市海淀区北四环西路66号",
         }
         update_specific_index(INDEX_NAME, index_id, update_dict)
 
