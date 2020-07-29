@@ -27,6 +27,11 @@ def delete_specific_index(index, index_id):
     return result
 
 def update_specific_index(index, index_id, update_dict):
+    inline_list = []
+    for key in update_dict:
+        temp_str = "ctx._source."+ key + "= params." + key
+        inline_list.append(temp_str)
+    inline_str = ";".join(inline_list)
     body = {
         "query": {
             "term": {
@@ -34,7 +39,7 @@ def update_specific_index(index, index_id, update_dict):
             }
         },
         "script": {
-            "inline": "ctx._source.name = params.name",
+            "inline": inline_str,
             "params": update_dict,
         }
     }
@@ -193,7 +198,8 @@ def main():
     elif sys.argv[1] == "update_specific_index":
         index_id = "xiaoxue_shop"
         update_dict = {
-            "name": "这就是一个测试店名"
+            "name": "这就是一个测试店名",
+            "address": "中关村第三极大厦",
         }
         update_specific_index(INDEX_NAME, index_id, update_dict)
 
