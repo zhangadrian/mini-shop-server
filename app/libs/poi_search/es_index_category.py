@@ -12,7 +12,7 @@ from elasticsearch import helpers
 es = Elasticsearch([{'host':'127.0.0.1', 'port': 9200}])
 
 INDEX_NAME = "index_category"
-DIR_PATH = '/root/adhcczhang/aux/shop_category'
+DIR_PATH = '/root/adhcczhang/aux/new_shops'
 
 
 def delete_specific_index(index, index_id):
