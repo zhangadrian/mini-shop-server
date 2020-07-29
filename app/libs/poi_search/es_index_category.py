@@ -34,7 +34,7 @@ def update_specific_index(index, index_id, update_dict):
             }
         },
         "script": {
-            "inline": "ctx._source.index = params.index",
+            "inline": "ctx._source.name = params.name",
             "params": update_dict,
         }
     }
