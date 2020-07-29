@@ -18,13 +18,28 @@ DIR_PATH = '/root/adhcczhang/aux/new_shops'
 def delete_specific_index(index, index_id):
     body = {
         "query":{
-            "match":{
-                "_id": index_id
+            "term":{
+                "id": index_id
             }
         }
     }
     result = es.delete_by_query(index=index, body=body)
     return result
+
+def update_specific_index(index, index_id, update_dict):
+    body = {
+        "query": {
+            "term": {
+                "id": index_id
+            }
+        },
+        "script": {
+            "inline": "ctx._source.index = params.index",
+            "params": update_dict,
+        }
+    }
+    es.update_by_query(index=index, body=body)
+
 
 def create_index(index):
     '''创建索引'''
@@ -173,6 +188,12 @@ def main():
     elif sys.argv[1] == "delete_specific_index":
         index_id = sys.argv[2]
         delete_specific_index(INDEX_NAME, index_id)
+    elif sys.argv[1] == "update_specific_index":
+        index_id = "xiaoxue_shop"
+        update_dict = {
+            "name": "这就是一个测试店名"
+        }
+        update_specific_index(INDEX_NAME, index_id, update_dict)
 
 
 if __name__ == "__main__":
