@@ -67,6 +67,49 @@ class BaseShopView(ModelView):
             res = input.split("到")
             return res
 
+    @staticmethod
+    def str2shortweeklist(input):
+        if "至" in input:
+            res = input
+            return res
+        else:
+            res = []
+            week_list = input.split("到")
+            num_week_dict = {
+                "周一": 0,
+                "周二": 1,
+                "周三": 2,
+                "周四": 3,
+                "周五": 4,
+                "周六": 5,
+                "周日": 6,
+            }
+            num_week_list = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+            week_num_list = []
+            for week in week_list:
+                week_num_list.append(num_week_dict[week])
+            week_num_list.append(8)
+            week_num_list.sort()
+            print(week_num_list)
+            start_index = week_num_list[0]
+            res_list = []
+            for i in range(1, len(week_num_list)):
+                if week_num_list[i] - week_num_list[i - 1] > 1:
+                    end_index = week_num_list[i - 1]
+                    res_list.append([start_index, end_index])
+                    start_index = week_num_list[i]
+                    print(res_list)
+            if len(res_list) == 0:
+                res_list.append([start_index, start_index])
+            for item in res_list:
+                start_index, end_index = item
+                if end_index - start_index > 0:
+                    res.append(num_week_list[start_index] + "至" + num_week_list[end_index])
+                else:
+                    res.append(num_week_list[start_index])
+
+            return res
+
     def re_week(self, s):
 
         if not s:
@@ -88,7 +131,8 @@ class BaseShopView(ModelView):
             time_res = "00:00-23:59"
 
         return {"business_week": self.str2weeklist(week_res),
-                "business_hour": time_res
+                "business_hour": time_res,
+                "short_business_week": self.str2shortweeklist(week_res),
                 }
 
     def change_category(self, category):
