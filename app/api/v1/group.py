@@ -66,7 +66,10 @@ def create_group():
                 create_group_res = -1
         else:
             group_name = group_data.group_name
-            awake_group_res = qy_wx_bot.awake_group(group_name)
+            try:
+                awake_group_res = qy_wx_bot.awake_group(group_name)
+            except:
+                awake_group_res = 2
             if awake_group_res == 0:
                 create_group_res = 2
             else:
