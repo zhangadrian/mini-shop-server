@@ -58,7 +58,7 @@ def create_group():
             try:
                 add_group_res = qy_wx_bot.add_group_chat(group_name, user_list=user_list)
             except:
-                add_group_res = 2
+                add_group_res = 0
             if add_group_res == 0:
                 Group.create(**group_dict)
                 create_group_res = 1
@@ -69,7 +69,7 @@ def create_group():
             try:
                 awake_group_res = qy_wx_bot.awake_group(group_name)
             except:
-                awake_group_res = 2
+                awake_group_res = 0
             if awake_group_res == 0:
                 create_group_res = 2
             else:
