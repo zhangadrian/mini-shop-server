@@ -55,7 +55,10 @@ def create_group():
                 "group_name": group_name,
                 "create_time": int(time()),
             }
-            add_group_res = qy_wx_bot.add_group_chat(group_name, user_list=user_list)
+            try:
+                add_group_res = qy_wx_bot.add_group_chat(group_name, user_list=user_list)
+            except:
+                add_group_res = 2
             if add_group_res == 0:
                 Group.create(**group_dict)
                 create_group_res = 1
