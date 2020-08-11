@@ -201,7 +201,7 @@ def main():
             "name": "这是一个名字很长到只是用来测试的虚假店铺",
             "address": "北京市北京市海淀区北四环西路66号",
         }
-        update_specific_index(INDEX_NAME, index_id, update_dict)
+        update_specific_index(index_id, update_dict)
 
 
 if __name__ == "__main__":
