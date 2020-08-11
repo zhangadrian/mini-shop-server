@@ -16,6 +16,7 @@ cursor = db.cursor()
 
 def update_shop_owner(poi_id_list, user_id_list):
     vals = list(zip(poi_id_list, user_id_list))
+    print(vals)
     sql = "update shop_info set user_id= %s where poi_id= %s"
     cursor.executemany(sql, vals)
     db.commit()
