@@ -12,6 +12,7 @@ class NewShop(Base):
     __tablename__ = "shop_info"
     id = Column(Integer, primary_key=True, autoincrement=True)
     poi_id = Column(String(50), unique=True, comment="店铺ID")
+    user_id = Column(String(100), comment="店主ID")
     name = Column(String(100), comment="店铺名称")
     address = Column(String(500), comment="店铺地址")
     mobile = Column(String(50), comment="店铺电话")
@@ -104,4 +105,12 @@ class NewShop(Base):
             "is_claimed": 1
         }
         NewShop.query.filter(NewShop.poi_id.in_(poi_id_list)).update(claim_dict)
+        return 0
+
+    @classmethod
+    def update_owner_id(cls, mobile, user_id):
+        update_dict = {
+            "user_id": user_id
+        }
+        NewShop.query.filter(NewShop.mobile == mobile).update(update_dict)
         return 0

@@ -1,17 +1,16 @@
 # _*_ coding: utf-8 _*_
 
 from math import radians, cos, sin, asin, sqrt
-#from app.libs.poi_search.es_search import search
 from app.libs.poi_search.es_search_category import search
 from app.libs.poi_search.es_search_street import search as search_street
-#from app.models.shop import Shop
 from app.models.new_shop import NewShop as Shop
 from app.models.group import Group
+from app.models.new_user import NewUser as User
 from app.model_views.shop import ShopCollection
 from sqlalchemy import and_
 
-class Recall:
 
+class Recall:
     @staticmethod
     def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 （十进制度数）
         """
@@ -86,7 +85,7 @@ class Recall:
         print(t4-t3)
 
         shop_collection = ShopCollection(is_debug=True)
-        shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list)
+        shop_collection.fill(shop_data_list, distance_list, group_data_dict, street_info_list, user_id)
         #print(shop_collection.items)
         #print(shop_collection.items[0].name)
 

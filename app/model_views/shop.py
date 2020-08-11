@@ -154,9 +154,9 @@ class BaseShopView(ModelView):
 
 class ShopViewModel(BaseShopView):
     fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance",
-              "group_created", "street_name", "category", "business_hour", "shop_head_pic", "shop_intro", "status", "is_claimed"]
+              "group_created", "street_name", "category", "business_hour", "shop_head_pic", "shop_intro", "status", "is_claimed", "is_user_shop"]
 
-    def __init__(self, shop, distance, group_data_dict, street_name):
+    def __init__(self, shop, distance, group_data_dict, street_name, user_id):
         super(ShopViewModel, self).__init__(shop)
         self.distance = distance
         if self.poi_id in group_data_dict:
@@ -164,6 +164,10 @@ class ShopViewModel(BaseShopView):
         else:
             self.group_created = 0
         self.street_name = street_name
+        if shop.user_id == user_id:
+            self.is_user_shop = 1
+        else:
+            self.is_user_shop = 0
 
 
 class ShopDetailView(BaseShopView, BaseShopDetailView):
@@ -193,8 +197,8 @@ class ShopCollection:
         self.items = []
         self.debug = is_debug
 
-    def fill(self, shop_list, distance_list, group_data_dict, street_info_list):
-        self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i]) for i in range(len(shop_list))]
+    def fill(self, shop_list, distance_list, group_data_dict, street_info_list, user_id="0"):
+        self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i], user_id) for i in range(len(shop_list))]
         if self.debug:
             test_shop_data = Shop.query.filter(Shop.poi_id == "Ceshihao").first()
             test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村")

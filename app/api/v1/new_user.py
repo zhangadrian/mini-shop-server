@@ -132,7 +132,6 @@ def custom_service():
         return "Success"
 
 
-
 @api.route("/updateuser", methods=["POST"])
 def add_user():
     validator = BaseValidator().get_all_json()
@@ -158,6 +157,7 @@ def add_user():
         new_user = NewUser.create(**validator)
 
     return Success(data=new_user)
+
 
 @api.route("/login", methods=["POST"])
 def user_login():
@@ -186,6 +186,7 @@ def user_login():
     }
     return Success(res)
 
+
 @api.route("/joincontract", methods=["POST"])
 def is_reqister():
     validator = BaseValidator().get_all_json()
@@ -199,6 +200,7 @@ def is_reqister():
         user_data.update(**update_data)
     return Success({"res": "join success"})
 
+
 @api.route("/mobile", methods=["POST"])
 def store_mobile():
     validator = BaseValidator().get_all_json()
@@ -210,19 +212,23 @@ def store_mobile():
     mobile = wx_token.decryt(session_key, iv, encrypted_data)
     print(mobile)
     mobile = mobile["phoneNumber"]
-    shop_data = Shop.query.filter(Shop.mobile==mobile).first()
-    if shop_data:
+    shop_data_list = Shop.query.filter(Shop.mobile==mobile).all()
+    if shop_data_list:
         is_shop_owner = 1
-        shop_id = shop_data.poi_id
+        shop_id = shop_data_list[0].poi_id
+        shop_number = len(shop_data_list)
+        Shop.update_owner_id(mobile, openid)
     else:
         is_shop_owner = 0
         shop_id = "0"
+        shop_number = 0
     user_data = NewUser.query.filter(NewUser.openid==openid).first()
     if user_data:
         user_dict = {
             "mobile": mobile,
             "is_shop_owner": is_shop_owner,
             "shop_id": shop_id,
+            "shop_number": shop_number
         }
         user_data.update(**user_dict)
     else:
@@ -231,6 +237,7 @@ def store_mobile():
             "mobile": mobile,
             "is_shop_owner": is_shop_owner,
             "shop_id": shop_id,
+            "shop_number": shop_number,
         }
         NewUser.create(**user_dict)
     return Success(user_dict)

@@ -27,7 +27,8 @@ class NewUser(Base):
     is_checked = Column(SmallInteger, comment="是否为首次加入")
     is_in_contract = Column(SmallInteger, comment="是否已经加入通讯录")
     is_shop_owner = Column(SmallInteger, comment="是否为店主")
-    shop_id = Column(SmallInteger, comment="如果为店主，则补充店铺ID")
+    shop_id = Column(String(100), comment="如果为店主，则补充店铺ID")
+    shop_number = Column(SmallInteger, default=0, comment="如果为店主，则为店铺数量")
     extend = Column(String(255), comment='')
     auth = Column(SmallInteger, default=1, comment='权限')
     fields = ["openid", "unionid", "mobile", "nickname", "headpic", "is_checked", "is_in_contract", "is_shop_owner", "shop_id", "extend", "auth"]
