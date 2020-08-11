@@ -15,7 +15,7 @@ def update_shop_owner(poi_id_list, user_id_list):
     cursor = db.cursor()
     vals = list(zip(poi_id_list, user_id_list))
     for poi_id, user_id in vals:
-        sql = "update shop_info set user_id= %s where poi_id= %s" % (user_id, poi_id)
+        sql = "update shop_info set user_id= %s where poi_id= '%s'" % (user_id, poi_id)
         cursor.execute(sql)
     db.commit()
 
