@@ -156,7 +156,7 @@ class ShopViewModel(BaseShopView):
     fields = ["poi_id", "name", "address", "mobile", "latitude", "longitude", "distance",
               "group_created", "street_name", "category", "business_hour", "shop_head_pic", "shop_intro", "status", "is_claimed", "is_user_shop"]
 
-    def __init__(self, shop, distance, group_data_dict, street_name, user_id):
+    def __init__(self, shop, distance, group_data_dict, street_name, user_id=""):
         super(ShopViewModel, self).__init__(shop)
         self.distance = distance
         if self.poi_id in group_data_dict:
@@ -201,11 +201,11 @@ class ShopCollection:
         self.items = [ShopViewModel(shop_list[i], distance_list[i], group_data_dict, street_info_list[i], user_id) for i in range(len(shop_list))]
         if self.debug:
             test_shop_data = Shop.query.filter(Shop.poi_id == "Ceshihao").first()
-            test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村")
+            test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村", user_id)
             test_shop_view.category = "餐饮"
             self.items.append(test_shop_view)
             test_shop_data = Shop.query.filter(Shop.poi_id == "haolin_shop").first()
-            test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村")
+            test_shop_view = ShopViewModel(test_shop_data, 10, group_data_dict, "中关村", user_id)
             test_shop_view.category = "娱乐"
             self.items.append(test_shop_view)
         self.items.sort(key=lambda x:x.distance)
