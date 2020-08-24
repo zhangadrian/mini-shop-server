@@ -42,89 +42,90 @@ def callback_test():
         res = callback.callback_validation(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sEchoStr, is_app=False)
         return res
     else:
-        sReqData = request_data.decode("utf-8")
-        sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce = \
-            validator['msg_signature'], validator['timestamp'], validator['nonce']
-        res = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
-        if isinstance(res, dict):
-
-            if "external_user" in res:
-                user_list, change_type = res["user_list"], res["change_type"]
-                user_info = user_list[0]
-                user_name = user_info["external_contact"]["name"]
-                external_userid = user_info["external_contact"]["external_userid"]
-                user_id = "ZhangBoWen"
-                user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
-                remark = user_data.openid
-                callback.change_remark(user_id, external_userid, remark)
-                if user_data:
-                    user_cls = NewUser.get(nickname=user_name)
-                    update_data = {
-                        "is_in_contract": change_type
-                    }
-                    user_cls.update(**update_data)
-            elif "chat_id" in res:
-                user_list, change_type = res["user_list"], res["change_type"]
-                chat_id = res["chat_id"]
-                print(res)
-                if len(user_list) == 2:
-                    # user_name_0 = user_list[0]["external_contact"]["name"]
-                    try:
-                        user_name_0 = user_list[0]["follow_user"][0]["description"]
-                    except:
-                        user_name_0 = 0
-                    # user_name_1 = user_list[1]["external_contact"]["name"]
-                    user_name_1 = user_list[1]["userid"]
-                    # time.sleep(3 + random.random())
-
-                    print([user_name_0, user_name_1])
-                    group_data = Group.query.filter(Group.group_id == chat_id).first()
-                    print("测试群组是否存在", group_data)
-                    if not group_data:
-
-                        # group_data_1 = Group.query.filter(
-                        #     and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).order_by(Group.id.desc()).first()
-                        # group_data_2 = Group.query.filter(
-                        #     and_(Group.user_nickname == user_name_1, Group.shop_owner_nickname == user_name_0, Group.group_id=='')).order_by(Group.id.desc()).first()
-                        # print(group_data_1)
-                        # print(group_data_2)
-                        # if group_data_1:
-                        #     group_data_1.update(**update_dict)
-                        # elif group_data_2:
-                        #     group_data_2.update(**update_dict)
-                        # group_data = Group.query.filter(
-                        #     and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).order_by(Group.id.desc()).first()
-                        if user_name_0 != 0:
-                            update_dict = {
-                                "group_id": chat_id,
-                                "status": 2
-                            }
-                            group_data = Group.query.filter(
-                                and_(Group.user_openid == user_name_0, Group.poi_id == user_name_1,
-                                     Group.group_id == '')).order_by(Group.id.desc()).first()
-                            group_data.update(**update_dict)
-                    else:
-                        if user_name_0 == 0:
-                            update_dict = {
-                                "group_id": chat_id,
-                                "status": 1
-                            }
-                            group_data.update(**update_dict)
-                        print(group_data)
-                else:
-                    group_data = Group.query.filter(Group.group_id == chat_id).first()
-                    update_dict = {
-                        "status": 1
-                    }
-                    if group_data:
-                        group_data.update(**update_dict)
-            elif "contact" in res:
-                status, shop_id = res["status"], res["shop_id"]
-                shop_data = Shop.query.filter(Shop.poi_id == shop_id).first()
-                update_dict = {
-                    "status": status
-                }
-                shop_data.update(**update_dict)
+        pass
+        # sReqData = request_data.decode("utf-8")
+        # sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce = \
+        #     validator['msg_signature'], validator['timestamp'], validator['nonce']
+        # res = callback.callback_external_push(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sReqData)
+        # if isinstance(res, dict):
+        #
+        #     if "external_user" in res:
+        #         user_list, change_type = res["user_list"], res["change_type"]
+        #         user_info = user_list[0]
+        #         user_name = user_info["external_contact"]["name"]
+        #         external_userid = user_info["external_contact"]["external_userid"]
+        #         user_id = "ZhangBoWen"
+        #         user_data = NewUser.query.filter(NewUser.nickname == user_name).first()
+        #         remark = user_data.openid
+        #         callback.change_remark(user_id, external_userid, remark)
+        #         if user_data:
+        #             user_cls = NewUser.get(nickname=user_name)
+        #             update_data = {
+        #                 "is_in_contract": change_type
+        #             }
+        #             user_cls.update(**update_data)
+        #     elif "chat_id" in res:
+        #         user_list, change_type = res["user_list"], res["change_type"]
+        #         chat_id = res["chat_id"]
+        #         print(res)
+        #         if len(user_list) == 2:
+        #             # user_name_0 = user_list[0]["external_contact"]["name"]
+        #             try:
+        #                 user_name_0 = user_list[0]["follow_user"][0]["description"]
+        #             except:
+        #                 user_name_0 = 0
+        #             # user_name_1 = user_list[1]["external_contact"]["name"]
+        #             user_name_1 = user_list[1]["userid"]
+        #             # time.sleep(3 + random.random())
+        #
+        #             print([user_name_0, user_name_1])
+        #             group_data = Group.query.filter(Group.group_id == chat_id).first()
+        #             print("测试群组是否存在", group_data)
+        #             if not group_data:
+        #
+        #                 # group_data_1 = Group.query.filter(
+        #                 #     and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).order_by(Group.id.desc()).first()
+        #                 # group_data_2 = Group.query.filter(
+        #                 #     and_(Group.user_nickname == user_name_1, Group.shop_owner_nickname == user_name_0, Group.group_id=='')).order_by(Group.id.desc()).first()
+        #                 # print(group_data_1)
+        #                 # print(group_data_2)
+        #                 # if group_data_1:
+        #                 #     group_data_1.update(**update_dict)
+        #                 # elif group_data_2:
+        #                 #     group_data_2.update(**update_dict)
+        #                 # group_data = Group.query.filter(
+        #                 #     and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).order_by(Group.id.desc()).first()
+        #                 if user_name_0 != 0:
+        #                     update_dict = {
+        #                         "group_id": chat_id,
+        #                         "status": 2
+        #                     }
+        #                     group_data = Group.query.filter(
+        #                         and_(Group.user_openid == user_name_0, Group.poi_id == user_name_1,
+        #                              Group.group_id == '')).order_by(Group.id.desc()).first()
+        #                     group_data.update(**update_dict)
+        #             else:
+        #                 if user_name_0 == 0:
+        #                     update_dict = {
+        #                         "group_id": chat_id,
+        #                         "status": 1
+        #                     }
+        #                     group_data.update(**update_dict)
+        #                 print(group_data)
+        #         else:
+        #             group_data = Group.query.filter(Group.group_id == chat_id).first()
+        #             update_dict = {
+        #                 "status": 1
+        #             }
+        #             if group_data:
+        #                 group_data.update(**update_dict)
+        #     elif "contact" in res:
+        #         status, shop_id = res["status"], res["shop_id"]
+        #         shop_data = Shop.query.filter(Shop.poi_id == shop_id).first()
+        #         update_dict = {
+        #             "status": status
+        #         }
+        #         shop_data.update(**update_dict)
     return "Success"
 
 @api.route('/customservice', methods=['GET', 'POST'])
