@@ -125,7 +125,7 @@ def callback_test():
                     "status": status
                 }
                 shop_data.update(**update_dict)
-    return Success(0)
+    return "Success"
 
 @api.route('/customservice', methods=['GET', 'POST'])
 def custom_service():
