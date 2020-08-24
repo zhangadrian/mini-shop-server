@@ -39,7 +39,7 @@ MEDIA_LIST_URL = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?a
 QR_FILE_PATH = ""
 
 # 操作URL
-GROUP_CHAT_URL = 'http://5rgpwf.natappfree.cc/v1/user/'
+GROUP_CHAT_URL = 'http://ux94f4.natappfree.cc/v1/user/'
 
 #腾讯云cos
 COS_SECRET_ID = "AKIDnLyNWgfQ7WehY9TXUDfqwlJVRJumZjqg"
