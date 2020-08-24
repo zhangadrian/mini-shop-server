@@ -81,10 +81,7 @@ def callback_test():
                     group_data = Group.query.filter(Group.group_id == chat_id).first()
                     print("测试群组是否存在", group_data)
                     if not group_data:
-                        update_dict = {
-                            "group_id": chat_id,
-                            "status": 2
-                        }
+
                         # group_data_1 = Group.query.filter(
                         #     and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).order_by(Group.id.desc()).first()
                         # group_data_2 = Group.query.filter(
@@ -97,16 +94,22 @@ def callback_test():
                         #     group_data_2.update(**update_dict)
                         # group_data = Group.query.filter(
                         #     and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).order_by(Group.id.desc()).first()
-                        group_data = Group.query.filter(
-                            and_(Group.user_openid == user_name_0, Group.poi_id == user_name_1,
-                                 Group.group_id == '')).order_by(Group.id.desc()).first()
-                        group_data.update(**update_dict)
+                        if user_name_0 != 0:
+                            update_dict = {
+                                "group_id": chat_id,
+                                "status": 2
+                            }
+                            group_data = Group.query.filter(
+                                and_(Group.user_openid == user_name_0, Group.poi_id == user_name_1,
+                                     Group.group_id == '')).order_by(Group.id.desc()).first()
+                            group_data.update(**update_dict)
                     else:
-                        update_dict = {
-                            "group_id": chat_id,
-                            "status": 1
-                        }
-                        group_data.update(**update_dict)
+                        if user_name_0 == 0:
+                            update_dict = {
+                                "group_id": chat_id,
+                                "status": 1
+                            }
+                            group_data.update(**update_dict)
                         print(group_data)
                 else:
                     group_data = Group.query.filter(Group.group_id == chat_id).first()

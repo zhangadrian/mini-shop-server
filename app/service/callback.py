@@ -195,15 +195,15 @@ class Callback:
 
     def get_change_groupchat_info(self, chat_id):
         access_token_qy = self.callback_access_token_qy()
-        print(access_token_qy)
+        # print(access_token_qy)
         post_url = self.corp_external_api_url.format("groupchat/get", access_token_qy)
-        print(post_url)
-        print(chat_id)
+        # print(post_url)
+        # print(chat_id)
         params = {
             "chat_id": chat_id
         }
         res = HTTP.post(post_url, params)
-        print(res)
+        # print(res)
         member_list = res["group_chat"]["member_list"]
         owner = res["group_chat"]["owner"]
         user_list = [0,0]
