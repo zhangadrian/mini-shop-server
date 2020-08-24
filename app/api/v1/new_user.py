@@ -79,6 +79,7 @@ def callback_test():
 
                     print([user_name_0, user_name_1])
                     group_data = Group.query.filter(Group.group_id == chat_id).first()
+                    print("测试群组是否存在", group_data)
                     if not group_data:
                         update_dict = {
                             "group_id": chat_id,
