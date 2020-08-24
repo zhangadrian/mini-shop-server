@@ -71,7 +71,7 @@ def callback_test():
                     # user_name_0 = user_list[0]["external_contact"]["name"]
                     user_name_0 = user_list[0]["follow_user"][0]["description"]
                     # user_name_1 = user_list[1]["external_contact"]["name"]
-                    user_name_1 = user_list[1]["name"]
+                    user_name_1 = user_list[1]["userid"]
                     # time.sleep(3 + random.random())
                     update_dict = {
                         "group_id": chat_id,
@@ -93,7 +93,7 @@ def callback_test():
                         # group_data = Group.query.filter(
                         #     and_(Group.user_nickname == user_name_0, Group.shop_owner_nickname == user_name_1, Group.group_id=='')).order_by(Group.id.desc()).first()
                         group_data = Group.query.filter(
-                            and_(Group.user_openid == user_name_0, Group.shop_owner_nickname == user_name_1,
+                            and_(Group.user_openid == user_name_0, Group.poi_id == user_name_1,
                                  Group.group_id == '')).order_by(Group.id.desc()).first()
                         group_data.update(**update_dict)
                     else:
